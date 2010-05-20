@@ -81,7 +81,7 @@ end
 
 LibFlash.FadeOut = LibFlash.FadeIn
 
-function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime)
+function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, callback, data)
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
 
 	local state = 0
@@ -128,11 +128,14 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 			end
 		elseif state == 3 then
 			if self.elapsed > flashDuration then
-				self.obj.UpdateFrame:SetScript("OnUpdate", nil)
+				self.obj:Stop()
 				if showWhenDone then
 					self.obj.childFlash:FadeIn(.01, 0, 1)
 				end
 				self.elapsed = 0
+
+				if callback then callback(data) end
+				
 			end		
 		end
 
