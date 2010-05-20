@@ -89,8 +89,6 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 	self.UpdateFrame.timer = 0
 	self.UpdateFrame.elapsed = 0
 	self.UpdateFrame.smallElapse = 0
-	self.UpdateFrame.flashinTimer = 0
-	self.UpdateFrame.flashoutTimer = 0
 	self.UpdateFrame.flashinHoldTimer = 0
 	self.UpdateFrame.flashoutHoldTimer = 0
 
