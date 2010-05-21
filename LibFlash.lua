@@ -41,7 +41,7 @@ function LibFlash:Stop()
 	self.elapsed = 0
 end
 
-function LibFlash:FadeIn(dur, startA, finishA, callback, data)
+function LibFlash:Fade(dur, startA, finishA, callback, data)
 	self.UpdateFrame.timer = 0
 	if startA < finishA then
 		self.UpdateFrame.progress = 100
@@ -56,7 +56,7 @@ function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 		end
 
 		local alpha
-		if startA > finishA then 
+		if startA < finishA then 
 			alpha = (finishA - startA) * self.progress / 100 + startA
 			self.progress = self.progress + 1 / dur
 		else
@@ -78,18 +78,32 @@ function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 	self.active = true
 end
 
-LibFlash.FadeOut = LibFlash.FadeIn
+function LibFlash:FadeIn(dur, startA, finishA, callback, data)
+	if startA < finishA then
+		self:Fade(dur, startA, finishA, callback, data)
+	else
+		error("FadeIn with bad parameters")
+	end
+end
+
+function LibFlash:FadeOut(dur, startA, finishA, callback, data)
+	if startA > finishA then
+		self:Fade(dur, startA, finishA, callback, data)
+	else
+		error("FadeOut with bad parameters")
+	end
+end
 
 function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, callback, data)
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
-
-	local state = 0
 
 	self.UpdateFrame.timer = 0
 	self.UpdateFrame.elapsed = 0
 	self.UpdateFrame.smallElapse = 0
 	self.UpdateFrame.flashinHoldTimer = 0
 	self.UpdateFrame.flashoutHoldTimer = 0
+
+	local state = 0
 
 	local incrementState = function()
 		state = state + 1
