@@ -20,9 +20,11 @@ LibFlash = {
 
 		obj.frame = frame
 
-		obj.UpdateFrame = CreateFrame("Frame")
-		obj.UpdateFrame.obj = obj
+		if not obj.UpdateFrame then
+			obj.UpdateFrame = CreateFrame("Frame")
+		end
 
+		obj.UpdateFrame.obj = obj
 
 		return obj
 	end,
@@ -36,11 +38,11 @@ LibFlash = {
 function LibFlash:Stop()
 	self.UpdateFrame:SetScript("OnUpdate", nil)
 	self.active = false
+	self.elapsed = 0
 end
 
 function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 	self.UpdateFrame.timer = 0
-	self.UpdateFrame.elapsed = 0
 	if startA < finishA then
 		self.UpdateFrame.progress = 100
 	else
@@ -50,7 +52,6 @@ function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 		self.timer = self.timer + elapsed
 
 		if self.timer < dur / 100 then
-			self.elapsed = self.elapsed + elapsed
 			return
 		end
 
@@ -65,11 +66,9 @@ function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 
 		self.obj.frame:SetAlpha(alpha)
 		self.timer = 0
-		self.elapsed = 0
 
 		if self.progress > 100 or self.progress <= 0 then
 			self.obj:Stop()
-			self:SetScript("OnUpdate", nil)
 			if callback then callback(data) end
 		end
 	end
@@ -123,19 +122,19 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 			self.flashoutHoldTimer = self.flashoutHoldTimer + self.timer
 
 			if self.flashoutHoldTimer > flashoutHoldTime then
+				self.obj.childFlash:Stop()
 				self.obj.childFlash:FadeOut(fadeoutTime, 1, 0, incrementState)
-				self.flashoutHoldTimer = 0
+				self.flashoutHoldTimer = 0xdead * -1
 			end
 		elseif state == 3 then
-			if self.elapsed > flashDuration then
+			if self.elapsed > flashDuration - fadeinTime then
 				self.obj:Stop()
 				if showWhenDone then
-					self.obj.childFlash:FadeIn(.01, 0, 1)
+					self.obj.childFlash:FadeIn(fadeinTime, 0, 1, callback, data)
+				elseif callback then
+					callback(data)
 				end
-				self.elapsed = 0
-
-				if callback then callback(data) end
-				
+				self.obj:Stop()
 			end		
 		end
 
