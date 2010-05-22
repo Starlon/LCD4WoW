@@ -10,9 +10,14 @@ LibFlash = {
 			self.pool[frame] = setmetatable({}, {__mode='k'})
 		end
 
-		local obj = next(self.pool[frame] or {}) or {}
+		local obj = next(self.pool[frame])
 
-		self.pool[frame][obj] = nil
+		if obj then
+			self.pool[frame][obj] = nil
+		else
+			obj = {}
+		end
+
 
 		setmetatable(obj, self)
 
@@ -42,6 +47,8 @@ function LibFlash:Stop()
 end
 
 function LibFlash:Fade(dur, startA, finishA, callback, data)
+	if self.active then return end
+
 	self.UpdateFrame.timer = 0
 	if startA < finishA then
 		self.UpdateFrame.progress = 100
@@ -95,6 +102,8 @@ function LibFlash:FadeOut(dur, startA, finishA, callback, data)
 end
 
 function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, callback, data)
+	if self.active then return end
+
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
 
 	self.UpdateFrame.timer = 0
