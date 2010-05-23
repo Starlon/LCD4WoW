@@ -103,7 +103,7 @@ function LibFlash:FadeOut(dur, startA, finishA, callback, data)
 	end
 end
 
-function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, shouldBlink, callback, data)
+function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, shouldBlink, blinkRate, callback, data)
 	if self.active then return end
 
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
@@ -161,7 +161,7 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 			self.flashin = false
 			self.flashoutHoldTimer = self.flashoutHoldTimer + self.timer
 			self.blinkTimer = self.blinkTimer + self.timer
-			if self.blinkTimer > fadeinTime + fadeoutTime and shouldBlink then
+			if self.blinkTimer > (blinkRate or .3) and shouldBlink then
 				if self.blinkState then
 					self.obj.childFlash:FadeIn(fadeinTime, 0, 1, setBlinkState, 1)
 				else
