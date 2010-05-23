@@ -103,7 +103,7 @@ function LibFlash:FadeOut(dur, startA, finishA, callback, data)
 	end
 end
 
-function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, callback, data)
+function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, shouldBlink, callback, data)
 	if self.active then return end
 
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
@@ -113,11 +113,26 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 	self.UpdateFrame.smallElapse = 0
 	self.UpdateFrame.flashinHoldTimer = 0
 	self.UpdateFrame.flashoutHoldTimer = 0
+	self.UpdateFrame.blinkTimer = 0
+	self.UpdateFrame.blinkState = 0
 
 	local state = 0
 
 	local incrementState = function()
 		state = state + 1
+	end
+
+	local decrementState = function()
+		state = state - 1
+	end
+
+	local setState = function(val)
+		state = val
+	end
+
+	local setBlinkState = function(val)
+		self.UpdateFrame.blinkState = val
+		self.UpdateFrame.blinkTimer = 0
 	end
 
 	local update = function(self, elapsed)
@@ -145,7 +160,15 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 		elseif state == 2 then
 			self.flashin = false
 			self.flashoutHoldTimer = self.flashoutHoldTimer + self.timer
-
+			self.blinkTimer = self.blinkTimer + self.timer
+			if self.blinkTimer > fadeinTime + fadeoutTime and shouldBlink then
+				if self.blinkState then
+					self.obj.childFlash:FadeIn(fadeinTime, 0, 1, setBlinkState, 1)
+				else
+					self.obj.childFlash:FadeOut(fadeoutTime, 1, 0, setBlinkState, 0)
+				end
+				self.blinkTimer = 0	
+			end
 			if self.flashoutHoldTimer > flashoutHoldTime then
 				self.obj.childFlash:Stop()
 				self.obj.childFlash:FadeOut(fadeoutTime, 1, 0, incrementState)
