@@ -50,32 +50,34 @@ function LibFlash:Fade(dur, startA, finishA, callback, data)
 	if self.active then return end
 
 	self.UpdateFrame.timer = 0
-	if startA < finishA then
-		self.UpdateFrame.progress = 100
-	else
-		self.UpdateFrame.progress = 0
-	end
-	local function update(self, elapsed)
-		self.timer = self.timer + elapsed
+	self.UpdateFrame.elapsed = 0
 
-		if self.timer < dur / 100 then
+	local function update(self, elapsed)
+		self.timer = (self.timer or 0) + elapsed
+
+		if self.timer < .1 then
+			self.elapsed = self.elapsed + elapsed
 			return
 		end
-
-		local alpha
+		local alpha = 0
 		if startA < finishA then 
-			alpha = (finishA - startA) * self.progress / 100 + startA
-			self.progress = self.progress + 1 / dur
+			alpha = (finishA - startA) * (self.elapsed / dur) + startA
 		else
-			alpha = (startA - finishA) * self.progress / 100 + finishA
-			self.progress = self.progress - 1 / dur
+			alpha = (startA - finishA) * (1 - self.elapsed / dur) + finishA
+		end
+
+		if alpha < 0 then
+			alpha = 0
+		elseif alpha > 1 then
+			alpha = 1
 		end
 
 		self.obj.frame:SetAlpha(alpha)
 		self.timer = 0
 
-		if self.progress > 100 or self.progress <= 0 then
+		if self.elapsed > dur then
 			self.obj:Stop()
+			self.obj.frame:SetAlpha(finishA)
 			if callback then callback(data) end
 		end
 	end
