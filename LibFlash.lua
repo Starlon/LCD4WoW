@@ -54,6 +54,8 @@ function LibFlash:Fade(dur, startA, finishA, callback, data)
 	self.UpdateFrame.timer = 0
 	self.UpdateFrame.elapsed = 0
 
+	self.frame:SetAlpha(startA)
+
 	local function update(self, elapsed)
 		self.timer = (self.timer or 0) + elapsed
 
