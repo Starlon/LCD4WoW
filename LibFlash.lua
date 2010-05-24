@@ -42,13 +42,15 @@ LibFlash = {
 
 function LibFlash:Stop()
 	self.UpdateFrame:SetScript("OnUpdate", nil)
+	if self.childFlash then 
+		self.childFlash:Stop()
+	end
 	self.active = false
 	self.elapsed = 0
 end
 
 function LibFlash:Fade(dur, startA, finishA, callback, data)
-	if self.active then return end
-
+	if self.active then return false end
 	self.UpdateFrame.timer = 0
 	self.UpdateFrame.elapsed = 0
 
@@ -85,11 +87,12 @@ function LibFlash:Fade(dur, startA, finishA, callback, data)
 	
 	self.UpdateFrame:SetScript("OnUpdate", update)
 	self.active = true
+	return true
 end
 
 function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 	if startA < finishA then
-		self:Fade(dur, startA, finishA, callback, data)
+		return self:Fade(dur, startA, finishA, callback, data)
 	else
 		error("FadeIn with bad parameters")
 	end
@@ -97,15 +100,15 @@ end
 
 function LibFlash:FadeOut(dur, startA, finishA, callback, data)
 	if startA > finishA then
-		self:Fade(dur, startA, finishA, callback, data)
+		return self:Fade(dur, startA, finishA, callback, data)
 	else
 		error("FadeOut with bad parameters")
 	end
 end
 
 function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, flashinHoldTime, flashoutHoldTime, shouldBlink, blinkRate, callback, data)
-	if self.active then return end
 
+	if self.active then return false end
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
 
 	self.UpdateFrame.timer = 0
@@ -153,12 +156,8 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 				self.flashinHoldTimer = 0
 			end
 		elseif state == 1 then
-			if not self.flashin then
-				self.flashin = true
-				self.obj.childFlash:FadeIn(fadeinTime, 0, 1, incrementState)
-			end
+			self.obj.childFlash:FadeIn(fadeinTime, 0, 1, incrementState)
 		elseif state == 2 then
-			self.flashin = false
 			self.flashoutHoldTimer = self.flashoutHoldTimer + self.timer
 			self.blinkTimer = self.blinkTimer + self.timer
 			if self.blinkTimer > (blinkRate or .3) and shouldBlink then
@@ -191,4 +190,6 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 	end
 
 	self.UpdateFrame:SetScript("OnUpdate", update)
+	self.active = true
+	return true
 end
