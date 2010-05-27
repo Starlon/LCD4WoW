@@ -6,18 +6,13 @@ LibFlash = {
 			error("No frame specified")
 		end
 
-		if not self.pool[frame] then
-			self.pool[frame] = setmetatable({}, {__mode='k'})
-		end
-
-		local obj = next(self.pool[frame])
+		local obj = next(self.pool)
 
 		if obj then
-			self.pool[frame][obj] = nil
+			self.pool[obj] = nil
 		else
 			obj = {}
 		end
-
 
 		setmetatable(obj, self)
 
@@ -34,8 +29,8 @@ LibFlash = {
 		return obj
 	end,
 	Del = function(self) 
-		if self.frame or self.pool[self.frame] then
-			self.pool[self.frame][self] = true
+		if self.frame then
+			LibFlash.pool[self] = true
 		end
 	end
 }
