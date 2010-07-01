@@ -22,42 +22,51 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ]]
 
+local MAJOR = "LibFlash" -- Name of the library (must be unique)
+local MINOR = 1 -- Minor version; should be increased each time you release a new version
+assert(LibStub, MAJOR.." requires LibStub") -- Sanity check
+local LibFlash = LibStub:NewLibrary(MAJOR, MINOR)
+if not LibFlash then return end -- Bail out if the library is up to date (e.g. existing MINOR is greater or equal than the MINOR of this file)
 
-LibFlash = {
-	pool = {},
-	New = function(self, frame)
-		if not frame then
-			error("No frame specified")
-		end
+if not LibFlash.pool then
+	LibFlash.pool = {}
+end
 
-		local obj = next(self.pool)
+if not LibFlash.__index then
+	LibFlash.__index = LibFlash
+end
 
-		if obj then
-			self.pool[obj] = nil
-		else
-			obj = {}
-		end
-
-		setmetatable(obj, self)
-
-		self.__index = self
-
-		obj.frame = frame
-
-		if not obj.UpdateFrame then
-			obj.UpdateFrame = CreateFrame("Frame")
-		end
-
-		obj.UpdateFrame.obj = obj
-
-		return obj
-	end,
-	Del = function(self) 
-		if self.frame then
-			LibFlash.pool[self] = true
-		end
+function LibFlash:New(frame)
+	if not frame then
+		error("No frame specified")
 	end
-}
+
+	local obj = next(self.pool)
+
+	if obj then
+		self.pool[obj] = nil
+	else
+		obj = {}
+	end
+
+	setmetatable(obj, self)
+
+	obj.frame = frame
+
+	if not obj.UpdateFrame then
+		obj.UpdateFrame = CreateFrame("Frame")
+	end
+
+	obj.UpdateFrame.obj = obj
+
+	return obj
+end
+
+function LibFlash:Del(frame)
+	if self.frame then
+		LibFlash.pool[self] = true
+	end
+end
 
 function LibFlash:Stop()
 	self.UpdateFrame:SetScript("OnUpdate", nil)
@@ -68,45 +77,51 @@ function LibFlash:Stop()
 	self.elapsed = 0
 end
 
+local function fadeUpdate(self, elapsed)
+	self.timer = (self.timer or 0) + elapsed
+
+	if self.timer < .1 then
+		self.elapsed = self.elapsed + elapsed
+		return
+	end
+	local alpha = 0
+	if self.startA < self.finishA then 
+		alpha = (self.finishA - self.startA) * (self.elapsed / self.dur) + self.startA
+	else
+		alpha = (self.startA - self.finishA) * (1 - self.elapsed / self.dur) + self.finishA
+	end
+
+	if alpha < 0 then
+		alpha = 0
+	elseif alpha > 1 then
+		alpha = 1
+	end
+
+	self.obj.frame:SetAlpha(alpha)
+	self.timer = 0
+
+	if self.elapsed > self.dur then
+		self.obj:Stop()
+		self.obj.frame:SetAlpha(self.finishA)
+		if self.callback then self.callback(self.data) end
+	end
+end
+
 function LibFlash:Fade(dur, startA, finishA, callback, data)
 	if self.active then return false end
+	
 	self.UpdateFrame.timer = 0
 	self.UpdateFrame.elapsed = 0
 
 	self.frame:SetAlpha(startA)
-
-	local function update(self, elapsed)
-		self.timer = (self.timer or 0) + elapsed
-
-		if self.timer < .1 then
-			self.elapsed = self.elapsed + elapsed
-			return
-		end
-		local alpha = 0
-		if startA < finishA then 
-			alpha = (finishA - startA) * (self.elapsed / dur) + startA
-		else
-			alpha = (startA - finishA) * (1 - self.elapsed / dur) + finishA
-		end
-
-		if alpha < 0 then
-			alpha = 0
-		elseif alpha > 1 then
-			alpha = 1
-		end
-
-		self.obj.frame:SetAlpha(alpha)
-		self.timer = 0
-
-		if self.elapsed > dur then
-			self.obj:Stop()
-			self.obj.frame:SetAlpha(finishA)
-			if callback then callback(data) end
-		end
-	end
-
 	
-	self.UpdateFrame:SetScript("OnUpdate", update)
+	self.UpdateFrame.dur = dur
+	self.UpdateFrame.startA = startA
+	self.UpdateFrame.finishA = finishA
+	self.UpdateFrame.callback = callback
+	self.UpdateFrame.data = data
+	
+	self.UpdateFrame:SetScript("OnUpdate", fadeUpdate)
 	self.active = true
 	return true
 end

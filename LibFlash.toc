@@ -6,4 +6,6 @@
 ## OptionalDeps: Ace3, LibSharedMedia-1.0, BetterBlizzOptions, LibFlash
 ## SavedVariables: AuraAlarmDB
 
+LibStub.lua
+
 LibFlash.lua
