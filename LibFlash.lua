@@ -23,7 +23,7 @@
 ]]
 
 local MAJOR = "LibFlash" 
-local MINOR = 1 
+local MINOR = 1
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibFlash = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFlash then return end
