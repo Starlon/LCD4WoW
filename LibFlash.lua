@@ -23,7 +23,7 @@
 ]]
 
 local MAJOR = "LibFlash" 
-local MINOR = 1
+local MINOR = 2
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibFlash = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFlash then return end
@@ -98,17 +98,17 @@ function LibFlash:Stop()
 	self:StopTimer()
 end
 
-local function fadeUpdate(self, timer)
+local function fadeUpdate(self)
 
-	if timer < 0.1 then
+	if self.timer < 0.1 then
 		return
 	end
 	
 	local alpha = 0
 	if self.startA < self.finishA then 
-		alpha = (self.finishA - self.startA) * (timer / self.dur) + self.startA
+		alpha = (self.finishA - self.startA) * (self.timer / self.dur) + self.startA
 	else
-		alpha = (self.startA - self.finishA) * (1 - timer / self.dur) + self.finishA
+		alpha = (self.startA - self.finishA) * (1 - self.timer / self.dur) + self.finishA
 	end
 
 	if alpha < 0 then
@@ -119,7 +119,7 @@ local function fadeUpdate(self, timer)
 
 	self.frame:SetAlpha(alpha)
 
-	if timer > self.dur then
+	if self.timer > self.dur then
 		self:Stop()
 		self.frame:SetAlpha(self.finishA)
 		if self.callback then self.callback(self.data) end
@@ -179,12 +179,12 @@ end
 
 local flashUpdate = function(self, elapsed)
 
-	if elapsed < 0.1 then
+	if self.timer < 0.1 then
 		return
 	end
 	
 	if self.state == 0 then
-		self.flashinHoldTimer = self.flashinHoldTimer + elapsed
+		self.flashinHoldTimer = self.flashinHoldTimer + self.timer
 
 		if self.flashinHoldTimer > self.flashinHoldTime then
 			incrementState(self)
@@ -195,7 +195,7 @@ local flashUpdate = function(self, elapsed)
 	elseif self.state == 2 then
 		self.flashoutHoldTimer = self.flashoutHoldTimer + elapsed
 		self.blinkTimer = self.blinkTimer + elapsed
-		if self.blinkTimer > (self.blinkRate or .3) and self.shouldBlink then
+		if self.blinkTimer > (self.blinkRate or .3) and self.shouldBlink then			
 			if self.blinkState == 0 or self.blinkState == nil then
 				self.newBlinkState = 1
 				self.childFlash:FadeIn(self.fadeinTime, 0, 1, setBlinkState, self)
@@ -218,7 +218,6 @@ local flashUpdate = function(self, elapsed)
 			elseif self.callback then
 				self.callback(self.data)
 			end
-			self:Stop()
 		end		
 	end
 end
@@ -308,9 +307,9 @@ local update = function(self, elapsed)
 	local obj = LibFlash:GetNextActive()
 	
 	if obj and obj.type == FADETYPE then
-		fadeUpdate(obj, obj.timer)
+		fadeUpdate(obj, self.timer)
 	elseif obj and obj.type == FLASHTYPE then
-		flashUpdate(obj, obj.timer)
+		flashUpdate(obj, self.timer)
 	end
 	
 	self.timer = 0
