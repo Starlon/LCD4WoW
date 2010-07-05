@@ -145,7 +145,7 @@ function LibFlash:Fade(dur, startA, finishA, callback, data)
 end
 
 function LibFlash:FadeIn(dur, startA, finishA, callback, data)
-	if startA < finishA then
+	if startA <= finishA then
 		return self:Fade(dur, startA, finishA, callback, data)
 	else
 		error("FadeIn with bad parameters")
@@ -153,7 +153,7 @@ function LibFlash:FadeIn(dur, startA, finishA, callback, data)
 end
 
 function LibFlash:FadeOut(dur, startA, finishA, callback, data)
-	if startA > finishA then
+	if startA >= finishA then
 		return self:Fade(dur, startA, finishA, callback, data)
 	else
 		error("FadeOut with bad parameters")
@@ -177,7 +177,7 @@ local setBlinkState = function(flash)
 	flash.blinkTimer = 0
 end
 
-local flashUpdate = function(self, elapsed)
+local flashUpdate = function(self)
 
 	if self.timer < 0.1 then
 		return
@@ -185,7 +185,8 @@ local flashUpdate = function(self, elapsed)
 	
 	if self.state == 0 then
 		self.flashinHoldTimer = self.flashinHoldTimer + self.timer
-
+		self.timer = 0
+		
 		if self.flashinHoldTimer > self.flashinHoldTime then
 			incrementState(self)
 			self.flashinHoldTimer = 0
@@ -193,8 +194,9 @@ local flashUpdate = function(self, elapsed)
 	elseif self.state == 1 then
 		self.childFlash:FadeIn(self.fadeinTime, 0, 1, incrementState, self)
 	elseif self.state == 2 then
-		self.flashoutHoldTimer = self.flashoutHoldTimer + elapsed
-		self.blinkTimer = self.blinkTimer + elapsed
+		self.flashoutHoldTimer = self.flashoutHoldTimer + self.timer
+		self.blinkTimer = self.blinkTimer + self.timer
+		self.timer = 0
 		if self.blinkTimer > (self.blinkRate or .3) and self.shouldBlink then			
 			if self.blinkState == 0 or self.blinkState == nil then
 				self.newBlinkState = 1
@@ -208,7 +210,7 @@ local flashUpdate = function(self, elapsed)
 		if self.flashoutHoldTimer > self.flashoutHoldTime then
 			self.childFlash:Stop()
 			self.childFlash:FadeOut(self.fadeoutTime, 1, 0, incrementState, self)
-			self.flashoutHoldTimer = 0xdead * -1
+			self.flashoutHoldTimer = -0xdead
 		end
 	elseif self.state == 3 then
 		if self.elapsed > self.flashDuration - self.fadeinTime then
@@ -296,23 +298,20 @@ local update = function(self, elapsed)
 		return
 	end
 	
-	self.timer = (self.timer or 0) + elapsed
-	
 	for i, o in ipairs(LibFlash.objects) do
 		if o.active then
-			o.timer = (o.timer or 0) + self.timer
+			o.timer = (o.timer or 0) + elapsed
 		end
 	end
 
 	local obj = LibFlash:GetNextActive()
 	
 	if obj and obj.type == FADETYPE then
-		fadeUpdate(obj, self.timer)
+		fadeUpdate(obj, elapsed)
 	elseif obj and obj.type == FLASHTYPE then
-		flashUpdate(obj, self.timer)
+		flashUpdate(obj, elapsed)
 	end
 	
-	self.timer = 0
 end
 
 function LibFlash:StartTimer()
