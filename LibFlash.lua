@@ -23,7 +23,7 @@
 ]]
 
 local MAJOR = "LibFlash" 
-local MINOR = 3
+local MINOR = 4
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibFlash = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFlash then return end
@@ -32,9 +32,6 @@ if not LibFlash.pool then
 	LibFlash.pool = {}
 	LibFlash.UpdateFrame = CreateFrame("Frame")
 	LibFlash.objects = {}
-end
-
-if not LibFlash.__index then
 	LibFlash.__index = LibFlash
 end
 
@@ -66,12 +63,6 @@ function LibFlash:New(frame)
 	setmetatable(obj, self)
 
 	obj.frame = frame
-
-	if not obj.UpdateFrame then
-		obj.UpdateFrame = CreateFrame("Frame")
-	end
-
-	obj.UpdateFrame.obj = obj
 
 	table.insert(self.objects, 1, obj)
 	
@@ -213,7 +204,7 @@ local flashUpdate = function(self)
 			self.flashoutHoldTimer = -0xdead
 		end
 	elseif self.state == 3 then
-		if self.elapsed > self.flashDuration - self.fadeinTime then
+		if self.timer > self.flashDuration - self.fadeinTime then
 			self:Stop()
 			if self.showWhenDone then
 				self.childFlash:FadeIn(self.fadeinTime, 0, 1, self.callback, self.data)
@@ -230,7 +221,6 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 	if not self.childFlash then self.childFlash = LibFlash:New(self.frame) end
 
 	self.timer = 0
-	self.elapsed = 0
 	self.flashinHoldTimer = 0
 	self.flashoutHoldTimer = 0
 	self.blinkTimer = 0
