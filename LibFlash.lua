@@ -23,7 +23,7 @@
 ]]
 
 local MAJOR = "LibFlash" 
-local MINOR = 4
+local MINOR = 5
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibFlash = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFlash then return end
@@ -63,8 +63,8 @@ function LibFlash:New(frame)
 	setmetatable(obj, self)
 
 	obj.frame = frame
-
-	table.insert(self.objects, 1, obj)
+	
+	tinsert(self.objects, obj)
 	
 	return obj
 end
@@ -119,7 +119,7 @@ end
 
 function LibFlash:Fade(dur, startA, finishA, callback, data)
 	if self.active then return false end
-	
+		
 	self.frame:SetAlpha(startA)
 	
 	self.dur = dur
@@ -246,41 +246,6 @@ function LibFlash:Flash(fadeinTime, fadeoutTime, flashDuration, showWhenDone, fl
 	return true
 end
 
-local startCurrent
-function LibFlash:GetNextActive()
-
-	if #LibFlash.objects == 0 then
-		return nil
-	end
-	
-	LibFlash.current = (LibFlash.current or 0) + 1
-
-	if LibFlash.current > #LibFlash.objects then
-		LibFlash.current = 1
-	end
-		
-	if LibFlash.current == startCurrent then
-		startCurrent = nil
-		return nil
-	end
-
-	if not startCurrent then
-		startCurrent = LibFlash.current
-	end
-
-	local obj
-	if LibFlash.objects[LibFlash.current].active then
-		obj = LibFlash.objects[LibFlash.current]
-	end
-	
-	if obj then
-		startCurrent = nil
-		return obj
-	else
-		return self:GetNextActive()
-	end
-end
-
 local update = function(self, elapsed)
 
 	if #LibFlash.objects == 0 then
@@ -291,17 +256,13 @@ local update = function(self, elapsed)
 	for i, o in ipairs(LibFlash.objects) do
 		if o.active then
 			o.timer = (o.timer or 0) + elapsed
+			if o.type == FADETYPE then
+				fadeUpdate(o)
+			elseif o.type == FLASHTYPE then
+				flashUpdate(o)
+			end
 		end
 	end
-
-	local obj = LibFlash:GetNextActive()
-	
-	if obj and obj.type == FADETYPE then
-		fadeUpdate(obj, elapsed)
-	elseif obj and obj.type == FLASHTYPE then
-		flashUpdate(obj, elapsed)
-	end
-	
 end
 
 function LibFlash:StartTimer()
