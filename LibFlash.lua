@@ -23,13 +23,13 @@
 ]]
 
 local MAJOR = "LibFlash" 
-local MINOR = 5
+local MINOR = 6
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibFlash = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFlash then return end
 
 if not LibFlash.pool then
-	LibFlash.pool = {}
+	LibFlash.pool = setmetatable({},{__mode='k'})
 	LibFlash.UpdateFrame = CreateFrame("Frame")
 	LibFlash.objects = {}
 	LibFlash.__index = LibFlash
