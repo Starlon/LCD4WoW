@@ -82,11 +82,12 @@ end
 
 function LibFlash:Stop()
 	if self.childFlash then 
-		self.childFlash:Stop()
+		self.childFlash:Stop(true)
 	end
 	self.active = false
 	self.timer = 0
 	self:StopTimer()
+	self.frame:SetAlpha(0)
 end
 
 local function fadeUpdate(self)
