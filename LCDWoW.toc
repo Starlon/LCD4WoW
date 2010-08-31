@@ -1,0 +1,23 @@
+## Interface: 30000
+## Title: LCD4WoW
+## Notes: LCDs for WoW
+## Author: Starlon
+## Version: 1.0
+## X-LCD4WoW-Version: @project-version@
+## OptionalDeps: Ace3, LibTalentQuery-1.0, LibMobHealth-4.0, DBM-Core, BigWigs, StarLibs-1.0, StarTip
+## SavedVariables: LCD4WoWDB
+
+Localization\enUS.lua
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+
+embeds.xml
+
+LCD4WoW.lua
+
+config.lua
+
+modules.xml
+
+
