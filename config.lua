@@ -240,7 +240,7 @@ end
 cpu, percent,cpudiff, totalCpu, totaldiff = GetMemUsage("StarTip")
 if cpu then
     if totaldiff == 0 then totaldiff = 1 end
-    return '--------' .. format("%.2f", cpudiff / totaldiff * 100) .. "%" .. "-------"
+    return '---CPU---' .. format("%.2f", cpudiff / totaldiff * 100) .. "%" .. "---CPU---"
 end		
 ]],
 		align = ALIGN_PINGPONG,
