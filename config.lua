@@ -8,7 +8,7 @@ local foo = 500
 LCD4WoW.config = {
     ["display_startip"] = {
 		["enabled"] = true,
-		["driver"] = "qtip",
+		--["driver"] = "qtip",
 		["layers"] = 2,
 		["background"] = "d9ccf16f",
 		["row"] = 500,
@@ -25,18 +25,18 @@ LCD4WoW.config = {
     ["display_character"] = {
 		["enabled"] = true,
 		["driver"] = "character",
-		["layers"] = 1,
+		["layers"] = 2,
 		["background"] = "d9ccf16f",
-		["pixel"] = 3,
+		["pixel"] = 2,
 		["row"] = -50,
 		["col"] = 0,
-		["rows"] = 1,
-		["cols"] = 20,
+		["rows"] = 6,
+		["cols"] = 30,
 		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down"},
-		["layouts"] = {"layout_tiny"},
+		["layouts"] = {"layout_startip", "layout_histogram"},
     },
 	["layout_tiny"] = {
 		[1] = {
@@ -244,7 +244,7 @@ end
 	["widget_cpu_histogram"] = {
 		type = "histogram",
 		expression = [[
-do return random(100) end
+if not scriptProfile then return random(100) end
 cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
 if cpu then
     if totaldiff == 0 then return 0 end
