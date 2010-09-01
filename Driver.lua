@@ -379,6 +379,8 @@ function mod:StartDisplays()
 		if k:match("^display_") then
 			if v.driver == "QTip" then
 				local display = LibDriverQTip:New(self, self.environment, k, self.db.profile.config, LCD4WoW.db.profile.errorLevel) 
+				display.environment.GetMemUsage = ResourceTools and ResourceTools.GetMemUsage or display.environment.GetMemUsage
+				display.environment.GetCPUUsage = ResourceTools and ResourceTools.GetCPUUsage or display.environment.GetCPUUsage
 				display:Show()
 				tinsert(displays, display)
 			end

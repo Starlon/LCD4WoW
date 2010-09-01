@@ -4,7 +4,7 @@
 ## Author: Starlon
 ## Version: 1.0
 ## X-LCD4WoW-Version: @project-version@
-## OptionalDeps: Ace3, LibTalentQuery-1.0, LibMobHealth-4.0, DBM-Core, BigWigs, StarLibs-1.0, StarTip
+## OptionalDeps: Ace3, LibTalentQuery-1.0, LibMobHealth-4.0, DBM-Core, BigWigs, StarLibs-1.0, StarTip, ResourceServer
 ## SavedVariables: LCD4WoWDB
 
 Localization\enUS.lua

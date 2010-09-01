@@ -128,7 +128,7 @@ LCD4WoW.config = {
 	["widget_mem"] = {
 		type = "text",
 		value = [[
-do return random(100) .. "%" end
+--do return random(100) .. "%" end
 mem = GetMemUsage("StarTip")
 if mem then
     return memshort(tonumber(format("%.2f", mem)))
@@ -141,7 +141,7 @@ end
 	["widget_mem_perc"] = {
 		type = "text",
 		value = [[		
-do return random(100) .. "%" end
+--do return random(100) .. "%" end
 mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarTip")
 if mem then
     if totaldiff == 0 then totaldiff = 1 end
@@ -158,7 +158,7 @@ end
 	["widget_mem_bar"] = {
 		type = "bar",
 		expression = [[
-do return random(100) end
+--do return random(100) end
 mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarTip")
 if mem then
     if totaldiff == 0 then return 0 end
@@ -172,7 +172,7 @@ end
 	["widget_mem_histogram"] = {
 		type = "histogram",
 		expression = [[
-do return random(100) end
+--do return random(100) end
 mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarTip")
 if mem then
     if totaldiff == 0 then return 0 end
@@ -194,7 +194,7 @@ end
 	["widget_cpu"] = {
 		type = "text",
 		value = [[
-do return timeshort(random(10000)) end		
+--do return timeshort(random(10000)) end		
 cpu = GetCPUUsage("StarTip")
 if cpu then
     return timeshort(cpu)
@@ -207,7 +207,7 @@ end
 	["widget_cpu_bar"] = {
 		type = "bar",
 		expression = [[
-do return random(100) end
+--do return random(100) end
 cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarTip")
 if cpu then
     if totaldiff == 0 then return 0 end
@@ -221,7 +221,7 @@ end
 	["widget_cpu_histogram"] = {
 		type = "histogram",
 		expression = [[
-do return random(100) end
+--do return random(100) end
 cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarTip")
 if cpu then
     if totaldiff == 0 then return 0 end
@@ -236,7 +236,7 @@ end
 	["widget_cpu_perc"] = {
 		type = "text",
 		value = [[
-do return format("------%d%%-------", random(100)) end
+--do return format("------%d%%-------", random(100)) end
 cpu, percent,cpudiff, totalCpu, totaldiff = GetMemUsage("StarTip")
 if cpu then
     if totaldiff == 0 then totaldiff = 1 end
