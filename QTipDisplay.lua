@@ -1,5 +1,5 @@
-local mod = LCD4WoW:NewModule("LCD4WoWDriver")
-mod.name = "LCD Display"
+local mod = LCD4WoW:NewModule("QTipDisplay")
+mod.name = "QTip Display"
 mod.toggled = true
 mod.defaultOff = true
 local Evaluator = LibStub("StarLibEvaluator-1.0")
