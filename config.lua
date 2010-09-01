@@ -8,8 +8,8 @@ local foo = 500
 LCD4WoW.config = {
     ["display_startip"] = {
 		["enabled"] = true,
-		--["driver"] = "qtip",
-		["layers"] = 1,
+		["driver"] = "qtip",
+		["layers"] = 2,
 		["background"] = "d9ccf16f",
 		["row"] = 500,
 		["col"] = 0,
@@ -27,7 +27,7 @@ LCD4WoW.config = {
 		["driver"] = "character",
 		["layers"] = 1,
 		["background"] = "d9ccf16f",
-		["pixel"] = 5,
+		["pixel"] = 3,
 		["row"] = -50,
 		["col"] = 0,
 		["rows"] = 1,
@@ -152,7 +152,7 @@ LCD4WoW.config = {
 		type = "text",
 		value = [[
 --do return random(100) .. "%" end
-mem = GetMemUsage("StarLibs-1.0")
+mem = GetMemUsage("LCD4WoW")
 if mem then
     return memshort(tonumber(format("%.2f", mem)))
 end
@@ -244,7 +244,7 @@ end
 	["widget_cpu_histogram"] = {
 		type = "histogram",
 		expression = [[
---do return random(100) end
+do return random(100) end
 cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
 if cpu then
     if totaldiff == 0 then return 0 end
