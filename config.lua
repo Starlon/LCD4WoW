@@ -8,18 +8,41 @@ local foo = 500
 LCD4WoW.config = {
     ["display_startip"] = {
 		["enabled"] = true,
-		["driver"] = "QTip",
-		["layers"] = 3,
+		--["driver"] = "qtip",
+		["layers"] = 1,
 		["background"] = "d9ccf16f",
+		["row"] = 500,
+		["col"] = 0,
 		["rows"] = 6,
 		["cols"] = 30,
+		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down"},
 		["layouts"] = {"layout_startip", "layout_histogram"},
 		["font"] = {normal="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
-		--["font"] = {file = GameTooltipText:GetFont(), size = 12}
     },
+    ["display_character"] = {
+		["enabled"] = true,
+		["driver"] = "character",
+		["layers"] = 1,
+		["background"] = "d9ccf16f",
+		["pixel"] = 5,
+		["row"] = -50,
+		["col"] = 0,
+		["rows"] = 1,
+		["cols"] = 20,
+		["update"] = 100,
+		["timeout"] = 7000,
+		["transition_speed"] = 50,
+		["widgets"] = {"widget_key_up", "widget_key_down"},
+		["layouts"] = {"layout_tiny"},
+    },
+	["layout_tiny"] = {
+		[1] = {
+			[1] = "widget_name"
+		}
+	},
 	["layout_blank"] = {
 		["keyless"] = 1,
 		["layout-timeout"] = 0
@@ -129,7 +152,7 @@ LCD4WoW.config = {
 		type = "text",
 		value = [[
 --do return random(100) .. "%" end
-mem = GetMemUsage("StarTip")
+mem = GetMemUsage("StarLibs-1.0")
 if mem then
     return memshort(tonumber(format("%.2f", mem)))
 end
@@ -142,7 +165,7 @@ end
 		type = "text",
 		value = [[		
 --do return random(100) .. "%" end
-mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarTip")
+mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
 if mem then
     if totaldiff == 0 then totaldiff = 1 end
     return '--------' .. format("%.2f", memdiff / totaldiff * 100) .. "%" .. "-------"
@@ -159,7 +182,7 @@ end
 		type = "bar",
 		expression = [[
 --do return random(100) end
-mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarTip")
+mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
 if mem then
     if totaldiff == 0 then return 0 end
     return memdiff / totaldiff * 100
@@ -173,7 +196,7 @@ end
 		type = "histogram",
 		expression = [[
 --do return random(100) end
-mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarTip")
+mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
 if mem then
     if totaldiff == 0 then return 0 end
     return memdiff / totaldiff * 100
@@ -195,7 +218,7 @@ end
 		type = "text",
 		value = [[
 --do return timeshort(random(10000)) end		
-cpu = GetCPUUsage("StarTip")
+cpu = GetCPUUsage("StarLibs-1.0")
 if cpu then
     return timeshort(cpu)
 end
@@ -208,7 +231,7 @@ end
 		type = "bar",
 		expression = [[
 --do return random(100) end
-cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarTip")
+cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
 if cpu then
     if totaldiff == 0 then return 0 end
     return cpudiff / totaldiff * 100		
@@ -222,7 +245,7 @@ end
 		type = "histogram",
 		expression = [[
 --do return random(100) end
-cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarTip")
+cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
 if cpu then
     if totaldiff == 0 then return 0 end
     return cpudiff / totaldiff * 100		
@@ -237,7 +260,7 @@ end
 		type = "text",
 		value = [[
 --do return format("------%d%%-------", random(100)) end
-cpu, percent,cpudiff, totalCpu, totaldiff = GetMemUsage("StarTip")
+cpu, percent,cpudiff, totalCpu, totaldiff = GetMemUsage("StarLibs-1.0")
 if cpu then
     if totaldiff == 0 then totaldiff = 1 end
     return '---CPU---' .. format("%.2f", cpudiff / totaldiff * 100) .. "%" .. "---CPU---"

@@ -1,11 +1,12 @@
-local mod = LCD4WoW:NewModule("QTipDisplay")
-mod.name = "QTip Display"
+local mod = LCD4WoW:NewModule("LCD4WoW")
+mod.name = "LCD Display"
 mod.toggled = true
 mod.defaultOff = true
 local Evaluator = LibStub("StarLibEvaluator-1.0")
 local LibCore = LibStub("StarLibCore-1.0")
 local LibLCDText = LibStub("StarLibLCDText-1.0")
 local LibDriverQTip = LibStub("StarLibDriverQTip-1.0")
+local LibDriverCharacter = LibStub("StarLibDriverCharacter-1.0")
 local WidgetText = LibStub("StarLibWidgetText-1.0")
 local WidgetBar = LibStub("StarLibWidgetBar-1.0")
 local WidgetHistogram = LibStub("StarLibWidgetHistogram-1.0")
@@ -229,8 +230,10 @@ function mod:RebuildOpts()
 				}
 			}
 			local driverOptions = {}
-			if v.driver == "QTip" then
+			if v.driver == "qtip" then
 				driverOptions = LibDriverQTip:RebuildOpts(LCD4WoW, v, k)
+			elseif v.driver == "character" then
+				driverOptions = LibDriverCharacter:RebuildOpts(LCD4WoW, v, k)
 			end
 			
 			for kk, vv in pairs(driverOptions) do
@@ -377,16 +380,14 @@ end
 function mod:StartDisplays()
 	for k, v in pairs(self.db.profile.config) do
 		if k:match("^display_") then
-			if v.driver == "QTip" then
+			if v.driver == "qtip" then
 				local display = LibDriverQTip:New(self, self.environment, k, self.db.profile.config, LCD4WoW.db.profile.errorLevel) 
-				display.environment.GetMemUsage = ResourceTools and ResourceTools.GetMemUsage or display.environment.GetMemUsage
-				display.environment.GetCPUUsage = ResourceTools and ResourceTools.GetCPUUsage or display.environment.GetCPUUsage
+				if ResourceServer then ResourceServer:New(display.environment) end
 				display:Show()
 				tinsert(displays, display)
 			elseif v.driver == "character" then
 				local display = LibDriverCharacter:New(self, self.environment, k, self.db.profile.config, LCD4WoW.db.profile.errorLevel)
-				display.environment.GetMemUsage = ResourceTools and ResourceTools.GetMemUsage or display.environment.GetMemUsage
-				display.environment.GetCPUUsage = ResourceTools and ResourceTools.GetCPUUsage or display.environment.GetCPUUsage
+				if ResourceServer then ResourceServer:New(display.environment) end
 				display:Show()
 				tinsert(displays, display)				
 			end
