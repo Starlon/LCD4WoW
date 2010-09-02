@@ -380,12 +380,12 @@ end
 function mod:StartDisplays()
 	for k, v in pairs(self.db.profile.config) do
 		if k:match("^display_") then
-			if v.driver == "qtip" then
+			if v.driver == "qtip" and v.enabled then
 				local display = LibDriverQTip:New(self, self.environment, k, self.db.profile.config, LCD4WoW.db.profile.errorLevel) 
 				--if ResourceServer then ResourceServer:New(display.environment) end
 				display:Show()
 				tinsert(displays, display)
-			elseif v.driver == "character" then
+			elseif v.driver == "character" and v.enabled then
 				local display = LibDriverCharacter:New(self, self.environment, k, self.db.profile.config, LCD4WoW.db.profile.errorLevel)
 				--if ResourceServer then ResourceServer:New(display.environment) end
 				display:Show()

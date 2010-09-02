@@ -70,7 +70,7 @@ end
 
 
 function LCD4WoW:RebuildOpts()
-	local driver = self:GetModule("LCD4WoWDriver")
+	local driver = self:GetModule("LCD4WoW")
 	options.args = driver:GetOptions()
 	options.args.errorLevel = {
 		name = "Error Verbosity",
