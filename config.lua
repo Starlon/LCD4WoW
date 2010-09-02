@@ -168,7 +168,7 @@ end
 mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
 if mem then
     if totaldiff == 0 then totaldiff = 1 end
-    return '--------' .. format("%.2f", memdiff / totaldiff * 100) .. "%" .. "-------"
+    return '---MEM: ' .. format("%.2f", memdiff / totaldiff * 100) .. "%" .. " :MEM---"
 end		
 ]],
 		align = ALIGN_PINGPONG,
@@ -263,7 +263,7 @@ end
 cpu, percent,cpudiff, totalCpu, totaldiff = GetMemUsage("StarLibs-1.0")
 if cpu then
     if totaldiff == 0 then totaldiff = 1 end
-    return '---CPU---' .. format("%.2f", cpudiff / totaldiff * 100) .. "%" .. "---CPU---"
+    return '---CPU: ' .. format("%.2f", cpudiff / totaldiff * 100) .. "%" .. " :CPU---"
 end		
 ]],
 		align = ALIGN_PINGPONG,
