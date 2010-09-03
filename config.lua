@@ -18,7 +18,7 @@ LCD4WoW.config = {
 		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
-		["widgets"] = {"widget_key_up", "widget_key_down"},
+		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
 		["font"] = {normal="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
     },
@@ -35,9 +35,19 @@ LCD4WoW.config = {
 		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
-		["widgets"] = {"widget_key_up", "widget_key_down"},
-		["layouts"] = {"layout_startip", "layout_histogram"},
+		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
+		["layouts"] = {"layout_lcd4wow", "layout_histogram_mem"},
     },
+	["widget_resources_timer"] = {
+        type = "timer",
+		update = 100,
+		repeating = true,
+		expression = [[
+if ResourceServer then self.timer:Stop() return end
+UpdateMem()
+UpdateCPU()
+]]
+	},
 	["layout_tiny"] = {
 		[1] = {
 			[1] = "widget_name"
@@ -166,7 +176,11 @@ LCD4WoW.config = {
 		type = "text",
 		value = [[
 --do return random(100) .. "%" end
-mem = GetMemUsage("LCD4WoW")
+if not StarLibs then
+    mem = GetMemUsage("LCD4WoW")
+else
+    mem = GetMemUsage("StarLibs-1.0")
+end
 if mem then
     return memshort(tonumber(format("%.2f", mem)))
 end
@@ -179,7 +193,11 @@ end
 		type = "text",
 		value = [[		
 --do return random(100) .. "%" end
-mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
+if not StarLibs then
+    mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("LCD4WoW")
+else
+    mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
+end
 if mem then
     if totaldiff == 0 then totaldiff = 1 end
     return '-==MEM:: ' .. format("%.2f", memdiff / totaldiff * 100) .. "%" .. "::MEM==-"
@@ -196,7 +214,11 @@ end
 		type = "bar",
 		expression = [[
 --do return random(100) end
-mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
+if not StarLibs then
+    mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("LCD4WoW")
+else
+    mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
+end
 if mem then
     if totaldiff == 0 then return 0 end
     return memdiff / totaldiff * 100
@@ -210,7 +232,11 @@ end
 		type = "histogram",
 		expression = [[
 do return random(100) end
-mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
+if not StarLibs then
+    mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("LCD4WoW")
+else
+    mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
+end
 if mem then
     if totaldiff == 0 then return 0 end
     return memdiff / totaldiff * 100
@@ -233,8 +259,12 @@ end
 	["widget_cpu"] = {
 		type = "text",
 		value = [[
---do return timeshort(random(10000)) end		
-cpu = GetCPUUsage("StarLibs-1.0")
+--do return timeshort(random(10000)) end
+if not StarLibs then
+    cpu = GetCPUUsaage("LCD4WoW")
+else
+    cpu = GetCPUUsage("StarLibs-1.0")
+end
 if cpu then
     return timeshort(cpu)
 end
@@ -247,7 +277,11 @@ end
 		type = "bar",
 		expression = [[
 --do return random(100) end
-cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
+if not StarLibs then
+    cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("LCD4WoW")
+else
+    cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
+end
 if cpu then
     if totaldiff == 0 then return 0 end
     return cpudiff / totaldiff * 100		
@@ -261,7 +295,11 @@ end
 		type = "histogram",
 		expression = [[
 if not scriptProfile then return random(100) end
-cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
+if not StarLibs then
+    cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("LCD4WoW")
+else
+    cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
+end
 if cpu then
     if totaldiff == 0 then return 0 end
     return cpudiff / totaldiff * 100		
@@ -276,7 +314,11 @@ end
 		type = "text",
 		value = [[
 --do return format("------%d%%-------", random(100)) end
-cpu, percent,cpudiff, totalCpu, totaldiff = GetMemUsage("StarLibs-1.0")
+if not StarLibs then
+    cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("LCD4WoW")
+else
+    cpu, percent, cpudiff, totalCPU, totaldiff = GetCPUUsage("StarLibs-1.0")
+end
 if cpu then
     if totaldiff == 0 then totaldiff = 1 end
     return '-==CPU::' .. format("%.2f", cpudiff / totaldiff * 100) .. "%" .. "::CPU==-"

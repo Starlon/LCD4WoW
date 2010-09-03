@@ -172,7 +172,7 @@ function mod:RebuildOpts()
 			}
 		}
 	}
-	options.widgets.args.timer = {
+	options.widgets.args.timers = {
 		name = "Timers",
 		type = "group",
 		args = {
