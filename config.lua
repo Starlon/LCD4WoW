@@ -19,7 +19,7 @@ LCD4WoW.config = {
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down"},
-		["layouts"] = {"layout_startip", "layout_histogram"},
+		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
 		["font"] = {normal="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
     },
     ["display_character"] = {
@@ -47,7 +47,7 @@ LCD4WoW.config = {
 		["keyless"] = 1,
 		["layout-timeout"] = 0
     },
-	["layout_startip"] = {
+	["layout_lcd4wow"] = {
 		[1] = { -- row
     		[1] = "widget_name_label", -- column
     		[10] = "widget_name"
@@ -77,7 +77,7 @@ LCD4WoW.config = {
 		["transition"] = 1,
 		["timeout"] = 5000
     }, 
-	["layout_histogram"] = {
+	["layout_histogram_cpu"] = {
 		["layer2"] = {
 			[1] = {
 				[1] = "widget_cpu_histogram"
@@ -89,8 +89,22 @@ LCD4WoW.config = {
 			}
 		},
 		["transition"] = 2,
-		["timeout"] = 5000
+		["timeout"] = 2000
 	},
+	["layout_histogram_mem"] = {
+		["layer2"] = {
+			[1] = {
+				[1] = "widget_mem_histogram"
+			},
+		},
+		["layer1"] = {
+			[3] = {
+				[1] = "widget_mem_perc"
+			}
+		},
+		["transition"] = 2,
+		["timeout"] = 2000
+	},	
 	["widget_name_label"] = {
 		type = "text",
 		value = 'return "Name:"',
@@ -195,7 +209,7 @@ end
 	["widget_mem_histogram"] = {
 		type = "histogram",
 		expression = [[
---do return random(100) end
+do return random(100) end
 mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("StarLibs-1.0")
 if mem then
     if totaldiff == 0 then return 0 end
@@ -204,6 +218,8 @@ end
 ]],
 		min = "return 0",
 		max = "return 100",
+		reversed = true,
+		char = "0",
 		width = 30,
 		height = 6,
 		layer = 1
