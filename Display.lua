@@ -52,6 +52,13 @@ local blankOptions = {
 		end,
 		order = 2
 	},
+	scriptProfile = {
+		name = "Turn on CPU profiling",
+		type = "execute",
+		func = function()
+			
+		end
+	},
 	displays = {
 		name = "Displays",
 		type = "group",
@@ -228,7 +235,7 @@ function mod:RebuildOpts()
 						order = 100
 					}
 				}
-			}
+			}			
 			local driverOptions = {}
 			if v.driver == "qtip" then
 				driverOptions = LibDriverQTip:RebuildOpts(LCD4WoW, v, k)
@@ -238,6 +245,17 @@ function mod:RebuildOpts()
 			
 			for kk, vv in pairs(driverOptions) do
 				options.displays.args[k:gsub(" ", "_")].args[kk] = vv
+			end
+			if v.widgets then
+				for i, widget in ipairs(v.widgets) do
+					options.displays.args[k:gsub(" ", "_")].args.widgets[widget] = {
+						name = widget,
+						type = "input",
+						get = function() return widget end,
+						set = function() v.widgets[i] = val end,
+						order = 50 + i
+					}
+				end
 			end
 		end
 		if k:match("^layout_") then

@@ -40,7 +40,7 @@ LCD4WoW.config = {
     },
 	["widget_resources_timer"] = {
         type = "timer",
-		update = 100,
+		update = 3000,
 		repeating = true,
 		expression = [[
 if ResourceServer then self.timer:Stop() return end
