@@ -13,6 +13,10 @@ local WidgetHistogram = LibStub("StarLibWidgetHistogram-1.0")
 local WidgetKey = LibStub("StarLibWidgetKey-1.0")
 local WidgetTimer = LibStub("StarLibWidgetTimer-1.0")
 local LayoutOptions = LibStub("StarLibLayoutOptions-1.0")
+local Resources = LibStub("StarLibPluginResourceTools-1.0")
+
+local resources = {}
+Resources:New(resources)
 
 local _G = _G
 local GameTooltip = _G.GameTooltip
@@ -52,32 +56,45 @@ local blankOptions = {
 		end,
 		order = 2
 	},
-	scriptProfile = {
-		name = "Turn on CPU profiling",
-		type = "execute",
-		func = function()
-			
-		end
-	},
 	displays = {
 		name = "Displays",
 		type = "group",
 		args = {},
-		order = 3
+		order = 40
 	},
 	layouts = {
 		name = "Layouts",
 		type = "group",
 		args = {},
-		order = 4
+		order = 41
 	},
 	widgets = {
 		name = "Widgets",
 		type = "group",
 		args = {},
-		order = 5
+		order = 42
 	}
 }
+if resources.scriptProfile then
+	blankOptions.scriptProfile = {
+		name = "Turn off CPU profiling",
+		type = "execute",
+		func = function()
+			SetCVar("scriptProfile", 0)
+			ReloadUI()
+		end
+	}
+else
+	blankOptions.scriptProfile = {
+		name = "Turn on CPU profiling",
+		type = "execute",
+		func = function()
+			SetCVar("scriptProfile", 1)
+			ReloadUI()
+		end,
+		order = 3
+	}
+end
 
 function mod:RebuildOpts()
 	options = copy(blankOptions)
@@ -248,7 +265,7 @@ function mod:RebuildOpts()
 			end
 			if v.widgets then
 				for i, widget in ipairs(v.widgets) do
-					options.displays.args[k:gsub(" ", "_")].args.widgets[widget] = {
+					options.displays.args[k:gsub(" ", "_")].args.widgets.args[widget] = {
 						name = widget,
 						type = "input",
 						get = function() return widget end,
