@@ -32,8 +32,8 @@ LCD4WoW.config = {
 		["pixel"] = 2,
 		["row"] = -50,
 		["col"] = 0,
-		["rows"] = 3,
-		["cols"] = 30,
+		["rows"] = 4,
+		["cols"] = 20,
 		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
@@ -226,7 +226,7 @@ end
 mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("LCD4WoW")
 
 if mem then
-    if totaldiff == 0 then return 0 end
+    if totaldiff == 0 then totaldiff = 1 end
     return memdiff / totaldiff * 100
 end
 ]],
