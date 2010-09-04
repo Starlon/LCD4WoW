@@ -19,7 +19,7 @@ local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("LCD4WoW", {
 	OnClick = function() LCD4WoW:OpenConfig() end
 })
 
-local defaults = {profile={minimap={}, modules={}, errorLevel=2}}
+local defaults = {profile={minimap={}, modules={}, errorLevel=1}}
 
 local options = {
 	name = "LCD4WoW",

@@ -7,7 +7,8 @@ local foo = 500
 
 LCD4WoW.config = {
     ["display_startip"] = {
-		["enabled"] = true,
+		["addon"] = "LCD4WoW",
+		["enabled"] = false,
 		["driver"] = "qtip",
 		["layers"] = 2,
 		["background"] = "d9ccf16f",
@@ -23,6 +24,7 @@ LCD4WoW.config = {
 		["font"] = {normal="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
     },
     ["display_character"] = {
+		["addon"] = "LCD4WoW",
 		["enabled"] = false,
 		["driver"] = "character",
 		["layers"] = 2,
