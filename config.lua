@@ -1,3 +1,10 @@
+local TRANSITION_RIGHT = 0
+local TRANSITION_LEFT = 1
+local TRANSITION_BOTH = 2
+local TRANSITION_UP = 3
+local TRANSITION_DOWN = 4
+local TRANSITION_TENTACLE = 5
+local TRANSITION_ALPHABLEND = 6
 
 
 local ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_MARQUEE, ALIGN_AUTOMATIC, ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
@@ -8,7 +15,7 @@ local foo = 500
 LCD4WoW.config = {
     ["display_startip"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = false,
+		["enabled"] = true,
 		["driver"] = "qtip",
 		["layers"] = 2,
 		["background"] = "d9ccf16f",
@@ -17,7 +24,7 @@ LCD4WoW.config = {
 		["rows"] = 6,
 		["cols"] = 30,
 		["update"] = 100,
-		["timeout"] = 7000,
+		["timeout"] = 2000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
@@ -33,7 +40,7 @@ LCD4WoW.config = {
 		["row"] = -50,
 		["col"] = 0,
 		["rows"] = 4,
-		["cols"] = 20,
+		["cols"] = 30,
 		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
@@ -51,7 +58,9 @@ Update()
 	},
 	["layout_tiny"] = {
 		[1] = {
-			[1] = "widget_name"
+			[1] = {
+				[1] = "widget_name"
+			}
 		}
 	},
 	["layout_blank"] = {
@@ -59,61 +68,62 @@ Update()
 		["layout-timeout"] = 0
     },
 	["layout_lcd4wow"] = {
-		[1] = { -- row
-    		[1] = "widget_name_label", -- column
-    		[10] = "widget_name"
-        },
-		[2] = {
-    		[1] = "widget_class_label",
-    		[10] = "widget_class"
-        },
-		[3] = {
-			[1] = "widget_race_label",
-			[10] = "widget_race",
+		[1] = {
+			[1] = { -- row
+				[1] = "widget_name_label", -- column
+				[10] = "widget_name"
+			},
+			[2] = {
+				[1] = "widget_class_label",
+				[10] = "widget_class"
+			},
+			[3] = {
+				[1] = "widget_race_label",
+				[10] = "widget_race",
+			},
+			[4] = {
+				[1] = "widget_level_label",
+				[10] = "widget_level",
+			},
+			[5] = {
+				[1] = "widget_mem_label",
+				[10] = "widget_mem",
+				[20] = "widget_mem_bar"
+			},
+			[6] = {
+				[1] = "widget_cpu_label",
+				[10] = "widget_cpu",
+				[20] = "widget_cpu_bar"
+			},
 		},
-		[4] = {
-			[1] = "widget_level_label",
-			[10] = "widget_level",
-		},
-		[5] = {
-			[1] = "widget_mem_label",
-			[10] = "widget_mem",
-			[20] = "widget_mem_bar"
-		},
-		[6] = {
-			[1] = "widget_cpu_label",
-			[10] = "widget_cpu",
-			[20] = "widget_cpu_bar"
-		},
-		["transition"] = 1,
-		["timeout"] = 5000
+		["transition"] = TRANSITION_UP,
     },
 	["layout_histogram_cpu"] = {
-		["layer2"] = {
+		[2] = {
 			[1] = {
 				[1] = "widget_cpu_histogram"
 			},
 		},
-		["layer1"] = {
+		[1] = {
 			[3] = {
 				[1] = "widget_cpu_perc"
 			}
 		},
-		["transition"] = 2,
+		["transition"] = TRANSITION_DOWN,
 		["timeout"] = 2000
 	},
 	["layout_histogram_mem"] = {
-		["layer2"] = {
+		[2] = {
 			[1] = {
 				[1] = "widget_mem_histogram"
 			},
 		},
-		["layer1"] = {
+		[1] = {
 			[3] = {
 				[1] = "widget_mem_perc"
 			}
 		},
-		["transition"] = 2,
+		["transition"] = TRANSITION_TENTACLE,
 		["timeout"] = 2000
 	},
 	["widget_name_label"] = {
