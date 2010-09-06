@@ -5,7 +5,7 @@ local TRANSITION_UP = 3
 local TRANSITION_DOWN = 4
 local TRANSITION_TENTACLE = 5
 local TRANSITION_ALPHABLEND = 6
-
+local TRANSITION_CHECKERBOARD = 7
 
 local ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_MARQUEE, ALIGN_AUTOMATIC, ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
 local SCROLL_RIGHT, SCROLL_LEFT = 1, 2
@@ -96,7 +96,7 @@ Update()
 				[20] = "widget_cpu_bar"
 			},
 		},
-		["transition"] = TRANSITION_UP,
+		["transition"] = TRANSITION_TENTACLE,
     },
 	["layout_histogram_cpu"] = {
 		[2] = {
@@ -109,7 +109,7 @@ Update()
 				[1] = "widget_cpu_perc"
 			}
 		},
-		["transition"] = TRANSITION_DOWN,
+		["transition"] = TRANSITION_BOTH,
 		["timeout"] = 2000
 	},
 	["layout_histogram_mem"] = {
@@ -123,7 +123,7 @@ Update()
 				[1] = "widget_mem_perc"
 			}
 		},
-		["transition"] = TRANSITION_TENTACLE,
+		["transition"] = TRANSITION_CHECKERBOARD,
 		["timeout"] = 2000
 	},
 	["widget_name_label"] = {
