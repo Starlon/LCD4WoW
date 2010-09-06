@@ -28,7 +28,7 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
-		["font"] = {normal="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\startip\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
+		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
