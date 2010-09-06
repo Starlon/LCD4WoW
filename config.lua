@@ -204,7 +204,7 @@ mem, percent, memdiff, totalMem, totaldiff = GetMemUsage("LCD4WoW")
 
 if mem then
     if totaldiff == 0 then totaldiff = 1 end
-    return '-==MEM:: ' .. format("%.2f", memdiff / totaldiff * 100) .. "%" .. "::MEM==-"
+    return '-==MEM::' .. format("%.2f", memdiff / totaldiff * 100) .. "%" .. "::MEM==-"
 end
 ]],
 		align = ALIGN_PINGPONG,
