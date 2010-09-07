@@ -10,7 +10,7 @@ local TRANSITION_CHECKERBOARD = 7
 local ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_MARQUEE, ALIGN_AUTOMATIC, ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
 local SCROLL_RIGHT, SCROLL_LEFT = 1, 2
 
-local foo = 500
+local foo = 100
 
 LCD4WoW.config = {
     ["display_startip"] = {
@@ -39,13 +39,13 @@ LCD4WoW.config = {
 		["pixel"] = 2,
 		["row"] = -50,
 		["col"] = 0,
-		["rows"] = 4,
-		["cols"] = 30,
+		["rows"] = 2,
+		["cols"] = 20,
 		["update"] = 100,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
-		["layouts"] = {"layout_histogram_mem", "layout_histogram_cpu"},
+		["layouts"] = {"layout_tiny"},
     },
 	["widget_resources_timer"] = {
         type = "timer",
@@ -60,6 +60,28 @@ Update()
 		[1] = {
 			[1] = {
 				[1] = "widget_name"
+			},
+			[2] = {
+				[1] = "widget_icon_blob",
+				[2] = "widget_icon_ekg",
+				[3] = "widget_icon_timer",
+				[4] = "widget_icon_heartbeat",
+				[5] = "widget_icon_karo",
+				[6] = "widget_icon_rain",
+				[7] = "widget_icon_squirrel",
+				[8] = "widget_icon_heart",
+				[9] = "widget_icon_wave",
+				[10] = "widget_icon_blob",
+				[11] = "widget_icon_ekg",
+				[12] = "widget_icon_timer",
+				[13] = "widget_icon_heartbeat",
+				[14] = "widget_icon_karo",
+				[15] = "widget_icon_rain",
+				[16] = "widget_icon_squirrel",
+				[17] = "widget_icon_heart",
+				[18] = "widget_icon_wave",				
+				[19] = "widget_icon_blob",
+				[20] = "widget_icon_ekg",
 			}
 		}
 	},
@@ -328,7 +350,7 @@ end
     		["row7"] = ".....|.....|.....",
     		["row8"] = ".....|.....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_ekg"] = {
@@ -342,7 +364,7 @@ end
     		["row7"] = "*****|*****|****.|***..|**..*|*..**|..***|.****",
     		["row8"] = ".....|.....|.....|.....|.....|.....|.....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_heart"] = {
@@ -356,7 +378,7 @@ end
     		["row7"] = "..*..|.....|..*..|.....|.....|.....",
     		["row8"] = ".....|.....|.....|.....|.....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_heartbeat"] = {
@@ -370,7 +392,7 @@ end
     		["row7"] = "..*..|..*..",
     		["row8"] = ".....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_karo"] = {
@@ -384,7 +406,7 @@ end
     		["row7"] = ".....|.....|.....|.....|..*..|.....|.....|.....",
     		["row8"] = ".....|.....|.....|.....|.....|.....|.....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_rain"] = {
@@ -398,7 +420,7 @@ end
     		["row7"] = ".....|.*...|....*|..*..|.....|*....|...*.|.....",
     		["row8"] = ".....|.....|.*...|....*|..*..|.....|*....|...*."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_squirrel"] = {
@@ -412,7 +434,7 @@ end
     		["row7"] = ".....|.....|.....|.....|.....|.....",
     		["row8"] = ".....|.....|.....|.....|.....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_timer"] = {
@@ -426,7 +448,7 @@ end
     		["row7"] = ".....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|",
     		["row8"] = ".....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|"
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_icon_wave"] = {
@@ -440,7 +462,7 @@ end
     		["row7"] = ".....|.....|.....|....*|...**|..**.|.**..|**...|*....|.....",
     		["row8"] = ".....|.....|.....|.....|.....|.....|.....|.....|.....|....."
         },
-		["speed"] = "return foo",
+		["speed"] = foo,
 		["type"] = "icon"
     },
 	["widget_key_down"] = {
