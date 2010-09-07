@@ -32,7 +32,7 @@ LCD4WoW.config = {
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = false,
+		["enabled"] = true,
 		["driver"] = "character",
 		["layers"] = 2,
 		["background"] = "d9ccf16f",
