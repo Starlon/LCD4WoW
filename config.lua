@@ -23,7 +23,7 @@ LCD4WoW.config = {
 		["col"] = 0,
 		["rows"] = 6,
 		["cols"] = 30,
-		["update"] = 100,
+		["update"] = 0,
 		["timeout"] = 2000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
@@ -34,19 +34,32 @@ LCD4WoW.config = {
 		["addon"] = "LCD4WoW",
 		["enabled"] = true,
 		["driver"] = "character",
-		["layers"] = 2,
+		["layers"] = 1,
 		["background"] = "d9ccf16f",
 		["pixel"] = 2,
 		["row"] = -50,
 		["col"] = 0,
 		["rows"] = 2,
 		["cols"] = 20,
-		["update"] = 100,
+		["update"] = 0,
 		["timeout"] = 7000,
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
     },
+	["display_icon"] = {
+		["addon"] = "LCD4WoW",
+		["enabled"] = true,
+		["driver"] = "qtip",
+		["layers"] = 1,
+		["row"] = 0,
+		["col"] = 500,
+		["rows"] = 8,
+		["cols"] = 6 * 3,
+		["layouts"] = {"layout_icon"},
+		["widgets"] = {},
+		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", size=1},
+	},
 	["widget_resources_timer"] = {
         type = "timer",
 		update = 1000,
@@ -55,6 +68,15 @@ LCD4WoW.config = {
 if ResourceServer then self.timer:Stop(); return end
 Update()
 ]]
+	},
+	["layout_icon"] = {
+		[1] = {
+			[1] = {
+				[1] = "widget_icon_blob",
+				[7] = "widget_icon_ekg",
+				[13] = "widget_icon_timer",
+			}
+		}
 	},
 	["layout_tiny"] = {
 		[1] = {
