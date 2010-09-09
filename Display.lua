@@ -248,7 +248,8 @@ function mod:RebuildOpts()
 						type = "input",
 						set = function(info, name)
 							self:SendDisplay(k, name)
-						end
+						end,
+						order = 3
 					},
 					delete = {
 						name = "Delete",
