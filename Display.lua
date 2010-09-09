@@ -242,6 +242,14 @@ function mod:RebuildOpts()
 						order = 2
 				
 					},
+					send = {
+						name = "Send Display",
+						desc = "Send this display to someone",
+						type = "input",
+						set = function(info, name)
+							self:SendDisplay(k, name)
+						end
+					},
 					delete = {
 						name = "Delete",
 						type = "execute",
@@ -402,6 +410,7 @@ end
 function mod:OnInitialize()
 	self.db = LCD4WoW.db:RegisterNamespace(self:GetName(), defaults)
 	self.environment = {_G=_G}
+	LCD4WoW:RegisterComm("LCD4WoWDisplayTransfer", self.OnCommReceived)
 end
 
 function mod:OnEnable()
@@ -438,8 +447,59 @@ function mod:StopDisplays()
 	table.wipe(displays)
 end
 
+function mod.OnCommReceived(prefix, message, distribution, sender)
+	local self = mod
+	local flag, data = LCD4WoW:Deserialize(message)
+	if not flag then LCD4WoW:Print(data, type(message), message); return end
+	if type(data) ~= "table" then LCD4WoW:Print("Display data is not a table -- " .. type(data)); return end
+	for k, v in pairs(data) do
+		if k:match("^display_") then
+			if v.driver == "qtip" then
+				local display = LibDriverQTip:New(self, self.environment, k, data, LCD4WoW.db.profile.errorLevel) 
+				display:Show()
+				tinsert(displays, display)
+			elseif v.driver == "character" then
+				local display = LibDriverCharacter:New(self, self.environment, k, data, LCD4WoW.db.profile.errorLevel)
+				display:Show()
+				tinsert(displays, display)
+			end
+		else
+			LCD4WoW:Print(k)
+		end
+	end
+end
+
+function mod:SendDisplay(display, name)
+	local tbl = {[display] = self.db.profile.config[display]}
+	local widgets = self.db.profile.config[display].widgets
+	local layouts = self.db.profile.config[display].layouts
+	for i, w in ipairs(widgets) do
+		tbl[w] = self.db.profile.config[w]
+	end
+	for i, layout in ipairs(layouts) do
+		tbl[layout] = self.db.profile.config[layout]
+		if not tbl[layout] then break end
+		for layer = 1, tbl[display].layers do
+			for row = 1, tbl[display].rows do
+				for col = 1, tbl[display].cols do
+					if tbl[layout] and tbl[layout][layer] and
+						tbl[layout][layer][row] and
+						tbl[layout][layer][row][col] then
+						local widget = tbl[layout][layer][row][col]
+						tbl[widget] = self.db.profile.config[widget]
+					end
+				end
+			end
+		end
+	end
+	local data = LCD4WoW:Serialize(tbl)
+	LCD4WoW:SendCommMessage("LCD4WoWDisplayTransfer", data, "WHISPER", name)
+end
+
 function mod:MODIFIER_STATE_CHANGED(ev, modifier, up, ...)
 	for i, display in ipairs(displays) do
-		display:KeyEvent(modifier, up)
+		if display.KeyEvent then
+			display:KeyEvent(modifier, up)
+		end
 	end
 end

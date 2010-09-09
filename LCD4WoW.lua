@@ -1,4 +1,4 @@
-LCD4WoW = StarTip or LibStub("AceAddon-3.0"):NewAddon("LCD4WoW: @project-version@", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0") 
+LCD4WoW = StarTip or LibStub("AceAddon-3.0"):NewAddon("LCD4WoW: @project-version@", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0") 
 LCD4WoW.version = GetAddOnMetadata("LCD4WoW", "X-LCD4WoW-Version") or ""
 if StarTip then return end
 local LibDBIcon = LibStub("LibDBIcon-1.0")
