@@ -66,12 +66,12 @@ LCD4WoW.config = {
 	},
 	["display_mana"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = true,
+		["enabled"] = false,
 		["driver"] = "character",
 		["pixel"] = 1,
 		["layers"] = 1,
 		["rows"] = 1,
-		["cols"] = 9,
+		["cols"] = 14,
 		["layouts"] = {"layout_mana"},
 		["widgets"] = {},
 		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
@@ -196,9 +196,9 @@ Update()
 	},
 	["widget_text_mana"] = {
 		type = "text",
-		value = 'return "Rage: " .. (UnitMana("player") / UnitManaMax("player") * 100)',
-		align = ALIGN_LEFT,
-		cols = 9,
+		value = 'return "Power: " .. (UnitMana("player") / UnitManaMax("player") * 100) .. "%"',
+		align = ALIGN_RIGHT,
+		cols = 14,
 		update = 1000,
 		dontRtrim = true
 	},

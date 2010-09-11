@@ -120,7 +120,7 @@ function mod:RebuildOpts()
 		name = "Add Display",
 		type = "input",
 		set = function(info, v)
-			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UiParent", "BOTTOMLEFT", 0, -50}}
+			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UiParent", "BOTTOMLEFT", 0, -50}, parent="UIParent"}
 			LCD4WoW:RebuildOpts()
 		end,
 		order = 1
@@ -313,6 +313,13 @@ function mod:RebuildOpts()
 								get = function() return tostring(db.point[5] or 0) end,
 								set = function(info, v) db.point[5] = tonumber(v); clearHistograms();createHistograms() end,
 								order = 4						
+							},
+							parent = {
+								name = "Parent",
+								type = "input",
+								get = function() return db.parent or "UIParent" end,
+								set = function(info, v) db.parent = v end,
+								order = 5
 							}
 						},
 						order = 7
