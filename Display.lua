@@ -21,6 +21,24 @@ Resources:New(resources)
 local _G = _G
 local GameTooltip = _G.GameTooltip
 
+local anchors = {
+	"TOP",
+	"TOPRIGHT",
+	"TOPLEFT",
+	"BOTTOM",
+	"BOTTOMRIGHT",
+	"BOTTOMLEFT",
+	"RIGHT",
+	"LEFT",
+	"CENTER"
+}
+
+local anchorsDict = {}
+
+for i, v in ipairs(anchors) do
+	anchorsDict[v] = i
+end
+
 local function copy(tbl)
 	local new = {}
 	for k, v in pairs(tbl) do
@@ -102,7 +120,7 @@ function mod:RebuildOpts()
 		name = "Add Display",
 		type = "input",
 		set = function(info, v)
-			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}}
+			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UiParent", "BOTTOMLEFT", 0, -50}}
 			LCD4WoW:RebuildOpts()
 		end,
 		order = 1
@@ -213,6 +231,7 @@ function mod:RebuildOpts()
 		}
 	}
 	for k, v in pairs(self.db.profile.config) do
+		local db = v
 		if k:match("^display_.*") then
 			options.displays.args[k:gsub(" ", "_")] = {
 				name = k:gsub("display_", ""),
@@ -250,6 +269,53 @@ function mod:RebuildOpts()
 							self:SendDisplay(k, name)
 						end,
 						order = 3
+					},
+					point = {
+						name = "Anchor Points",
+						desc = "This histogram's anchor point. These arguments are passed to bar:SetPoint()",
+						type = "group",
+						args = {
+							point = {
+								name = "Bar anchor",
+								type = "select",
+								values = anchors,
+								get = function() return anchorsDict[db.point[1] or 1] end,
+								set = function(info, v) db.point[1] = anchors[v];clearHistograms();createHistograms() end,
+								order = 1
+							},
+							relativeFrame = {
+								name = "Relative Frame",
+								type = "input",
+								get = function() return db.point[2] end,
+								set = function(info, v) db.point[2] = v; clearHistograms(); createHistograms() end,
+								order = 2
+							},
+							relativePoint = {
+								name = "Relative Point",
+								type = "select",
+								values = anchors,
+								get = function() return anchorsDict[db.point[3] or 1] end,
+								set = function(info, v) db.point[3] = anchors[v]; clearHistograms(); createHistograms() end,
+								order = 3
+							},
+							xOfs = {
+								name = "X Offset",
+								type = "input",
+								pattern = "%d",
+								get = function() return tostring(db.point[4] or 0) end,
+								set = function(info, v) db.point[4] = tonumber(v); clearHistograms(); createHistograms() end,
+								order = 4
+							},
+							yOfs = {
+								name = "Y Offset",
+								type = "input",
+								pattern = "%d",
+								get = function() return tostring(db.point[5] or 0) end,
+								set = function(info, v) db.point[5] = tonumber(v); clearHistograms();createHistograms() end,
+								order = 4						
+							}
+						},
+						order = 7
 					},
 					delete = {
 						name = "Delete",

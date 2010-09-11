@@ -15,7 +15,7 @@ local foo = 100
 LCD4WoW.config = {
     ["display_startip"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = true,
+		["enabled"] = false,
 		["driver"] = "qtip",
 		["layers"] = 2,
 		["background"] = "d9ccf16f",
@@ -29,6 +29,7 @@ LCD4WoW.config = {
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
+		["point"] = {"CENTER", "UIParent", "CENTER", 0, 200}
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
@@ -46,10 +47,11 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
+		["point"] = {"CENTER", "UIParent", "CENTER", 0, -50}
     },
 	["display_icon"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = true,
+		["enabled"] = false,
 		["driver"] = "qtip",
 		["layers"] = 1,
 		["row"] = 0,
@@ -59,6 +61,21 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_icon"},
 		["widgets"] = {},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", size=1},
+		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100},
+		["parent"] = "GameTooltip"
+	},
+	["display_mana"] = {
+		["addon"] = "LCD4WoW",
+		["enabled"] = true,
+		["driver"] = "character",
+		["pixel"] = 1,
+		["layers"] = 1,
+		["rows"] = 1,
+		["cols"] = 9,
+		["layouts"] = {"layout_mana"},
+		["widgets"] = {},
+		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
+		["parent"] = "GameTooltip"
 	},
 	["widget_resources_timer"] = {
         type = "timer",
@@ -68,6 +85,13 @@ LCD4WoW.config = {
 if ResourceServer then self.timer:Stop(); return end
 Update()
 ]]
+	},
+	["layout_mana"] = {
+		[1] = {
+			[1] = {
+				[1] = "widget_text_mana",
+			}
+		}
 	},
 	["layout_icon"] = {
 		[1] = {
@@ -169,6 +193,14 @@ Update()
 		},
 		["transition"] = TRANSITION_CHECKERBOARD,
 		["timeout"] = 2000
+	},
+	["widget_text_mana"] = {
+		type = "text",
+		value = 'return "Rage: " .. (UnitMana("player") / UnitManaMax("player") * 100)',
+		align = ALIGN_LEFT,
+		cols = 9,
+		update = 1000,
+		dontRtrim = true
 	},
 	["widget_name_label"] = {
 		type = "text",
