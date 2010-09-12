@@ -64,17 +64,30 @@ LCD4WoW.config = {
 		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100},
 		["parent"] = "GameTooltip"
 	},
-	["display_mana"] = {
+	["display_health"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = false,
+		["enabled"] = true,
 		["driver"] = "character",
 		["pixel"] = 1,
 		["layers"] = 1,
 		["rows"] = 1,
-		["cols"] = 14,
-		["layouts"] = {"layout_mana"},
+		["cols"] = 12,
+		["layouts"] = {"layout_health"},
 		["widgets"] = {},
 		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
+		["parent"] = "GameTooltip"
+	},
+	["display_mana"] = {
+		["addon"] = "LCD4WoW",
+		["enabled"] = true,
+		["driver"] = "character",
+		["pixel"] = 1,
+		["layers"] = 1,
+		["rows"] = 1,
+		["cols"] = 12,
+		["layouts"] = {"layout_mana"},
+		["widgets"] = {},
+		["point"] = {"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130},
 		["parent"] = "GameTooltip"
 	},
 	["widget_resources_timer"] = {
@@ -85,6 +98,13 @@ LCD4WoW.config = {
 if ResourceServer then self.timer:Stop(); return end
 Update()
 ]]
+	},
+	["layout_health"] = {
+		[1] = {
+			[1] = {
+				[1] = "widget_text_health",
+			}
+		}
 	},
 	["layout_mana"] = {
 		[1] = {
@@ -194,11 +214,19 @@ Update()
 		["transition"] = TRANSITION_CHECKERBOARD,
 		["timeout"] = 2000
 	},
+	["widget_text_health"] = {
+		type = "text",
+		value = 'return "Health: " .. (UnitHealth("player") / UnitHealthMax("player") * 100) .. "%"',
+		align = ALIGN_LEFT,
+		cols = 12,
+		update = 1000,
+		dontRtrim = true
+	},	
 	["widget_text_mana"] = {
 		type = "text",
 		value = 'return "Power: " .. (UnitMana("player") / UnitManaMax("player") * 100) .. "%"',
 		align = ALIGN_RIGHT,
-		cols = 14,
+		cols = 12,
 		update = 1000,
 		dontRtrim = true
 	},

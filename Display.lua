@@ -21,6 +21,17 @@ Resources:New(resources)
 local _G = _G
 local GameTooltip = _G.GameTooltip
 
+local stratas = {
+	"BACKGROUND",
+	"LOW",
+	"MEDIUM",
+	"HIGH",
+	"DIALOG",
+	"FULLSCREEN",
+	"FULLSCREEN_DIALOG",
+	"TOOLTIP"
+}
+	
 local anchors = {
 	"TOP",
 	"TOPRIGHT",
@@ -120,7 +131,7 @@ function mod:RebuildOpts()
 		name = "Add Display",
 		type = "input",
 		set = function(info, v)
-			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UiParent", "BOTTOMLEFT", 0, -50}, parent="UIParent"}
+			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UiParent", "BOTTOMLEFT", 0, -50}, parent="UIParent", strata=1}
 			LCD4WoW:RebuildOpts()
 		end,
 		order = 1
@@ -269,6 +280,24 @@ function mod:RebuildOpts()
 							self:SendDisplay(k, name)
 						end,
 						order = 3
+					},
+					pixel = {
+						name = "Display Pixel",
+						desc = "Size of a single pixel",
+						type = "input",
+						pattern = "%d",
+						get = function() return v.pixel or 1 end,
+						set = function(info, val) v.pixel = val end,
+						order = 4
+					},
+					strata = {
+						name = "Frame Strata",
+						desc = "The frame's strata",
+						type = "select",
+						values = stratas,
+						get = function() return v.strata or 1 end,
+						set = function(info, val) v.strata = val end,
+						order = 5
 					},
 					point = {
 						name = "Anchor Points",
