@@ -10,6 +10,29 @@ local TRANSITION_CHECKERBOARD = 7
 local ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_MARQUEE, ALIGN_AUTOMATIC, ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
 local SCROLL_RIGHT, SCROLL_LEFT = 1, 2
 
+local stratas = {
+	"BACKGROUND",
+	"LOW",
+	"MEDIUM",
+	"HIGH",
+	"DIALOG",
+	"FULLSCREEN",
+	"FULLSCREEN_DIALOG",
+	"TOOLTIP"
+}
+	
+local anchors = {
+	"TOP",
+	"TOPRIGHT",
+	"TOPLEFT",
+	"BOTTOM",
+	"BOTTOMRIGHT",
+	"BOTTOMLEFT",
+	"RIGHT",
+	"LEFT",
+	"CENTER"
+}
+
 local foo = 100
 
 LCD4WoW.config = {
@@ -37,7 +60,7 @@ LCD4WoW.config = {
 		["driver"] = "character",
 		["layers"] = 1,
 		["background"] = "d9ccf16f",
-		["pixel"] = 2,
+		["pixel"] = 1,
 		["row"] = -50,
 		["col"] = 0,
 		["rows"] = 2,
@@ -47,7 +70,9 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
-		["point"] = {"CENTER", "UIParent", "CENTER", 0, -50}
+		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 12 * 6 + 6, -130},
+		["parent"] = "GameTooltip",
+		["strata"] = 1
     },
 	["display_icon"] = {
 		["addon"] = "LCD4WoW",
@@ -75,7 +100,8 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_health"},
 		["widgets"] = {},
 		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
-		["parent"] = "GameTooltip"
+		["parent"] = "GameTooltip",
+		["strata"] = #stratas,
 	},
 	["display_mana"] = {
 		["addon"] = "LCD4WoW",
@@ -88,7 +114,8 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_mana"},
 		["widgets"] = {},
 		["point"] = {"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130},
-		["parent"] = "GameTooltip"
+		["parent"] = "GameTooltip",
+		["strata"] = #stratas
 	},
 	["widget_resources_timer"] = {
         type = "timer",
