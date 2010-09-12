@@ -295,7 +295,7 @@ function mod:RebuildOpts()
 						desc = "The frame's strata",
 						type = "select",
 						values = stratas,
-						get = function() return v.strata or 1 end,
+						get = function() return v.strata or #stratas end,
 						set = function(info, val) v.strata = val end,
 						order = 5
 					},
