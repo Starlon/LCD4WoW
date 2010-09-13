@@ -1,4 +1,5 @@
-## Interface: 30000
+## Interface: 30300
+## X-Compatible-With: 40000
 ## Title: LCD4WoW
 ## Notes: LCDs for WoW
 ## Author: Starlon
