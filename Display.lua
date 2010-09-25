@@ -408,7 +408,7 @@ function mod:RebuildOpts()
 				options.widgets.args.text.args[k:gsub(" ", "_")] = {
 					name = k:gsub("widget_", ""),
 					type = "group",
-					args = WidgetText:GetOptions(LCD4WoW, v, k),
+					args = WidgetText:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WOW),
 					order = 1
 				}
 				options.widgets.args.text.args[k:gsub(" ", "_")].args.delete = {
@@ -440,7 +440,7 @@ function mod:RebuildOpts()
 				options.widgets.args.histogram.args[k:gsub(" ", "_")] = {
 					name = k,
 					type = "group",
-					args = WidgetHistogram:GetOptions(LCD4WoW, v, k),
+					args = WidgetHistogram:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WoW),
 					order = 1
 				}						
 				options.widgets.args.histogram.args[k:gsub(" ", "_")].args.delete = {
@@ -472,7 +472,7 @@ function mod:RebuildOpts()
 				options.widgets.args.key.args[k:gsub(" ", "_")] = {
 					name = k,
 					type = "group",
-					args = WidgetKey:GetOptions(LCD4WoW, v, k),
+					args = WidgetKey:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WoW),
 					order = 3
 				}			
 				options.widgets.args.key.args[k:gsub(" ", "_")].args.delete = {
@@ -488,7 +488,7 @@ function mod:RebuildOpts()
 				options.widgets.args.timers.args[k:gsub(" ", "_")] = {
 					name = k,
 					type = "group",
-					args = WidgetTimer:GetOptions(LCD4WoW, v, k),
+					args = WidgetTimer:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WoW),
 					order = 3
 				}			
 				options.widgets.args.timers.args[k:gsub(" ", "_")].args.delete = {

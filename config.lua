@@ -52,7 +52,7 @@ LCD4WoW.config = {
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
-		["point"] = {"CENTER", "UIParent", "CENTER", 0, 200}
+		["points"] = {{"CENTER", "UIParent", "CENTER", 0, 200}}
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
@@ -70,8 +70,8 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
-		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 12 * 6 + 6, -130},
-		["parent"] = "GameTooltip",
+		["points"] = {{"CENTER", UIParent, "CENTER"}},
+		["parent"] = "UIParent",
 		["strata"] = 1
     },
 	["display_icon"] = {
@@ -86,7 +86,7 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_icon"},
 		["widgets"] = {},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", size=1},
-		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100},
+		["points"] = {{"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100}},
 		["parent"] = "GameTooltip"
 	},
 	["display_health"] = {
@@ -99,7 +99,7 @@ LCD4WoW.config = {
 		["cols"] = 12,
 		["layouts"] = {"layout_health"},
 		["widgets"] = {},
-		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
+		["points"] = {{"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130}},
 		["parent"] = "GameTooltip",
 		["strata"] = #stratas,
 	},
@@ -113,7 +113,7 @@ LCD4WoW.config = {
 		["cols"] = 12,
 		["layouts"] = {"layout_mana"},
 		["widgets"] = {},
-		["point"] = {"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130},
+		["points"] = {{"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130}},
 		["parent"] = "GameTooltip",
 		["strata"] = #stratas
 	},
