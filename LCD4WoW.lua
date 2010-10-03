@@ -5,7 +5,7 @@ local LibDBIcon = LibStub("LibDBIcon-1.0")
 local LSM = _G.LibStub("LibSharedMedia-3.0")
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-local LibError = LibStub("StarLibError-1.0")
+local LibError = LibStub("LibScriptableDisplayError-1.0")
 local LibQTip = LibStub("LibQTip-1.0")
 
 local _G = _G

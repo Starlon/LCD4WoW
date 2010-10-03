@@ -2,18 +2,18 @@ local mod = LCD4WoW:NewModule("LCD4WoW")
 mod.name = "LCD Display"
 mod.toggled = true
 mod.defaultOff = true
-local Evaluator = LibStub("StarLibEvaluator-1.0")
-local LibCore = LibStub("StarLibCore-1.0")
-local LibLCDText = LibStub("StarLibLCDText-1.0")
-local LibDriverQTip = LibStub("StarLibDriverQTip-1.0")
-local LibDriverCharacter = LibStub("StarLibDriverCharacter-1.0")
-local WidgetText = LibStub("StarLibWidgetText-1.0")
-local WidgetBar = LibStub("StarLibWidgetBar-1.0")
-local WidgetHistogram = LibStub("StarLibWidgetHistogram-1.0")
-local WidgetKey = LibStub("StarLibWidgetKey-1.0")
-local WidgetTimer = LibStub("StarLibWidgetTimer-1.0")
-local LayoutOptions = LibStub("StarLibLayoutOptions-1.0")
-local Resources = LibStub("StarLibPluginResourceTools-1.0")
+local Evaluator = LibStub("LibScriptableDisplayEvaluator-1.0")
+local LibCore = LibStub("LibScriptableDisplayCore-1.0")
+local LibLCDText = LibStub("LibScriptableDisplayLCDText-1.0")
+local LibDriverQTip = LibStub("LibScriptableDisplayDriverQTip-1.0")
+local LibDriverCharacter = LibStub("LibScriptableDisplayDriverCharacter-1.0")
+local WidgetText = LibStub("LibScriptableDisplayWidgetText-1.0")
+local WidgetBar = LibStub("LibScriptableDisplayWidgetBar-1.0")
+local WidgetHistogram = LibStub("LibScriptableDisplayWidgetHistogram-1.0")
+local WidgetKey = LibStub("LibScriptableDisplayWidgetKey-1.0")
+local WidgetTimer = LibStub("LibScriptableDisplayWidgetTimer-1.0")
+local LayoutOptions = LibStub("LibScriptableDisplayLayoutOptions-1.0")
+local Resources = LibStub("LibScriptableDisplayPluginResourceTools-1.0")
 
 local resources = {}
 Resources:New(resources)
@@ -51,13 +51,10 @@ for i, v in ipairs(anchors) do
 end
 
 local function copy(tbl)
+	if type(tbl) ~= "table" then return tbl end
 	local new = {}
 	for k, v in pairs(tbl) do
-		if type(v) == "table" then
-			new[k] = copy(v)
-		else
-			new[k] = v
-		end
+		new[k] = copy(v)
 	end
 	return new
 end
