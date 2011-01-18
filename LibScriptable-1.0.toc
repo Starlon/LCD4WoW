@@ -4,6 +4,7 @@
 ## Author: Starlon
 ## OptionalDeps: Ace3, LibLinq-1.0, LibTalentQuery-1.0, LibQTip-1.0, LibRangeCheck-2.0, LibBossIDs-1.0
 ## Version: 1.0
+## X-Category: Library
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
