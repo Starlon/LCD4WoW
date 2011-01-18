@@ -70,22 +70,12 @@ function PluginTalents:New(environment)
 	return environment
 end
 
-local indexOf = function(t, val)
+local indexOf = function(t, val, talengGroup)
 	for i=1, #t do
-		if t[i] == val then
+		if t[i][2] == val then
 			return i
 		end
 	end
-end
-
-local indicesOf = function(t, val)
-	local a = {}
-	for i=1, #t do
-		if t[i] == val then
-			tinsert(a, i)
-		end
-	end
-	return unpack(a)
 end
 
 local talentTrees = {
@@ -137,7 +127,7 @@ local function ItemOnUpdate(elapsed)
 		end
 		
 		if guid and spec[guid] and count > 0 then
-			spec[guid][6] = floor(total / 17 + 0.5)
+			spec[guid].ilvl = floor(total / 17 + 0.5)
 		end
 		
 		frame:SetScript("OnUpdate", nil)
@@ -153,10 +143,22 @@ function PluginTalents:OnUpdate(event, guid, unitid, newSpec, talent1, talent2, 
 	local class = UnitClass(unitid)
 	if not talentTrees[class] then return end
 	local guid = UnitGUID(unitid)
+	local isnotplayer = not UnitIsUnit("player", unitid)
+	local talentGroup = GetActiveTalentGroup(isnotplayer)
+	
 	if not spec[guid] then
-		spec[guid] = new(nil, nil, nil, "None")
+		spec[guid] = new()
 		spec[guid].guid = guid
 	end
+
+	if not spec[guid][talentGroup] then
+		spec[guid][talentGroup] = new()
+	end
+
+	for tab = 1, 3 do
+		spec[guid][talentGroup][tab] = new(nil, nil, nil, "None", nil)
+	end
+	
 	local specNames 
 	if GroupTalents:GetTreeNames(class) then
 		specNames = new(GroupTalents:GetTreeNames(class))
@@ -168,20 +170,18 @@ function PluginTalents:OnUpdate(event, guid, unitid, newSpec, talent1, talent2, 
 	local pointsspent = new(talent1, talent2, talent3)
 	
 	for i, point in ipairs(pointsspent) do
+		local _, treename, _, iconTexture = GetTalentTabInfo(i, isnotplayer, false, talentGroup)
+	
 		highPoints[i] = point
-		spec[guid][i] = point
+		spec[guid][talentGroup][i] = {treename, point, iconTexture}
 	end
 	
 	table.sort(highPoints, sortfunc)
-	local first, second = select(1, indicesOf(spec[guid], highPoints[1])), select(2, indicesOf(spec[guid], highPoints[1]))
-	if highPoints[1] > 0 and highPoints[2] > 0 and highPoints[1] - highPoints[2] <= 5 and highPoints[1] ~= highPoints[2] then
-		spec[guid][4] = specNames[indexOf(spec[guid], highPoints[1])] .. "/" .. specNames[indexOf(spec[guid], highPoints[2])]
-	elseif highPoints[1] > 0 and first and second then
-		spec[guid][4] = specNames[first] .. "/" .. specNames[second]
-	elseif highPoints[1] > 0 then
-		spec[guid][4] = specNames[indexOf(spec[guid], highPoints[1])]
-	end
 	
+	local i = indexOf(spec[guid][talentGroup], highPoints[1])
+	spec[guid].tab = i
+	spec[guid].talentGroup = talentGroup
+
 	del(specNames)
 	del(highPoints)
 	del(pointsspent)
@@ -195,32 +195,36 @@ function PluginTalents:TalentQuery_Ready(e, name, realm, unitid)
 	local class = UnitClass(unitid)
 	local specNames = new()
 	local guid = UnitGUID(unitid)
-	if not spec[guid] then
-		spec[guid] = new(nil, nil, nil, NONE, unitid)
-		spec[guid].guid = guid
-	end
-	local specNames = new()
-	local highPoints = new()
 	local isnotplayer = not UnitIsUnit("player", unitid)
 	local talentGroup = GetActiveTalentGroup(isnotplayer)
+
+	if not spec[guid] then
+		spec[guid] = new()
+		spec[guid].guid = guid
+	end
+
+	if not spec[guid][talentGroup] then
+		spec[guid][talentGroup] = new()
+	end
+
+	for tab = 1, 3 do
+		spec[guid][talentGroup][tab] = new(nil, nil, nil, "None", nil)
+	end
+	
+	local specNames = new()
+	local highPoints = new()
 	for tab = 1, GetNumTalentTabs(isnotplayer) do
 		local _, treename, _, iconTexture, pointsSpent = GetTalentTabInfo(tab, isnotplayer, false, talentGroup)
 		highPoints[tab] = pointsSpent
-		spec[guid][tab] = pointsSpent
+		spec[guid][talentGroup][tab] = new(treename, pointsSpent, iconTexture)
 		specNames[tab] = treename
 	end
 	
 	table.sort(highPoints, sortfunc)
 	
-	local first, second = select(1, indicesOf(spec[guid], highPoints[1])), select(2, indicesOf(spec[guid], highPoints[1]))
-
-	if highPoints[1] > 0 and highPoints[2] > 0 and highPoints[1] - highPoints[2] <= 5 and highPoints[1] ~= highPoints[2] then
-		spec[guid][4] = specNames[indexOf(spec[guid], highPoints[1])] .. "/" .. specNames[indexOf(spec[guid], highPoints[2])]
-	elseif highPoints[1] > 0 and first and second then
-		spec[guid][4] = specNames[first] .. "/" .. specNames[second]
-	elseif highPoints[1] > 0 then	
-		spec[guid][4] = specNames[indexOf(spec[guid], highPoints[1])]
-	end
+	local i = indexOf(spec[guid][talentGroup], highPoints[1])
+	spec[guid].tab = i
+	spec[guid].talentGroup = talentGroup
 	
 	del(specNames)
 	del(highPoints)
@@ -259,9 +263,11 @@ function PluginTalents.UnitILevel(unit)
 	end
 	count = count + 1
 	
-	if not spec[guid] or not spec[guid][6] then return L["Loading"] .. periods end
+	local talentGroup = spec[guid] and spec[guid].talentGroup
 	
-	return format("%d", spec[guid][6])
+	if not spec[guid] or not spec[guid].ilvl then return L["Loading"] .. periods end
+	
+	return format("%d", spec[guid].ilvl)
 end
 
 function PluginTalents.SpecText(unit)
@@ -277,8 +283,15 @@ function PluginTalents.SpecText(unit)
 	count = count + 1
 	
 	if not spec[guid] then return L["Loading"] .. periods end
-
-	return ('%s (%d/%d/%d)'):format(spec[guid][4] or NONE, spec[guid][1], spec[guid][2], spec[guid][3])
+	
+	local cur = spec[guid][spec[guid].talentGroup]
+	local one = cur[1][2]
+	local two = cur[2][2]
+	local three = cur[3][2]
+	local name = cur[spec[guid].tab][1]
+	local texture = cur[spec[guid].tab][3]
+	
+	return ('|T%s:12|t %s (%d/%d/%d)'):format(texture, name, one, two, three)
 end
 
 function PluginTalents.GetSpec(unit)
@@ -286,6 +299,10 @@ function PluginTalents.GetSpec(unit)
 	local guid = UnitGUID(unit)
 
 	return unpack(spec[guid])
+end
+
+function PluginTalents.GetSpecData()
+	return spec
 end
 
 function PluginTalents.ClearSpec(unit)
