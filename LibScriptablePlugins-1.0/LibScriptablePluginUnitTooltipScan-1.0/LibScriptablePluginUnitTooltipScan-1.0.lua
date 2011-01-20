@@ -2,12 +2,12 @@
 local MAJOR = "LibScriptablePluginUnitTooltipScan-1.0" 
 local MINOR = 16
 assert(LibStub, MAJOR.." requires LibStub") 
-local LibUnitTooltipStats = LibStub:NewLibrary(MAJOR, MINOR)
-if not LibUnitTooltipStats then return end
-local self = LibUnitTooltipStats
+local LibUnitTooltipScan = LibStub:NewLibrary(MAJOR, MINOR)
+if not LibUnitTooltipScan then return end
+local self = LibUnitTooltipScan
 
-if not LibUnitTooltipStats.__index then 
-	LibUnitTooltipStats.__index = LibUnitTooltipStats
+if not LibUnitTooltipScan.__index then 
+	LibUnitTooltipScan.__index = LibUnitTooltipScan
 end
 
 local pool = setmetatable({}, {__mode = "k"})
@@ -16,24 +16,24 @@ local objects = {}
 local objectsDict = {}
 local update
 local frame = CreateFrame("Frame")
-local tooltip = CreateFrame("GameTooltip", "LibScriptableUnitTooltipStats", UIParent, "GameTooltipTemplate")
+local tooltip = CreateFrame("GameTooltip", "LibScriptableUnitTooltipScan", UIParent, "GameTooltipTemplate")
 local initialized
 
 local factionList = {}
 
-if not LibUnitTooltipStats.__index then
-	LibUnitTooltipStats.__index = LibUnitTooltipStats
+if not LibUnitTooltipScan.__index then
+	LibUnitTooltipScan.__index = LibUnitTooltipScan
 end
 
-LibUnitTooltipStats.leftLines = {}
-LibUnitTooltipStats.rightLines = {}
+LibUnitTooltipScan.leftLines = {}
+LibUnitTooltipScan.rightLines = {}
 
 function initialize()
 	if initialized then return end
 	for i = 1, 20 do
 		tooltip:AddDoubleLine(" ", " ")
-		LibUnitTooltipStats.leftLines[i] = _G["LibScriptableUnitTooltipStatsTextLeft" .. i]
-		LibUnitTooltipStats.rightLines[i] = _G["LibScriptableUnitTooltipStatsTextRight" .. i]
+		LibUnitTooltipScan.leftLines[i] = _G["LibScriptableUnitTooltipScanTextLeft" .. i]
+		LibUnitTooltipScan.rightLines[i] = _G["LibScriptableUnitTooltipScanTextRight" .. i]
 	end
 	initialized = true
 end
@@ -53,7 +53,7 @@ local init
 -- @usage :New(environment) 
 -- @param environment This will be the environment when setfenv is called.
 -- @return A new plugin object, aka the environment
-function LibUnitTooltipStats:New(environment)
+function LibUnitTooltipScan:New(environment)
 
 	if not init then
 		frame:SetScript("OnEvent", onEvent)
@@ -62,7 +62,8 @@ function LibUnitTooltipStats:New(environment)
 		init = true
 	end
 
-	environment.GetUnitTooltipStats = self.GetUnitTooltipStats
+	environment.GetUnitTooltipScan = self.GetUnitTooltipScan
+	environment.GetUnitTooltipStats = self.GetUnitTooltipScan -- for compatibility, but use the above
 	
 	return environment
 end
@@ -72,10 +73,10 @@ local getLocation, getGuild, getName
 local scanunit
 
 --- Return the default unit tooltip's information
--- @usage LibUnitTooltipStats:GetUnitTooltipStats(unit)
+-- @usage LibUnitTooltipScan:GetUnitTooltipScan(unit)
 -- @param unit The unitid to retrieve information about
 -- @return Name, guild, and location
-function LibUnitTooltipStats.GetUnitTooltipStats(unit)
+function LibUnitTooltipScan.GetUnitTooltipScan(unit)
 	if not unit then unit = "mouseover" end
     if not UnitIsConnected(unit) then
         return nil

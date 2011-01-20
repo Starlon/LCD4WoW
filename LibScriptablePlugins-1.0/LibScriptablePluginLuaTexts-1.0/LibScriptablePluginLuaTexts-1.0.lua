@@ -481,7 +481,7 @@ ScriptEnv.Name = Name
 
 local function Guild(unit, tooltip)
 	if tooltip then
-		return select(2, PluginUnitTooltipScan.GetUnitTooltipStats(unit))
+		return select(2, PluginUnitTooltipScan.GetUnitTooltipScan(unit))
 	else
 		return select(1, GetGuildInfo(unit))
 	end
