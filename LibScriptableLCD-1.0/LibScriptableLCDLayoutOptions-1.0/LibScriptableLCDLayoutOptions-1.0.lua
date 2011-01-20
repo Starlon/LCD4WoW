@@ -1,6 +1,6 @@
 
 local MAJOR = "LibScriptableLCDLayoutOptions-1.0" 
-local MINOR = 16
+local MINOR = 17
 assert(LibStub, MAJOR.." requires LibStub") 
 local LayoutOptions = LibStub:NewLibrary(MAJOR, MINOR)
 if not LayoutOptions then return end

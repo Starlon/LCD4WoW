@@ -1,7 +1,7 @@
 --A lot of thise comes from ckknight.
 
 local MAJOR = "LibScriptablePluginUtils-1.0" 
-local MINOR = 16
+local MINOR = 17
 local PluginUtils = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginUtils then return end
 local LibError = LibStub("LibScriptableUtilsError-1.0", false)

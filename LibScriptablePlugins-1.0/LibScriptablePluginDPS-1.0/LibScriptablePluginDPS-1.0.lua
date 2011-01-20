@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginDPS-1.0"
-local MINOR = 16
+local MINOR = 17
 local PluginDPS = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginDPS then return end
 local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)

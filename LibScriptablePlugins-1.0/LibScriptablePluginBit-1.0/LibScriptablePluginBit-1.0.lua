@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginBit-1.0" 
-local MINOR = 16
+local MINOR = 17
 
 local PluginBit = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginBit then return end

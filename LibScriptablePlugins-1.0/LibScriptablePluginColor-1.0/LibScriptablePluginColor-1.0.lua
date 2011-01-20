@@ -1,6 +1,6 @@
 -- Most of this file is largely borrowed from Pitbull_Luatexts, thanks to ckknight
 local MAJOR = "LibScriptablePluginColor-1.0"
-local MINOR = 16
+local MINOR = 17
 
 local ScriptEnv = {}
 

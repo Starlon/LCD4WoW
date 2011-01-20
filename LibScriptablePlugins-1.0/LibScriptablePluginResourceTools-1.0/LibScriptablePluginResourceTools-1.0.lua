@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginResourceTools-1.0" 
-local MINOR = 16
+local MINOR = 17
 
 local PluginResourceTools = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginResourceTools then return end

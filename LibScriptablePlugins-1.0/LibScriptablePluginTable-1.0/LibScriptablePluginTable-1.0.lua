@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginTable-1.0" 
-local MINOR = 16
+local MINOR = 17
 
 local PluginTable = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginTable then return end
