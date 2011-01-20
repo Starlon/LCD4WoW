@@ -1,11 +1,11 @@
-local MAJOR = "LibScriptableCore-1.0" 
+local MAJOR = "LibScriptableLCDCore-1.0" 
 local MINOR = 16
 
 local LibCore = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibCore then return end
 local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
-local LibError = LibStub("LibScriptableError-1.0", true)
+local LibError = LibStub("LibScriptableUtilsError-1.0", true)
 assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
 local LibCFG = LibStub("LibScriptableUtilsCFG-1.0", true)
 assert(LibCFG, MAJOR .. " requires LibScriptableUtilsCFG-1.0")
@@ -52,8 +52,8 @@ local PluginCharacterStats = LibStub("LibScriptablePluginCharacterStats-1.0", tr
 assert(PluginCharacterStats, MAJOR .. " requires LibScriptablePluginCharacterStats-1.0")
 local PluginLocation = LibStub("LibScriptablePluginLocation-1.0", true)
 assert(PluginLocation, MAJOR .. " requires LibScriptablePluginLocation-1.0")
-local PluginUnitTooltipStats = LibStub("LibScriptablePluginUnitTooltipStats-1.0", true)
-assert(PluginUnitTooltipStats, MAJOR .. " requires LibScriptablePluginUnitTooltipStats-1.0")
+local PluginUnitTooltipScan = LibStub("LibScriptablePluginUnitTooltipScan-1.0", true)
+assert(PluginUnitTooltipScan, MAJOR .. " requires LibScriptablePluginUnitTooltipScan-1.0")
 local PluginDBM = LibStub("LibScriptablePluginDBM-1.0", true) -- no assertion needed.
 local PluginLinq = LibStub("LibScriptablePluginLinq-1.0", true)
 assert(PluginLinq, MAJOR .. " requires LibScriptablePluginLinq-1.0")
@@ -170,7 +170,7 @@ function LibCore:New(visitor, environment, name, config, typeOf, errorLevel)
 	PluginTable:New(environment)
 	PluginResourceTools:New(environment)
 	PluginLocation:New(environment)
-	PluginUnitTooltipStats:New(environment)
+	PluginUnitTooltipScan:New(environment)
 	if PluginDBM then PluginDBM:New(environment) end
 	PluginLinq:New(environment)
 	PluginGuild:New(environment)
