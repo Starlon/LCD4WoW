@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginTalents-1.0"
-local MINOR = 17
+local MINOR = 16
 local PluginTalents = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginTalents then return end
 local GroupTalents = LibStub("LibGroupTalents-1.0", true)
@@ -241,8 +241,14 @@ function PluginTalents:OnRoleChange(event, guid, unit, newrole, oldrole)
 	spec_role[guid].oldrole = oldrole
 end
 
+local function okToInspect(unit)
+	local guid = UnitGUID(unit)
+	return 
+end
+
 function PluginTalents.SendQuery(unit)
-	if not TalentQuery or not UnitIsPlayer(unit) then return end
+	local guid = UnitGUID(unit)
+	if not UnitIsPlayer(unit) or not (CheckInteractDistance(unit, 1) and not spec[guid]) then return end
 
 	if UnitIsUnit(unit, "player") then
 		PluginTalents:TalentQuery_Ready(_, UnitName(unit), nil, "player")
@@ -253,9 +259,11 @@ end
 
 function PluginTalents.UnitILevel(unit)
 	if type(unit) ~= "string" then return end
-	if not UnitExists(unit) then return L["Unknown"] end
-	if not UnitIsPlayer(unit) then return end
 	local guid = UnitGUID(unit)
+	if not UnitExists(unit) then return L["Unknown"] end
+	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
+	if not UnitIsPlayer(unit) then return end
+	
 	
 	local periods = ""
 	for i = 0, count % 3 do
@@ -273,6 +281,8 @@ end
 function PluginTalents.SpecText(unit)
 	if type(unit) ~= "string" then return end
 	if not UnitExists(unit) then return L["Unknown"] end
+	local guid = UnitGUID(unit)
+	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 	if not UnitIsPlayer(unit) then return end
 	local guid = UnitGUID(unit)
 			
@@ -319,12 +329,19 @@ function PluginTalents.GetRole(unit)
 end
 
 local function onTooltipSetUnit()
+	
 	local _, unit = GameTooltip:GetUnit()
+	
+	if not CheckInteractDistance(unit, 1) then return end
+	
 	if unit then
 		GroupTalents:RefreshTalentsByUnit(unit)
 	end
+	
 	if not UnitIsPlayer(unit) then return end
+	
 	local guid = UnitGUID(unit)
+	
 	if spec_cache[guid] then
 		spec[guid] = spec_cache[guid]
 		spec_cache[guid] = nil
