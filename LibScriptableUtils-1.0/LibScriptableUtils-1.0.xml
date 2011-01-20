@@ -3,7 +3,6 @@
 
 
 <Include file = "LibScriptableUtilsLocale-1.0\LibScriptableUtilsLocale-1.0.xml"/>
-<Script file = "LibScriptableUtilsFont-1.0\LibScriptableUtilsFont-1.0.lua"/>
 <Script file = "LibScriptableUtilsError-1.0\LibScriptableUtilsError-1.0.lua"/>
 <Script file = "LibScriptableUtilsBuffer-1.0\LibScriptableUtilsBuffer-1.0.lua"/>
 <Script file = "LibScriptableUtilsEvaluator-1.0\LibScriptableUtilsEvaluator-1.0.lua"/>
