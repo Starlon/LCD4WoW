@@ -3,8 +3,8 @@ local MINOR = 16
 
 local PluginResourceTools = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginResourceTools then return end
-local LibError = LibStub("LibScriptableError-1.0", true)
-assert(LibError, MAJOR .. " requires LibScriptableError-1.0")
+local LibError = LibStub("LibScriptableUtilsError-1.0", true)
+assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
 
 if not PluginResourceTools.__index then
 	PluginResourceTools.__index = PluginResourceTools

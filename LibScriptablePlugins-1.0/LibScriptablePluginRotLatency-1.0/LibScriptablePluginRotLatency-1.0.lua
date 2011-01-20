@@ -3,7 +3,7 @@ local MINOR = 16
 
 local PluginRotLatency = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginRotLatency then return end
-local LibTimer = LibStub("LibScriptableTimer-1.0")
+local LibTimer = LibStub("LibScriptableUtilsTimer-1.0")
 
 if not PluginRotLatency.__index then
 	PluginRotLatency.__index = PluginRotLatency

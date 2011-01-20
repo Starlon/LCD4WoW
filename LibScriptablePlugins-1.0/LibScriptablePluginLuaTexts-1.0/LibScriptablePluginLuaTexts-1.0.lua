@@ -6,14 +6,14 @@ local PluginLuaTexts = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginLuaTexts then return end
 local PluginUtils = LibStub("LibScriptablePluginUtils-1.0", true)
 assert(PluginUtils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
-local PluginUnitTooltipStats = LibStub("LibScriptablePluginUnitTooltipStats-1.0", true)
-assert(PluginUnitTooltipStats, MAJOR .. " requires LibScriptablePluginUnitTooltipStats-1.0")
-local LibHook = LibStub("LibScriptableHook-1.0", true)
-assert(LibHook, MAJOR .. " requires LibScriptableHook-1.0")
-local LibTimer = LibStub("LibScriptableTimer-1.0", true)
-assert(LibTimer, MAJOR .. " requires LibScriptableTimer-1.0")
-local L = LibStub("LibScriptableLocale-1.0")
-assert(L, MAJOR .. " requires LibScriptableLocale-1.0")
+local PluginUnitTooltipScan = LibStub("LibScriptablePluginUnitTooltipScan-1.0", true)
+assert(PluginUnitTooltipScan, MAJOR .. " requires LibScriptablePluginUnitTooltipScan-1.0")
+local LibHook = LibStub("LibScriptableUtilsHook-1.0", true)
+assert(LibHook, MAJOR .. " requires LibScriptableUtilsHook-1.0")
+local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
+assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
+local L = LibStub("LibScriptableUtilsLocale-1.0")
+assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
 L = L.L
 
 local _G = _G
@@ -481,7 +481,7 @@ ScriptEnv.Name = Name
 
 local function Guild(unit, tooltip)
 	if tooltip then
-		return select(2, PluginUnitTooltipStats.GetUnitTooltipStats(unit))
+		return select(2, PluginUnitTooltipScan.GetUnitTooltipStats(unit))
 	else
 		return select(1, GetGuildInfo(unit))
 	end

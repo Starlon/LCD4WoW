@@ -5,8 +5,8 @@ local PluginFail = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginFail then return end
 local LibFail = LibStub("LibFail-1.0", true)
 assert(LibFail, MAJOR .. " requires LibFail-1.0")
-local L = LibStub("LibScriptableLocale-1.0")
-assert(L, MAJOR .. " requires LibScriptableLocale-1.0")
+local L = LibStub("LibScriptableUtilsLocale-1.0")
+assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
 L = L.L
 
 local fail_events = LibFail:GetSupportedEvents()

@@ -3,8 +3,8 @@ local MINOR = 16
 
 local PluginNoise = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginNoise then return end
-local LibBuffer = LibStub("LibScriptableBuffer-1.0", true)
-assert(LibBuffer, MAJOR .. " requires LibScriptableBuffer-1.0")
+local LibBuffer = LibStub("LibScriptableUtilsBuffer-1.0", true)
+assert(LibBuffer, MAJOR .. " requires LibScriptableUtilsBuffer-1.0")
 
 local frame = CreateFrame("Frame")
 local data = {}

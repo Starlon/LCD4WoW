@@ -51,7 +51,7 @@ function LibProperty:New(widget, visitor, name, expression, defval, errorLevel)
 	obj.errorLevel = errorLevel
 
 	obj.is_valid = true
-	obj.error = LibStub("LibScriptableError-1.0"):New(MAJOR, errorLevel)
+	obj.error = LibStub("LibScriptableUtilsError-1.0"):New(MAJOR, errorLevel)
 	
 	if type(expression) ~= "string" then 
 		obj.is_valid = false; 

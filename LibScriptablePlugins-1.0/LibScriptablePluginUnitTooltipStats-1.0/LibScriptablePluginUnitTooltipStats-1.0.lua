@@ -1,5 +1,5 @@
 
-local MAJOR = "LibScriptablePluginUnitTooltipStats-1.0" 
+local MAJOR = "LibScriptablePluginUnitTooltipScan-1.0" 
 local MINOR = 16
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibUnitTooltipStats = LibStub:NewLibrary(MAJOR, MINOR)

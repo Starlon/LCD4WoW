@@ -21,7 +21,7 @@ function PluginColor:New(environment)
 	return environment
 end
 
-local LibEvaluator = LibStub("LibScriptableEvaluator-1.0")
+local LibEvaluator = LibStub("LibScriptableUtilsEvaluator-1.0")
 local pool = setmetatable({}, {__mode = "k"})
 
 local function new()

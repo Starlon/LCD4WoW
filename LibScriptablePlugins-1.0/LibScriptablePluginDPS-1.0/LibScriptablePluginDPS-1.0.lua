@@ -2,8 +2,8 @@ local MAJOR = "LibScriptablePluginDPS-1.0"
 local MINOR = 16
 local PluginDPS = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginDPS then return end
-local LibTimer = LibStub("LibScriptableTimer-1.0", true)
-assert(LibTimer, MAJOR .. " requires LibScriptableTimer-1.0")
+local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
+assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
 
 local _G = _G
 local frame = CreateFrame("Frame")

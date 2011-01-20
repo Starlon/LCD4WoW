@@ -18,8 +18,8 @@ local PluginColor = LibStub("LibScriptablePluginColor-1.0", true)
 assert(PluginColor, MAJOR .. " requires LibScriptablePluginColor-1.0")
 PluginColor = PluginColor:New({})
 
-local L = LibStub("LibScriptableLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableLocale-1.0")
+local L = LibStub("LibScriptableUtilsLocale-1.0", true)
+assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
 L = L.L
 
 local pool = setmetatable({}, {__mode = "k"})
