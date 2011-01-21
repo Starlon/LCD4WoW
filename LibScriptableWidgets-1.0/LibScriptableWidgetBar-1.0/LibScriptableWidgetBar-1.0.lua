@@ -54,7 +54,7 @@ local widgetType = {bar = true}
 -- @param layer This widget's layer
 -- @param errorLevel The errorLevel for this object
 -- @param callback This widget's real draw function
--- @param data Some data to pass back through the callback
+-- @param data Some data to pass back through the draw function
 -- @return A new LibScriptableWidgetBar object
 function WidgetBar:New(visitor, name, config, row, col, layer, errorLevel, callback, data) 
 
