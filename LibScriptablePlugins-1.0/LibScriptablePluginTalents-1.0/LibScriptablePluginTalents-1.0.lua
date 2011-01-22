@@ -260,10 +260,8 @@ end
 function PluginTalents.UnitILevel(unit)
 	if type(unit) ~= "string" then return end
 	local guid = UnitGUID(unit)
-	if not UnitExists(unit) then return L["Unknown"] end
+	if not UnitIsPlayer(unit) or not UnitExists(unit) then return end
 	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
-	if not UnitIsPlayer(unit) then return end
-	
 	
 	local periods = ""
 	for i = 0, count % 3 do
@@ -280,10 +278,9 @@ end
 
 function PluginTalents.SpecText(unit)
 	if type(unit) ~= "string" then return end
-	if not UnitExists(unit) then return L["Unknown"] end
+	if not UnitIsPlayer(unit) or not UnitExists(unit) then return end
 	local guid = UnitGUID(unit)
 	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
-	if not UnitIsPlayer(unit) then return end
 	local guid = UnitGUID(unit)
 			
 	local periods = ""
@@ -301,7 +298,9 @@ function PluginTalents.SpecText(unit)
 	local name = cur[spec[guid].tab][1]
 	local texture = cur[spec[guid].tab][3]
 	
-	return ('|T%s:12|t %s (%d/%d/%d)'):format(texture, name, one, two, three)
+	if not name or not texture or not one or not two or not three then return end
+	
+	return ('|T%s:12|t %s (%d/%d/%d)'):format(texture or "", name, one, two, three)
 end
 
 function PluginTalents.GetSpec(unit)
