@@ -341,7 +341,7 @@ local function onTooltipSetUnit()
 	
 	local guid = UnitGUID(unit)
 	
-	if spec_cache[guid] then
+	if spec_cache[guid] and spec_cache[guid].ilvl then
 		spec[guid] = spec_cache[guid]
 		spec_cache[guid] = nil
 	else
