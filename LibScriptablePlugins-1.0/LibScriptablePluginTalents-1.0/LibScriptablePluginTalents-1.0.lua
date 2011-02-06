@@ -2,8 +2,8 @@ local MAJOR = "LibScriptablePluginTalents-1.0"
 local MINOR = 16
 local PluginTalents = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginTalents then return end
-local GroupTalents = LibStub("LibGroupTalents-1.0", true)
-assert(GroupTalents, MAJOR .. " requires LibGroupTalents-1.0")
+--local GroupTalents = LibStub("LibGroupTalents-1.0", true)
+--assert(GroupTalents, MAJOR .. " requires LibGroupTalents-1.0")
 local TalentQuery = LibStub("LibTalentQuery-1.0", true)
 assert(TalentQuery, MAJOR .. " requires LibTalentQuery-1.0")
 local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
@@ -139,6 +139,7 @@ local function sortfunc(a, b)
 	return a>b
 end
 
+--[[
 function PluginTalents:OnUpdate(event, guid, unitid, newSpec, talent1, talent2, talent3)
 	local class = UnitClass(unitid)
 	if not talentTrees[class] then return end
@@ -190,6 +191,7 @@ function PluginTalents:OnUpdate(event, guid, unitid, newSpec, talent1, talent2, 
 	
 	frame:SetScript("OnUpdate", ItemOnUpdate)
 end
+--]]
 
 function PluginTalents:TalentQuery_Ready(e, name, realm, unitid)
 	local class = UnitClass(unitid)
@@ -330,11 +332,11 @@ end
 local function onTooltipSetUnit()
 	
 	local _, unit = GameTooltip:GetUnit()
-	
-	if not CheckInteractDistance(unit, 1) then return end
+
+	if not unit or not CheckInteractDistance(unit, 1) then return end
 	
 	if unit then
-		GroupTalents:RefreshTalentsByUnit(unit)
+		--GroupTalents:RefreshTalentsByUnit(unit)
 	end
 	
 	if not UnitIsPlayer(unit) then return end
@@ -363,7 +365,7 @@ local function onHide()
 end
 GameTooltip:HookScript("OnHide", onHide)
 
-GroupTalents.RegisterCallback(PluginTalents, "LibGroupTalents_Update", "OnUpdate")
+--GroupTalents.RegisterCallback(PluginTalents, "LibGroupTalents_Update", "OnUpdate")
 TalentQuery.RegisterCallback(PluginTalents, "TalentQuery_Ready")
 TalentQuery.RegisterCallback(PluginTalents, "LibGroupTalents_RoleChange", "OnRoleChange")
 throttleTimer = LibTimer:New(MAJOR .. " throttle timer", THROTTLE_TIME, true, PluginTalents.SendQuery)
