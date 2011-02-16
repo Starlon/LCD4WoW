@@ -127,7 +127,7 @@ local function ItemOnUpdate(elapsed)
 		end
 		
 		if guid and spec[guid] and count > 0 then
-			spec[guid].ilvl = floor(total / 17 + 0.5)
+			spec[guid].ilvl = floor(total / count + 0.5)
 		end
 		
 		frame:SetScript("OnUpdate", nil)
