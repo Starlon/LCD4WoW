@@ -3,16 +3,16 @@ local MINOR = 17
 
 local PluginFail = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginFail then return end
-local LibFail = LibStub("LibFail-1.0", true)
-assert(LibFail, MAJOR .. " requires LibFail-1.0")
+local LibFail = LibStub("LibFail-2.0", true)
+assert(LibFail, MAJOR .. " requires LibFail-2.0")
 local L = LibStub("LibScriptableUtilsLocale-1.0")
 assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
 L = L.L
 
-local fail_events = LibFail:GetSupportedEvents()
+local libfail_events = LibFail:GetSupportedEvents()
 local fails = {}
 local fails_events = {}
-local fails_spells = {}
+local fails_by_who = {}
 local fails_types = {}
 local ScriptEnv = {}
 
@@ -33,11 +33,11 @@ end
 -- @param unit The unit in question
 -- @param spell An optional spell id
 -- @return The unit's number of failures
-local function NumFails(unit, spell)
+local function NumFails(unit)
 	local name = UnitName(unit)
 	local count = 0
 	for i, v in ipairs(fails) do
-		if name == v.who and (spell == nil or spell == v.spell) then
+		if unit == v.who or name == v.who then
 			count = count + 1
 		end
 	end
@@ -96,15 +96,6 @@ local function GetFailsForEvent(event)
 end
 ScriptEnv.GetFailsForEvent = GetFailsForEvent
 
--- Return all failures for a given spell id
--- @usage GetFailsForSpell(spellid)
--- @return A list of all fails related to the spell id
-local function GetFailsForSpell(spellid)
-	if type(spellid) ~= "number" then return end
-	return fails_spells[spellid]
-end
-ScriptEnv.GetFailsForSPell = GetFailsForSPell
-
 -- Return all failures of the said LibFail type
 -- @usage GetFailsForType(ftype)
 -- @param ftype A LibFail type, i.e. notmoving, spreading, wrongplace, etc...
@@ -114,18 +105,6 @@ local function GetFailsForType(ftype)
 	return fails_types[ftype]
 end
 ScriptEnv.GetFailsForType = GetFailsForType
-
-local types = {}
-types.notmoving = L["Failed at not moving"]
-types.moving = L["Failed at moving"]
-types.spreading = L["Failed at not spreading"]
-types.dispelling = L["Failed at dispelling"]
-types.notdispelling = L["Failed at not dispelling"]
-types.wrongplace = L["At the wrong place at the wrong time"]
-types.notcasting = L["Shouldn't be casting"]
-types.notattacking = L["Shouldn't be attacking"]
-types.casting = L["Not casting"]
-types.switching = L["Failed at switching tank"]
 
 -- Return a localized string of a failure type
 -- @usage GetFailLocalization(type)
@@ -137,24 +116,21 @@ end
 ScriptEnv.GetFailLocalization = GetFailLocalization
 
 local function onFail(event, who, type)
-	local id = LibFail:GetEventSpellId(event)
-	local name, _, icon = GetSpellInfo(id)
+	local desc = LibFail:GetEventDescription(event)
 	
-	if not name then return end
-	
-	local fail = {spell={id=id, name=name, icon=icon}, event=event, who=who, type=type, time=GetTime()}
+	local fail = {event=event, who=who, type=type, time=GetTime()}
 
 	fails_events[event] = fails_events[event] or {}
-	fails_spells[id] = fails_events[id] or {}
+	fails_by_who[who] = fails_by_who[who] or {}
 	fails_types[type] = fails_types[type] or {}
 	
 	tinsert(fails_events[event], fail)
-	tinsert(fails_spells[id], fail)
 	tinsert(fails_types[type], fail)
+	tinsert(fails_by_who[who], fail)
 	tinsert(fails, fail)
 end
 
-for _, event in ipairs(fail_events) do
+for _, event in ipairs(libfail_events) do
     LibFail.RegisterCallback(PluginFail, event, onFail)
 end
 
