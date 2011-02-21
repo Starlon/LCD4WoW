@@ -114,8 +114,9 @@ end
 -- @usage object:Start([duration], [data])
 -- @param duration The duration in milliseconds. This is optional.
 -- @param data Replace the timer's data that will be sent through the callback with this value
+-- @param func Replace the timer's callback function
 -- @return True if the timer was started
-function LibTimer:Start(duration, data)
+function LibTimer:Start(duration, data, func)
 	if type(duration) == "number" then
 		self.duration = duration / 1000
 	end
@@ -127,7 +128,9 @@ function LibTimer:Start(duration, data)
 	self.active = 1
 	sort(objects, sortfunc)	
 	
-	if type(data) ~= "nil" then self.data = data end
+	self.data = data or self.data
+	if type(func) == "function" then self.callback = func end
+	
 	return startTimers()
 end
 

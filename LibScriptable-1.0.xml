@@ -15,7 +15,8 @@
 <Include file = "Libs\AceComm-3.0\AceComm-3.0.xml"/>
 <Include file = "Libs\LibLinq-1.0\lib.xml"/>
 <Include file = "Libs\LibBossIDs-1.0\lib.xml"/>
-<Include file = "Libs\LibFail-1.0\lib.xml"/>
+<Include file = "Libs\LibFail-2.0\embeds.xml"/>
+<Include file = "Libs\LibFail-2.0\lib.xml"/>
 
 <Include file = "LibScriptableUtils-1.0\LibScriptableUtils-1.0.xml"/>
 <Include file = "LibScriptablePlugins-1.0\LibScriptablePlugins-1.0.xml"/>

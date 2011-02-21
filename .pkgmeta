@@ -26,8 +26,8 @@ externals:
         url: svn://svn.wowace.com/wow/libmousegestures-1-0/mainline/trunk
     Libs/LibUnitControl-1.0:
         url: svn://svn.wowace.com/wow/libunitcontrol-1-0/mainline/trunk/LibUnitControl-1.0
-    Libs/LibFail-1.0:
-        url: svn://svn.wowace.com/wow/libfail-1-0/mainline/trunk
+    Libs/LibFail-2.0:
+        url: svn://svn.wowace.com/wow/libfail-2-0/mainline/trunk
     Libs/LibNameplate-1.0:
         url: svn://svn.wowace.com/wow/libnameplate-1-0/mainline/trunk/LibNameplate-1.0
     Libs/LibTransition-1.0:

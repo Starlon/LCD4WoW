@@ -1257,10 +1257,6 @@ local protected_events = {
 	['PARTY_MEMBERS_CHANGED'] = true,
 }
 
-local timerframe = CreateFrame("Frame")
-PluginLuaTexts.timerframe = timerframe
-timerframe:Hide()
-
 function PluginLuaTexts:SetCVar()
 	predicted_power = GetCVarBool("predictedPower")
 end
