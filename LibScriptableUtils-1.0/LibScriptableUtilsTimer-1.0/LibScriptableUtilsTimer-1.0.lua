@@ -12,6 +12,7 @@ local pool = setmetatable({}, {__mode = "k"})
 local objects = {}
 local update
 local frame = CreateFrame("Frame")
+local throttleFrame = CreateFrame("Frame")
 
 local DEFAULT_LIMIT = 100
 
@@ -50,6 +51,17 @@ end
 
 local function sortfunc(a, b)
 	return a.active > b.active
+end
+
+local throttleElapsed = 0
+local throttleFunc = function(frame, elapsed)
+	throttleElapsed = throttleElapsed + elapsed
+	if throttleElapsed < 0.05 then
+		return
+	end
+	throttleElapsed = 0
+	sort(objects, sortfunc)	
+	throttleFrame:SetScript("OnUpdate", nil)
 end
 
 --- Create a new LibTimer object
@@ -126,8 +138,9 @@ function LibTimer:Start(duration, data, func)
 	self.timer = 0
 	self.startTime = GetTime()
 	self.active = 1
-	sort(objects, sortfunc)	
-	
+	throttleElapsed = 0
+	throttleFrame:SetScript("OnUpdate", throttleFunc)
+
 	self.data = data or self.data
 	if type(func) == "function" then self.callback = func end
 	
@@ -139,7 +152,8 @@ end
 -- @return True if the timer was stopped
 function LibTimer:Stop()
 	self.active = 0
-	sort(objects, sortfunc)	
+	throttleElapsed = 0
+	throttleFrame:SetScript("OnUpdate", throttleFunc)
 	return stopTimers()
 end
 
