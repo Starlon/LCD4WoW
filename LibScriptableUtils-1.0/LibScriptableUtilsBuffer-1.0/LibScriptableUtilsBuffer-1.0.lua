@@ -63,7 +63,7 @@ function LibBuffer:New(name, size, defval, errorLevel)
 
 	obj.name = name
 	obj.defval = defval or " "
-	obj.error = LibError:New(MAJOR .. " " .. name, errorLevel)
+	obj.error = LibError:New(name, errorLevel)
 	obj:Resize(size)
 
 	return obj
