@@ -109,6 +109,8 @@ function LibAVSSuperScope:New(name, config, errorLevel)
 	obj.config = config
 
 
+	obj.core = LibCore:New(obj, "AVSSuperScope")
+	
 	obj.buffer = LibBuffer:New(MAJOR .. " buffer", obj.width * obj.height, 0, errorLevel)
 
 	return obj
