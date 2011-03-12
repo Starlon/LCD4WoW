@@ -118,4 +118,10 @@ do
 
 		return ret1, ret2, ret3, ret4
 	end
+	
+	--- Retrieve a piece of code's runnable object
+	--
+	LibEvaluator.GetRunnable = function(self, tag, code, dontSandbox, defval)
+		LibEvaluator.ExecuteCode(self, tag, code, dontSandbox, defval, true, false)
+	end
 end
