@@ -1,3 +1,5 @@
+--- These blend function were borrowed from Winamp's open source AVS code.
+
 local MAJOR = "LibScriptablePluginBlend-1.0"
 local MINOR = 17
 assert(LibStub, MAJOR.." requires LibStub")
