@@ -1,3 +1,5 @@
+--- This file borrows from Winamp's AVS code.
+
 local MAJOR = "LibScriptableImagesAVSSuperScope-1.0"
 local MINOR = 17
 assert(LibStub, MAJOR.." requires LibStub")
