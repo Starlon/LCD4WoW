@@ -1,6 +1,6 @@
 
 local MAJOR = "LibScriptableUtilsProperty-1.0" 
-local MINOR = 17
+local MINOR = 18
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibProperty = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibProperty then return end

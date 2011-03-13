@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableWidgetGestures-1.0" 
-local MINOR = 17
+local MINOR = 18
 
 assert(LibStub, MAJOR.." requires LibStub") 
 local WidgetGestures = LibStub:NewLibrary(MAJOR, MINOR)

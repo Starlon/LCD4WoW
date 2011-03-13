@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableLCDCoreLite-1.0" 
-local MINOR = 17
+local MINOR = 18
 
 local LibCore = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibCore then return end

@@ -1,6 +1,6 @@
 
 local MAJOR = "LibScriptableUtilsTimer-1.0" 
-local MINOR = 17
+local MINOR = 18
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibTimer = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibTimer then return end
@@ -9,10 +9,15 @@ assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
 
 local pool = setmetatable({}, {__mode = "k"})
 
-local objects = {}
+local cache = {}
+local storage = {}
 local update
 local frame = CreateFrame("Frame")
 local throttleFrame = CreateFrame("Frame")
+local manageFrame = CreateFrame("Frame")
+frame:Show()
+throttleFrame:Show()
+manageFrame:Show()
 
 local DEFAULT_LIMIT = 100
 
@@ -20,10 +25,55 @@ if not LibTimer.__index then
 	LibTimer.__index = LibTimer
 end
 
+local function sortfunc(a, b)
+	return a.active > b.active
+end
+
+local manageElapsed = 0
+local function manageTimers(frame, elapsed) 
+	manageElapsed = manageElapsed + elapsed
+	if manageElapsed < 1 then
+		return
+	end
+	manageElapsed = 0
+	local now = GetTime()
+	local removal = {}
+	local doSort = false
+	for i, v in ipairs(storage) do
+		if v.active ~= 0 then
+			tinsert(cache, v)
+			tinsert(removal, 1)
+			v.lastUpdate = now
+			doSort = true
+		end
+	end
+	for i, v in ipairs(removal) do
+		tremove(storage, v)
+	end
+	wipe(removal)
+	for i, v in ipairs(cache) do
+		if (now - v.lastUpdate) > 5 and v.active == 0 then
+			tinsert(storage, v)
+			tinsert(removal, i)
+		end
+	end
+	for i, v in ipairs(removal) do
+		tremove(cache, v)
+		doSort = true
+	end
+	if doSort then
+		sort(cache, sortfunc)
+		throttleFrame:SetScript("OnUpdate", nil)
+		throttleElapsed = 0
+	end
+	ChatFrame1:AddMessage("cache size " .. #cache)
+end
+--manageFrame:SetScript("OnUpdate", manageTimers)
+
 local function stopTimers()
 	local stop = true
-	for i, v in ipairs(objects) do
-		if v.active > 0 then
+	for i, v in ipairs(cache) do
+		if v.active ~= 0 then
 			stop = false
 		end
 	end
@@ -37,8 +87,8 @@ end
 
 local function startTimers()
 	local start = false
-	for i, v in ipairs(objects) do
-		if v.active > 0 then
+	for i, v in ipairs(cache) do
+		if v.active ~= 0 then
 			start = true
 		end
 	end
@@ -49,10 +99,6 @@ local function startTimers()
 	return false
 end
 
-local function sortfunc(a, b)
-	return a.active > b.active
-end
-
 local throttleElapsed = 0
 local throttleFunc = function(frame, elapsed)
 	throttleElapsed = throttleElapsed + elapsed
@@ -60,7 +106,7 @@ local throttleFunc = function(frame, elapsed)
 		return
 	end
 	throttleElapsed = 0
-	sort(objects, sortfunc)	
+	sort(cache, sortfunc)	
 	throttleFrame:SetScript("OnUpdate", nil)
 end
 
@@ -95,8 +141,9 @@ function LibTimer:New(name, duration, repeating, callback, data, errorLevel)
 	obj.data = data
 	obj.errorLevel = errorLevel
 	obj.active = 0
+	obj.lastUpdate = 0
 	
-	tinsert(objects, obj)
+	tinsert(cache, obj)
 		
 	return obj	
 	
@@ -110,14 +157,14 @@ function LibTimer:Del()
 	pool[timer] = true
 	timer:Stop()
 	timer.error:Del()
-	for i, o in ipairs(objects) do
+	for i, o in ipairs(cache) do
 		if o == timer then
 			timer.i = i
 			break
 		end
 	end
 	if timer.i then
-		tremove(objects, timer.i)
+		tremove(cache, timer.i)
 		timer.i = false
 	end
 end
@@ -153,7 +200,7 @@ end
 function LibTimer:Stop()
 	self.active = 0
 	throttleElapsed = 0
-	throttleFrame:SetScript("OnUpdate", throttleFunc)
+	--throttleFrame:SetScript("OnUpdate", throttleFunc)
 	return stopTimers()
 end
 
@@ -176,7 +223,7 @@ update = function(self, elapsed)
 		timer = timer + elapsed
 		return
 	end
-	for i, o in ipairs(objects) do
+	for i, o in ipairs(cache) do
 		if o.active == 0 then
 			break
 		else

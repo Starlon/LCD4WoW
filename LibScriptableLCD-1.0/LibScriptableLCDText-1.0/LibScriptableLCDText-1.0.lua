@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableLCDText-1.0"
-local MINOR = 17
+local MINOR = 18
 assert(LibStub, MAJOR.." requires LibStub")
 local LCDText = LibStub:NewLibrary(MAJOR, MINOR)
 if not LCDText then return end

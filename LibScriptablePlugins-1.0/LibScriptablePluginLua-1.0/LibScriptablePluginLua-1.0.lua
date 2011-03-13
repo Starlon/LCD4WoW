@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginLua-1.0" 
-local MINOR = 17
+local MINOR = 18
 
 local PluginLua = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginLua then return end
