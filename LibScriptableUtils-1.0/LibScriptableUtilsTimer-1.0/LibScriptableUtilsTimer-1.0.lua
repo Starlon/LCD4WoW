@@ -206,10 +206,6 @@ local canceled_in_OnFinished
 -- @usage object:Stop()
 -- @return True if the timer was stopped
 function LibTimer:Stop()
-		if not handle then return end
-		if type(handle) ~= "string" then
-			error(MAJOR..": CancelTimer(handle): 'handle' - expected a string", 2)
-		end
 		self.timer:GetParent():Stop()
 end
 
