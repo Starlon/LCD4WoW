@@ -169,17 +169,13 @@ function LibTimer:Start(duration, data, func)
 	local repeating = self.repeating
 	local ag = timer:GetParent()
 	
-	if delay == 0 then
-		do return end
+	timer:SetScript("OnFinished",OnFinished)
+	timer:SetScript("OnUpdate",nil)
+	timer:SetDuration(delay)
+	if repeating then
+		ag:SetLooping("REPEAT")
 	else
-		timer:SetScript("OnFinished",OnFinished)
-		timer:SetScript("OnUpdate",nil)
-		timer:SetDuration(delay)
-		if repeating then
-			ag:SetLooping("REPEAT")
-		else
-			ag:SetLooping("NONE")
-		end
+		ag:SetLooping("NONE")
 	end
 	
 	ag:Play()
@@ -208,9 +204,13 @@ function LibTimer:TimeRemaining()
 	local time = GetTime()
 	local diff = time - self.startTime
 	
-	return time - diff
+	return time -  diff
 end
 
 function OnFinished(self, elapsed)
-	safecall(self.obj.callback, self.obj.data)
+	if self.safecall then 
+		safecall(self.obj.callback, self.obj.data)
+	else
+		self.obj.callback(self.obj.data)
+	end
 end
