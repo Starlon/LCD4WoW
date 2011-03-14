@@ -259,30 +259,30 @@ function PluginTalents.SendQuery(unit)
 	end
 end
 
-function PluginTalents.UnitILevel(unit)
+function PluginTalents.UnitILevel(unit, returnNil)
 	if type(unit) ~= "string" then return end
 	local guid = UnitGUID(unit)
 	if not UnitIsPlayer(unit) or not UnitExists(unit) then return end
-	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 	
 	local periods = ""
 	for i = 0, count % 3 do
 		periods = periods .. "."
 	end
 	count = count + 1
+
+	if not spec[guid] and returnNil then return nil end
 	
-	local talentGroup = spec[guid] and spec[guid].talentGroup
-	
+	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
+
 	if not spec[guid] or not spec[guid].ilvl then return L["Loading"] .. periods end
-	
+
 	return format("%d", spec[guid].ilvl)
 end
 
-function PluginTalents.SpecText(unit)
+function PluginTalents.SpecText(unit, returnNil)
 	if type(unit) ~= "string" then return end
 	if not UnitIsPlayer(unit) or not UnitExists(unit) then return end
 	local guid = UnitGUID(unit)
-	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 	local guid = UnitGUID(unit)
 			
 	local periods = ""
@@ -290,9 +290,13 @@ function PluginTalents.SpecText(unit)
 		periods = periods .. "."
 	end
 	count = count + 1
-	
+	
+	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
+
 	if not spec[guid] then return L["Loading"] .. periods end
-	
+
+	if not spec[guid] and returnNil then return nil end
+
 	local cur = spec[guid][spec[guid].talentGroup]
 	local one = cur[1][2]
 	local two = cur[2][2]
