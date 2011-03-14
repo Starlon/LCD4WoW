@@ -215,6 +215,19 @@ function LibBuffer:AsString()
 	return str
 end
 
+--- Return the buffer as a list
+-- @usage :AsString()
+-- @return All cells in the buffer populating a list
+function() LibBuffer:AsList(list)
+	list = list or {}
+	
+	for i = 0, self:Size() - 1 do
+		tinsert(list, self.buffer[i])
+	end
+	
+	return list
+end
+
 -- Populate each cell in the buffer with characters from the provided string
 -- @usage :FromString(str)
 -- @param str The string which to populate the buffer with
@@ -403,6 +416,8 @@ function LibBuffer:MovingAverageExp(alpha, epsilon, buf)
 
 	return result
 end
+
+-- The various line algorithms were found on the internet at various places. Some of these don't work. Line4() is the most efficient.
 
 function LibBuffer:Line(x0, y0, x1, y1, color, pitch)
 	local dx = x1 - x0;
