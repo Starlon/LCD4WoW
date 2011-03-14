@@ -417,7 +417,10 @@ function LibBuffer:MovingAverageExp(alpha, epsilon, buf)
 	return result
 end
 
--- The various line algorithms were found on the internet at various places. Some of these don't work. Line4() is the most efficient.
+-- The various line algorithms were found on the internet at various places. 
+-- Some of these were at the website of associate professor Leonard McMillan: 
+-- http://www.cs.unc.edu/~mcmillan/comp136/Lecture6/Lines.html
+-- Some of these don't work. Line4() is the most efficient.
 
 function LibBuffer:Line(x0, y0, x1, y1, color, pitch)
 	local dx = x1 - x0;
