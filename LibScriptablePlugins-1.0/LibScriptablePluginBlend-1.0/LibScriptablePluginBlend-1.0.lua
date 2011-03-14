@@ -8,8 +8,14 @@ if not LibPluginBlend then return end
 local LibError = LibStub("LibScriptableUtilsError-1.0")
 assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
 
-local ScriptEnv = {}
+local bit = bit
+local band = bit.band
+local bor = bit.bor
+local bxor = bit.bxor
+local lshift = bit.lshift
+local rshift = bit.rshift
 
+local ScriptEnv = {}
 local blendtable = {}
 
 for j = 0, 255 do
@@ -30,144 +36,145 @@ function LibPluginBlend:New(environment)
 	return environment
 end
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function BLEND(a, b)
-	local r=bit.band(a,0xff)+bit.band(b,0xff);
+	local r=band(a,0xff)+band(b,0xff);
 	local t=min(r,0xff);
-	r=bit.band(a,0xff00)+bit.band(b,0xff00);
-	t = bit.bor(t, min(r,0xff00))
-	r=bit.band(a,0xff0000)+bit.band(b,0xff0000);
-	t = bit.bor(t, min(r,0xff0000))
-	r=bit.band(a,0xff000000)+bit.band(b,0xff000000);
-	return bit.bor(t,min(r,0xff000000))
+	r=band(a,0xff00)+band(b,0xff00);
+	t = bor(t, min(r,0xff00))
+	r=band(a,0xff0000)+band(b,0xff0000);
+	t = bor(t, min(r,0xff0000))
+	r=band(a,0xff000000)+band(b,0xff000000);
+	return bor(t,min(r,0xff000000))
 end
 ScriptEnv.BLEND = BLEND
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND_MAX(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function BLEND_MAX(a, b)
-	local _a=bit.band(a, 0xff)
-	local _b=bit.band(b, 0xff)
+	local _a=band(a, 0xff)
+	local _b=band(b, 0xff)
 	local t=max(_a,_b);
-	_a=bit.band(a, 0xff00)
-	_b=bit.band(b, 0xff00)
-	t = bit.bor(t, max(_a,_b))
-	_a = bit.band(a, 0xff0000)
-	_b = bit.band(b, 0xff0000)
-	t = bit.bor(t, max(_a,_b))
+	_a=band(a, 0xff00)
+	_b=band(b, 0xff00)
+	t = bor(t, max(_a,_b))
+	_a = band(a, 0xff0000)
+	_b = band(b, 0xff0000)
+	t = bor(t, max(_a,_b))
 	return t;
 
 end
 ScriptEnv.BLEND_MAX = BLEND_MAX
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND_MIN(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function BLEND_MIN(a, b)
-	local _a=bit.band(a, 0xff)
-	local _b=bit.band(b, 0xff)
+	local _a=band(a, 0xff)
+	local _b=band(b, 0xff)
 	local t=min(_a,_b);
-	_a=bit.band(a, 0xff00)
-	_b=bit.band(b, 0xff00)
-	t = bit.bor(t, min(_a,_b))
-	_a = bit.band(a, 0xff0000)
-	_b = bit.band(b, 0xff0000)
-	t = bit.bor(t, min(_a,_b))
+	_a=band(a, 0xff00)
+	_b=band(b, 0xff00)
+	t = bor(t, min(_a,_b))
+	_a = band(a, 0xff0000)
+	_b = band(b, 0xff0000)
+	t = bor(t, min(_a,_b))
 	return t;
 end
 ScriptEnv.BLEND_MIN = BLEND_MIN
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function BLEND_AVG(a, b)
-	a = bit.rshift(a, 1)
-	b = bit.rshift(b, 1)
-	local l1 = bit.lshift(1, 7)
-	local l2 = bit.lshift(1, 15)
-	local l3 = bit.lshift(1, 23)
-	return bit.band(a, bit.bnot(bit.bor(l1, bit.bor(l2, l3)))) + bit.band(b, bit.bnot(bit.bor(l1, bit.bor(l2, l3))))
+	a = rshift(a, 1)
+	b = rshift(b, 1)
+	local l1 = lshift(1, 7)
+	local l2 = lshift(1, 15)
+	local l3 = lshift(1, 23)
+	return band(a, bnot(bor(l1, bor(l2, l3)))) + band(b, bnot(bor(l1, bor(l2, l3))))
 end
 ScriptEnv.BLEND_AVG = BLEND_AVG
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND_SUB(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function BLEND_SUB(a, b)
-	local r=bit.band(a, 0xff)-bit.band(b, 0xff);
+	local r=band(a, 0xff)-band(b, 0xff);
 	local t = max(r, 0)
-	r=bit.band(a, 0xff00)-bit.band(b, 0xff00);
-	t = bit.bor(t, max(r,0))
-	r=bit.band(a, 0xff0000)-bit.band(b, 0xff0000);
-	t = bit.bor(t, max(r,0))
-	r=bit.band(a, 0xff000000)-bit.band(b, 0xff000000);
-	return bit.bor(t, max(r,0))
+	r=band(a, 0xff00)-band(b, 0xff00);
+	t = bor(t, max(r,0))
+	r=band(a, 0xff0000)-band(b, 0xff0000);
+	t = bor(t, max(r,0))
+	r=band(a, 0xff000000)-band(b, 0xff000000);
+	return bor(t, max(r,0))
 end
 ScriptEnv.BLEND_SUB = BLEND_SUB
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND_ADJ(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function  BLEND_ADJ(a, b, v)
-	local t = blendtable[bit.band(a, 0xff)][v]+blendtable[bit.band(b, 0xff)][0xff-v]
-	t = bit.bor(t, bit.lshift(blendtable[bit.rshift(bit.band(a, 0xff00), 8)][v]+blendtable[bit.rshift(bit.band(b, 0xff00), 8)][0xff-v], 8))
-	t = bit.bor(t, bit.lshift(blendtable[bit.rshift(bit.band(a, 0xff00), 16)][v]+blendtable[bit.rshift(bit.band(b, 0xff0000), 16)][0xff-v], 16))
+	local t = blendtable[band(a, 0xff)][v]+blendtable[band(b, 0xff)][0xff-v]
+	t = bor(t, lshift(blendtable[rshift(band(a, 0xff00), 8)][v]+blendtable[rshift(band(b, 0xff00), 8)][0xff-v], 8))
+	t = bor(t, lshift(blendtable[rshift(band(a, 0xff00), 16)][v]+blendtable[rshift(band(b, 0xff0000), 16)][0xff-v], 16))
 	return t;
 end
 ScriptEnv.BLEND_ADJ = BLEND_ADJ
 
--- Blend two colors
+--- Blend two colors
 -- @usage BLEND_MUL(a, b)
 -- @param a First color to blend
 -- @param b Second color to blend
 -- @return The new color
 local function BLEND_MUL(a, b)
-	local t = blendtable[bit.band(a, 0xff)][bit.band(b, 0xff)]
-	t = bit.bor(t, bit.lshift(blendtable[bit.rshift(bit.band(a, 0xff00), 8)][bit.rshift(bit.band(b, 0xff00), 8)], 8))
-	t = bit.bor(t, bit.lshift(blendtable[bit.rshift(bit.band(a, 0xff0000), 16)][bit.rshift(bit.band(b, 0xff0000), 16)], 16))
+	local t = blendtable[band(a, 0xff)][band(b, 0xff)]
+	t = bor(t, lshift(blendtable[rshift(band(a, 0xff00), 8)][rshift(band(b, 0xff00), 8)], 8))
+	t = bor(t, lshift(blendtable[rshift(band(a, 0xff0000), 16)][rshift(band(b, 0xff0000), 16)], 16))
 	return t;
 end
 ScriptEnv.BLEND_MUL = BLEND_MUL
 
--- Blend a cell within a buffer with a color
+--- Blend a cell within a buffer with a color
 -- @usage BLEND_LINE(line_blend_mod, fb, n, color)
 -- @param line_blend_mode Which mode to blend by
 -- @param fb A table of color values
 -- @param n The position within the table that'll be blended
 -- @param color The color to blend
+-- @return Nothing
 local function BLEND_LINE(line_blend_mode, fb, n, color)
-	if bit.band(line_blend_mode, 0xff) == 2 then
+	if band(line_blend_mode, 0xff) == 2 then
 		fb[n]=BLEND(fb[n],color);
-	elseif bit.band(line_blend_mode, 0xff) == 3 then
+	elseif band(line_blend_mode, 0xff) == 3 then
 		fb[n]=BLEND_MAX(fb[n],color);
-	elseif bit.band(line_blend_mode, 0xff) == 4 then
+	elseif band(line_blend_mode, 0xff) == 4 then
 		fb[n]=BLEND_AVG(fb[n],color);
-	elseif bit.band(line_blend_mode, 0xff) == 5 then
+	elseif band(line_blend_mode, 0xff) == 5 then
 		fb[n]=BLEND_SUB(fb[n],color);
-	elseif bit.band(line_blend_mode, 0xff) == 6 then
+	elseif band(line_blend_mode, 0xff) == 6 then
 		fb[n]=BLEND_SUB(color,fb[n]);
-	elseif bit.band(line_blend_mode, 0xff) == 7 then
+	elseif band(line_blend_mode, 0xff) == 7 then
 		fb[n]=BLEND_MUL(fb[n],color);
-	elseif bit.band(line_blend_mode, 0xff) == 8 then
-		fb[n]=BLEND_ADJ(fb[n], color, bit.band(bit.rshift(line_blend_mode, 8), 0xff))
-	elseif bit.band(line_blend_mode, 0xff) == 9 then
-		fb[n]=bit.bxor(fb[n], color)
-	elseif bit.band(line_blend_mode, 0xff) == 10 then
+	elseif band(line_blend_mode, 0xff) == 8 then
+		fb[n]=BLEND_ADJ(fb[n], color, band(rshift(line_blend_mode, 8), 0xff))
+	elseif band(line_blend_mode, 0xff) == 9 then
+		fb[n]=bxor(fb[n], color)
+	elseif band(line_blend_mode, 0xff) == 10 then
 		fb[n]=BLEND_MIN(fb[n],color);
 	else
 		fb[n]=color;
