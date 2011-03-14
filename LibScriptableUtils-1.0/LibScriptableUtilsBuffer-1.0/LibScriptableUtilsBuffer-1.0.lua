@@ -218,7 +218,7 @@ end
 --- Return the buffer as a list
 -- @usage :AsString()
 -- @return All cells in the buffer populating a list
-function() LibBuffer:AsList(list)
+function LibBuffer:AsList(list)
 	list = list or {}
 	
 	for i = 0, self:Size() - 1 do

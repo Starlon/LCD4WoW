@@ -1,3 +1,5 @@
+-- This file is Copyright (c) 2007-2010, Ace3 Development Team
+-- All rights reserved.
 
 local MAJOR = "LibScriptableUtilsTimer-1.0" 
 local MINOR = 18
@@ -12,103 +14,80 @@ local pool = setmetatable({}, {__mode = "k"})
 local cache = {}
 local storage = {}
 local update
-local frame = CreateFrame("Frame")
-local throttleFrame = CreateFrame("Frame")
-local manageFrame = CreateFrame("Frame")
-frame:Show()
-throttleFrame:Show()
-manageFrame:Show()
+local OnFinish
 
-local DEFAULT_LIMIT = 100
+LibTimer.frame = CreateFrame("Frame", MAJOR)
 
 if not LibTimer.__index then
 	LibTimer.__index = LibTimer
 end
 
-local function sortfunc(a, b)
-	return a.active > b.active
+-- Full timer recycling unlike AceTimer.  We recycle everything because we don't
+-- want to making any more AnimationGroup and Animation objects than necessary.
+local timerCache = {}
+local function new()
+	local timer = next(timerCache)
+	if timer then
+		timerCache[timer] = nil
+	else
+		local ag = LibTimer.frame:CreateAnimationGroup()
+		timer = ag:CreateAnimation("Animation")
+	end
+	return timer
 end
 
-local manageElapsed = 0
-local function manageTimers(frame, elapsed) 
-	manageElapsed = manageElapsed + elapsed
-	if manageElapsed < 1 then
-		return
-	end
-	manageElapsed = 0
-	local now = GetTime()
-	local removal = {}
-	local doSort = false
-	for i, v in ipairs(storage) do
-		if v.active ~= 0 then
-			tinsert(cache, v)
-			tinsert(removal, 1)
-			v.lastUpdate = now
-			doSort = true
-		end
-	end
-	for i, v in ipairs(removal) do
-		tremove(storage, v)
-	end
-	wipe(removal)
-	for i, v in ipairs(cache) do
-		if (now - v.lastUpdate) > 5 and v.active == 0 then
-			tinsert(storage, v)
-			tinsert(removal, i)
-		end
-	end
-	for i, v in ipairs(removal) do
-		tremove(cache, v)
-		doSort = true
-	end
-	if doSort then
-		sort(cache, sortfunc)
-		throttleFrame:SetScript("OnUpdate", nil)
-		throttleElapsed = 0
-	end
-	ChatFrame1:AddMessage("cache size " .. #cache)
-end
---manageFrame:SetScript("OnUpdate", manageTimers)
-
-local function stopTimers()
-	local stop = true
-	for i, v in ipairs(cache) do
-		if v.active ~= 0 then
-			stop = false
-		end
-	end
-	
-	if stop then
-		frame:SetScript("OnUpdate", nil)
-		return true
-	end
-	return false
+local function del(timer)
+	if not timer then return end
+	timerCache[timer] = true
+	return nil
 end
 
-local function startTimers()
-	local start = false
-	for i, v in ipairs(cache) do
-		if v.active ~= 0 then
-			start = true
-		end
-	end
-	if start then
-		frame:SetScript("OnUpdate", update)
-		return true
-	end
-	return false
+--[[
+   xpcall safecall implementation
+]]
+local xpcall = xpcall
+
+local function errorhandler(err)
+	return geterrorhandler()(err)
 end
 
-local throttleElapsed = 0
-local throttleFunc = function(frame, elapsed)
-	throttleElapsed = throttleElapsed + elapsed
-	if throttleElapsed < 0.05 then
-		return
+local function CreateDispatcher(argCount)
+	local code = [[
+	local xpcall, eh = ...  -- our arguments are received as unnamed values in "..." since we don't have a proper function declaration
+	local method, ARGS
+	local function call() return method(ARGS) end
+
+	local function dispatch(func, ...)
+		method = func
+		if not method then return end
+		ARGS = ...
+		return xpcall(call, eh)
 	end
-	throttleElapsed = 0
-	sort(cache, sortfunc)	
-	throttleFrame:SetScript("OnUpdate", nil)
+
+	return dispatch
+	]]
+
+	local ARGS = {}
+	for i = 1, argCount do ARGS[i] = "arg"..i end
+	code = code:gsub("ARGS", tconcat(ARGS, ", "))
+	return assert(loadstring(code, "safecall Dispatcher["..argCount.."]"))(xpcall, errorhandler)
 end
+
+local Dispatchers = setmetatable({}, {
+	__index=function(self, argCount)
+		local dispatcher = CreateDispatcher(argCount)
+		rawset(self, argCount, dispatcher)
+		return dispatcher
+	end
+})
+Dispatchers[0] = function(func)
+	return xpcall(func, errorhandler)
+end
+
+local function safecall(func, ...)
+	return Dispatchers[select('#', ...)](func, ...)
+end
+
 
 --- Create a new LibTimer object
 -- @usage LibScriptableTimer:New(name, duration, repeating, callback, data, errorLevel, durationLimit)
@@ -136,18 +115,21 @@ function LibTimer:New(name, duration, repeating, callback, data, errorLevel)
 	
 	obj.name = name
 	obj.duration = duration / 1000
+	
 	obj.repeating = repeating
 	obj.callback = callback
 	obj.data = data
 	obj.errorLevel = errorLevel
-	obj.active = 0
-	obj.lastUpdate = 0
 	
-	tinsert(cache, obj)
-		
+	local timer = new()
+	obj.timer = timer
+	
+	timer.obj = obj
+			
 	return obj	
 	
 end
+
 
 --- Delete a LibTimer object
 -- @usage object:Del()
@@ -157,16 +139,7 @@ function LibTimer:Del()
 	pool[timer] = true
 	timer:Stop()
 	timer.error:Del()
-	for i, o in ipairs(cache) do
-		if o == timer then
-			timer.i = i
-			break
-		end
-	end
-	if timer.i then
-		tremove(cache, timer.i)
-		timer.i = false
-	end
+	del(timer.timer)
 end
 
 --- Start a timer
@@ -179,29 +152,65 @@ function LibTimer:Start(duration, data, func)
 	if type(duration) == "number" then
 		self.duration = duration / 1000
 	end
+	
 	if self.duration == 0 then
 		return
 	end
-	self.timer = 0
+	
 	self.startTime = GetTime()
-	self.active = 1
-	throttleElapsed = 0
-	throttleFrame:SetScript("OnUpdate", throttleFunc)
-
+		
 	self.data = data or self.data
 	if type(func) == "function" then self.callback = func end
 	
-	return startTimers()
+	local timer = self.timer
+	local delay = self.duration
+	local repeating = self.repeating
+	
+	local ag = timer:GetParent()
+	if delay == 0 then
+		do return end
+		-- If the delay is 0 switch the OnFinished to be called on the next
+		-- OnUpdate.  0 length durations do nothing in the animation system
+		-- so if we want 0 lenth durations to work we have to handle them
+		-- ourselves.
+		timer:SetScript("OnFinished",nil)
+		timer:SetScript("OnUpdate",OnFinished)
+		timer:SetDuration(1) -- just set the delay to 1 second.
+		-- Always setup 0 length durations as repeating timers.  OnUpdate gets
+		-- called as soon as you call Play().  Which is not our intent with 0
+		-- length timers.
+		ag:SetLooping("REPEAT")
+		timer.repeating = 1.2 
+	else
+		timer:SetScript("OnFinished",OnFinished)
+		timer:SetScript("OnUpdate",nil)
+		timer:SetDuration(delay)
+		timer.repeating = repeating and delay * 1.2
+		if repeating then
+			ag:SetLooping("REPEAT")
+		else
+			ag:SetLooping("NONE")
+		end
+	end
+	
+	ag:Play()
+
 end
+
+-- state variables to prevent timers canceled during callbacks from being returned
+-- from the pool until OnFinished finishes.
+local in_OnFinished
+local canceled_in_OnFinished
 
 --- Stop a timer
 -- @usage object:Stop()
 -- @return True if the timer was stopped
 function LibTimer:Stop()
-	self.active = 0
-	throttleElapsed = 0
-	--throttleFrame:SetScript("OnUpdate", throttleFunc)
-	return stopTimers()
+		if not handle then return end
+		if type(handle) ~= "string" then
+			error(MAJOR..": CancelTimer(handle): 'handle' - expected a string", 2)
+		end
+		timer:GetParent():Stop()
 end
 
 --- Return the timer's remaining duration
@@ -216,25 +225,7 @@ function LibTimer:TimeRemaining()
 	return time - diff
 end
 
-local timer = 0
-local duration = DEFAULT_LIMIT / 1000
-update = function(self, elapsed)
-	if timer < duration then
-		timer = timer + elapsed
-		return
-	end
-	for i, o in ipairs(cache) do
-		if o.active == 0 then
-			break
-		else
-			o.timer = (o.timer or 0) + timer
-			if o.timer > o.duration then
-				if not o.repeating then o:Stop() end
-				if o.callback then o.callback(o.data) end
-				o.timer = 0
-			end
-		end
-	end
-	timer = 0
+function OnFinished(self, elapsed)
+	---safecall(self.obj.callback, self.obj.data)
+	self.obj.callback(self.obj.data)
 end
-
