@@ -274,7 +274,7 @@ function PluginTalents.UnitILevel(unit, returnNil)
 	
 	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 
-	if not spec[guid] or not spec[guid].ilvl then return L["Loading"] .. periods end
+	if not spec[guid] or not spec[guid].ilvl then return L["Scanning"] .. periods end
 
 	return format("%d", spec[guid].ilvl)
 end
@@ -293,7 +293,7 @@ function PluginTalents.SpecText(unit, returnNil)
 	
 	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 
-	if not spec[guid] then return L["Loading"] .. periods end
+	if not spec[guid] then return L["Scanning"] .. periods end
 
 	if not spec[guid] and returnNil then return nil end
 
