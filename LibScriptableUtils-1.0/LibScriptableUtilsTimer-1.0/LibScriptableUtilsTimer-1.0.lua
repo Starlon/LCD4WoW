@@ -210,7 +210,7 @@ function LibTimer:Stop()
 		if type(handle) ~= "string" then
 			error(MAJOR..": CancelTimer(handle): 'handle' - expected a string", 2)
 		end
-		timer:GetParent():Stop()
+		self.timer:GetParent():Stop()
 end
 
 --- Return the timer's remaining duration
