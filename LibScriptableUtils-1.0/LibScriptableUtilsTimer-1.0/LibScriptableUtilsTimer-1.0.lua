@@ -15,6 +15,7 @@ local cache = {}
 local storage = {}
 local update
 local OnFinish
+local tconcat = table.concat
 
 LibTimer.frame = CreateFrame("Frame", MAJOR)
 
@@ -22,6 +23,7 @@ if not LibTimer.__index then
 	LibTimer.__index = LibTimer
 end
 
+-- Recycle functions from ShefkiTimer-1.0
 -- Full timer recycling unlike AceTimer.  We recycle everything because we don't
 -- want to making any more AnimationGroup and Animation objects than necessary.
 local timerCache = {}
@@ -43,7 +45,7 @@ local function del(timer)
 end
 
 --[[
-   xpcall safecall implementation
+   xpcall safecall implementation from AceTimer-3.0
 ]]
 local xpcall = xpcall
 
@@ -165,27 +167,14 @@ function LibTimer:Start(duration, data, func)
 	local timer = self.timer
 	local delay = self.duration
 	local repeating = self.repeating
-	
 	local ag = timer:GetParent()
+	
 	if delay == 0 then
 		do return end
-		-- If the delay is 0 switch the OnFinished to be called on the next
-		-- OnUpdate.  0 length durations do nothing in the animation system
-		-- so if we want 0 lenth durations to work we have to handle them
-		-- ourselves.
-		timer:SetScript("OnFinished",nil)
-		timer:SetScript("OnUpdate",OnFinished)
-		timer:SetDuration(1) -- just set the delay to 1 second.
-		-- Always setup 0 length durations as repeating timers.  OnUpdate gets
-		-- called as soon as you call Play().  Which is not our intent with 0
-		-- length timers.
-		ag:SetLooping("REPEAT")
-		timer.repeating = 1.2 
 	else
 		timer:SetScript("OnFinished",OnFinished)
 		timer:SetScript("OnUpdate",nil)
 		timer:SetDuration(delay)
-		timer.repeating = repeating and delay * 1.2
 		if repeating then
 			ag:SetLooping("REPEAT")
 		else
@@ -197,6 +186,7 @@ function LibTimer:Start(duration, data, func)
 
 end
 
+-- Does LibScriptable need this? Mind's fuzzy atm. lol Leaving here in case it dawns on me.
 -- state variables to prevent timers canceled during callbacks from being returned
 -- from the pool until OnFinished finishes.
 local in_OnFinished
@@ -206,7 +196,7 @@ local canceled_in_OnFinished
 -- @usage object:Stop()
 -- @return True if the timer was stopped
 function LibTimer:Stop()
-		self.timer:GetParent():Stop()
+	self.timer:GetParent():Stop()
 end
 
 --- Return the timer's remaining duration
@@ -222,6 +212,5 @@ function LibTimer:TimeRemaining()
 end
 
 function OnFinished(self, elapsed)
-	---safecall(self.obj.callback, self.obj.data)
-	self.obj.callback(self.obj.data)
+	safecall(self.obj.callback, self.obj.data)
 end
