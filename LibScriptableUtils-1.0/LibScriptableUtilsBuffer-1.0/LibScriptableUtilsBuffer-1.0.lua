@@ -540,7 +540,7 @@ function LibBuffer:Line4(x0, y0, x1, y1, color, pitch)
 
 	self.buffer[x0 + y0 * pitch] = color
 	if dx > dy then
-		local fraction = dy - bit.rshift(dx, 1)
+		local fraction = dy - rshift(dx, 1)
 		while x0 ~= x1 do
 			if fraction >= 0 then
 				y0 = y0 + stepy
@@ -551,7 +551,7 @@ function LibBuffer:Line4(x0, y0, x1, y1, color, pitch)
 			self.buffer[floor(y0) * pitch + floor(x0)] = color
 		end
 	else
-		local fraction = dx - bit.rshift(dy, 1)
+		local fraction = dx - rshift(dy, 1)
 		while y0 ~= y1 do
 			if fraction >= 0 then
 				x0 = x0 + stepx
@@ -571,14 +571,14 @@ function LibBuffer:Line5(x0, y0, x1, y1, color, pitch)
 
         if (dy < 0) then dy = -dy;  stepy = -pitch; else stepy = pitch; end
         if (dx < 0) then dx = -dx;  stepx = -1; else stepx = 1; end
-		bit.lshift(dy, 1)
-		bit.lshift(dx, 1)
+		lshift(dy, 1)
+		lshift(dx, 1)
 
 		y0 = y0 * pitch
 		y1 = y1 * pitch
 		self.buffer[x0+y0] = color
         if (dx > dy) then
-			local fraction = dy - bit.rshift(dx, 1)
+			local fraction = dy - rshift(dx, 1)
             while (x0 ~= x1) do
                 if (fraction >= 0) then
 					y0 = y0 + stepy
@@ -589,7 +589,7 @@ function LibBuffer:Line5(x0, y0, x1, y1, color, pitch)
 				self.buffer[x0+y0] = color
             end
         else
-			local fraction = dx - bit.rshift(dy, 1)
+			local fraction = dx - rshift(dy, 1)
 			while (y0 ~= y1) do
 				if (fraction >= 0) then
 					x0 = x0 + stepx

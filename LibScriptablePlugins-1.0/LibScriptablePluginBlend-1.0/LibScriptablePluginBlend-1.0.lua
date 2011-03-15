@@ -1,4 +1,6 @@
 --- These blend function were borrowed from Winamp's open source AVS code.
+--- Copyright 2005 Nullsoft, Inc.
+--- All rights reserved.
 
 local MAJOR = "LibScriptablePluginBlend-1.0"
 local MINOR = 18
