@@ -1,4 +1,6 @@
---- This file borrows from Winamp's AVS code.
+--- This file borrows from Winamp's open source plugin known as AVS.
+--- Copyright 2005 Nullsoft, Inc.
+--- All rights reserved.
 
 local MAJOR = "LibScriptableImagesAVSSuperScope-1.0"
 local MINOR = 18

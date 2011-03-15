@@ -56,11 +56,9 @@ function LibProperty:New(widget, visitor, name, expression, defval, errorLevel)
 	if type(expression) ~= "string" then 
 		obj.is_valid = false; 
 	else
-		obj.environment.self = obj
+		obj.environment.self = widget
 		obj.environment.unit = "player"
 		obj.res1, obj.res2, obj.res3, obj.res4 = Evaluator.ExecuteCode(obj.environment, name, expression, false, defval)
-		obj.environment.self = nil
-		obj.environment.unit = nil
 		if obj.res1 == nil then
 			obj.error:Print(("Property invalid: expression = \"%s\""):format(expression))
 			obj.is_valid = false

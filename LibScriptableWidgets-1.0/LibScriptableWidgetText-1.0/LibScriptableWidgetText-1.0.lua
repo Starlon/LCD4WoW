@@ -162,6 +162,7 @@ function WidgetText:Init(config)
 	self.config = config
 	
 	if obj.widget then obj.widget:Del() end
+	
 	obj.widget = LibWidget:New(self, self.visitor, self.name, self.config, self.row, self.col, self.layer, widgetType, self.errorLevel)
 
 	if obj.error then obj.error:Del() end
@@ -169,18 +170,18 @@ function WidgetText:Init(config)
 
 	obj.visitor = visitor
 	obj.errorLevel = errorLevel or 3
-
+	
 	if obj.value then obj.value:Del() end
-	obj.value = LibProperty:New(obj, visitor, name .. " string", config.value, "", config.unit, errorLevel) -- text of marquee
+	obj.value = LibProperty:New(self, visitor, name .. " string", config.value, "", errorLevel) -- text of marquee
 	
 	if obj.prefix then obj.prefix:Del() end
-	obj.prefix = LibProperty:New(obj, visitor, name .. " prefix", config.prefix, "", config.unit, errorLevel) -- label on the left side
+	obj.prefix = LibProperty:New(self, visitor, name .. " prefix", config.prefix, "", errorLevel) -- label on the left side
 	
 	if obj.postfix then obj.postfix:Del() end
-	obj.postfix = LibProperty:New(obj, visitor, name .. " postfix", config.postfix, "", config.unit, errorLevel) -- label on right side
+	obj.postfix = LibProperty:New(self, visitor, name .. " postfix", config.postfix, "", errorLevel) -- label on right side
 
 	if obj.color then obj.color:Del() end
-	obj.color = LibProperty:New(obj, visitor,	name .. " color", config.color, "", config.unit, errorLevel) -- widget's color
+	obj.color = LibProperty:New(self, visitor,	name .. " color", config.color, "", errorLevel) -- widget's color
 	
 	obj.precision = config.precision or self.defaults.precision -- number of digits after the decimal point
 	obj.align = config.align or self.defaults.align -- alignment: left, center, right, marquee, automatic, pingpong

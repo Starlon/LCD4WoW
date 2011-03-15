@@ -39,9 +39,8 @@ end
 -- @param layer This widget's layer
 -- @param type Dict of widget types.
 -- @param errorLevel The error level for this object.
--- @param callback A callback to be executed -- optional
 -- @return A new LibScriptableWidgetText object
-function LibWidget:New(child, visitor, name, config, row, col, layer, typeOf, errorLevel, callback) 
+function LibWidget:New(child, visitor, name, config, row, col, layer, typeOf, errorLevel) 
 	
 	assert(type(child) == "table", "No child")
 	assert(type(visitor) == "table", "No visitor")
@@ -70,7 +69,6 @@ function LibWidget:New(child, visitor, name, config, row, col, layer, typeOf, er
 	obj.layer = layer
 	obj.type = typeOf
 	obj.errorLevel = errorLevel
-	obj.callback = callback
 	obj.lcd = visitor.lcd
 	
 	local pos1 = name:find(":")

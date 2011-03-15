@@ -1,4 +1,4 @@
---- These blend function were borrowed from Winamp's open source AVS code.
+--- This file borrows from Winamp's open source plugin known as AVS.
 --- Copyright 2005 Nullsoft, Inc.
 --- All rights reserved.
 
