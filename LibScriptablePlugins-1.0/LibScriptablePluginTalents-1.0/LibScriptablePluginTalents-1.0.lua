@@ -270,7 +270,7 @@ function PluginTalents.UnitILevel(unit, returnNil)
 	end
 	count = count + 1
 
-	if not spec[guid] and returnNil then return nil end
+	if not (spec[guid] and spec[guid].ilvl) and returnNil then return nil end
 	
 	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 
@@ -290,7 +290,7 @@ function PluginTalents.SpecText(unit, returnNil)
 		periods = periods .. "."
 	end
 	count = count + 1
-	
+	
 	if not CheckInteractDistance(unit, 1) and not spec[guid] then return L["Out of Range"] end
 
 	if not spec[guid] then return L["Scanning"] .. periods end
