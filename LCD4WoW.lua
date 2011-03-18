@@ -1,11 +1,11 @@
-LCD4WoW = StarTip or LibStub("AceAddon-3.0"):NewAddon("LCD4WoW: @project-version@", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0") 
+LCD4WoW = StarTip or LibStub("AceAddon-3.0"):NewAddon("LCD4WoW: 1.1.15b", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0") 
 LCD4WoW.version = GetAddOnMetadata("LCD4WoW", "X-LCD4WoW-Version") or ""
 if StarTip then return end
 local LibDBIcon = LibStub("LibDBIcon-1.0")
 local LSM = _G.LibStub("LibSharedMedia-3.0")
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-local LibError = LibStub("LibScriptableDisplayError-1.0")
+local LibError = LibStub("LibScriptableUtilsError-1.0")
 local LibQTip = LibStub("LibQTip-1.0")
 
 local _G = _G

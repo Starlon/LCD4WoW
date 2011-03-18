@@ -2,18 +2,18 @@ local mod = LCD4WoW:NewModule("LCD4WoW")
 mod.name = "LCD Display"
 mod.toggled = true
 mod.defaultOff = true
-local Evaluator = LibStub("LibScriptableDisplayEvaluator-1.0")
-local LibCore = LibStub("LibScriptableDisplayCore-1.0")
-local LibLCDText = LibStub("LibScriptableDisplayLCDText-1.0")
-local LibDriverQTip = LibStub("LibScriptableDisplayDriverQTip-1.0")
-local LibDriverCharacter = LibStub("LibScriptableDisplayDriverCharacter-1.0")
-local WidgetText = LibStub("LibScriptableDisplayWidgetText-1.0")
-local WidgetBar = LibStub("LibScriptableDisplayWidgetBar-1.0")
-local WidgetHistogram = LibStub("LibScriptableDisplayWidgetHistogram-1.0")
-local WidgetKey = LibStub("LibScriptableDisplayWidgetKey-1.0")
-local WidgetTimer = LibStub("LibScriptableDisplayWidgetTimer-1.0")
-local LayoutOptions = LibStub("LibScriptableDisplayLayoutOptions-1.0")
-local Resources = LibStub("LibScriptableDisplayPluginResourceTools-1.0")
+local Evaluator = LibStub("StarLibEvaluator-1.0")
+local LibCore = LibStub("LibScriptableLCDCore-1.0")
+local LibLCDText = LibStub("LibScriptableLCDText-1.0")
+local LibDriverQTip = LibStub("LibScriptableLCDDriverQTip-1.0")
+local LibDriverCharacter = LibStub("LibScriptableLCDDriverCharacter-1.0")
+local WidgetText = LibStub("LibScriptableWidgetText-1.0")
+local WidgetBar = LibStub("LibScriptableWidgetBar-1.0")
+local WidgetHistogram = LibStub("LibScriptableWidgetHistogram-1.0")
+local WidgetKey = LibStub("LibScriptableWidgetKey-1.0")
+local WidgetTimer = LibStub("LibScriptableWidgetTimer-1.0")
+local LayoutOptions = LibStub("LibScriptableLCDLayoutOptions-1.0")
+local Resources = LibStub("LibScriptablePluginResourceTools-1.0")
 
 local resources = {}
 Resources:New(resources)
@@ -51,10 +51,13 @@ for i, v in ipairs(anchors) do
 end
 
 local function copy(tbl)
-	if type(tbl) ~= "table" then return tbl end
 	local new = {}
 	for k, v in pairs(tbl) do
-		new[k] = copy(v)
+		if type(v) == "table" then
+			new[k] = copy(v)
+		else
+			new[k] = v
+		end
 	end
 	return new
 end
@@ -405,7 +408,7 @@ function mod:RebuildOpts()
 				options.widgets.args.text.args[k:gsub(" ", "_")] = {
 					name = k:gsub("widget_", ""),
 					type = "group",
-					args = WidgetText:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WOW),
+					args = WidgetText:GetOptions(LCD4WoW, v, k),
 					order = 1
 				}
 				options.widgets.args.text.args[k:gsub(" ", "_")].args.delete = {
@@ -437,7 +440,7 @@ function mod:RebuildOpts()
 				options.widgets.args.histogram.args[k:gsub(" ", "_")] = {
 					name = k,
 					type = "group",
-					args = WidgetHistogram:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WoW),
+					args = WidgetHistogram:GetOptions(LCD4WoW, v, k),
 					order = 1
 				}						
 				options.widgets.args.histogram.args[k:gsub(" ", "_")].args.delete = {
@@ -469,7 +472,7 @@ function mod:RebuildOpts()
 				options.widgets.args.key.args[k:gsub(" ", "_")] = {
 					name = k,
 					type = "group",
-					args = WidgetKey:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WoW),
+					args = WidgetKey:GetOptions(LCD4WoW, v, k),
 					order = 3
 				}			
 				options.widgets.args.key.args[k:gsub(" ", "_")].args.delete = {
@@ -485,7 +488,7 @@ function mod:RebuildOpts()
 				options.widgets.args.timers.args[k:gsub(" ", "_")] = {
 					name = k,
 					type = "group",
-					args = WidgetTimer:GetOptions(v, LCD4WoW.RebuildOpts, LCD4WoW),
+					args = WidgetTimer:GetOptions(LCD4WoW, v, k),
 					order = 3
 				}			
 				options.widgets.args.timers.args[k:gsub(" ", "_")].args.delete = {

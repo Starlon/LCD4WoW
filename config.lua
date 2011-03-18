@@ -51,48 +51,29 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
-		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\sfd\\FreeMonoBold.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=10},
-		["points"] = {{"CENTER", "UIParent", "CENTER", 0, 200}}
+		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
+		["point"] = {"CENTER", "UIParent", "CENTER", 0, 200}
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
 		["enabled"] = true,
 		["driver"] = "character",
-		["layers"] = 2,
-		["background"] = "d9ccf16f",
-		["pixel"] = 2,
-		["row"] = -50,
-		["col"] = 0,
-		["rows"] = 6,
-		["cols"] = 30,
-		["update"] = 0,
-		["timeout"] = 7000,
-		["transition_speed"] = 50,
-		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
-		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
-		["points"] = {{"CENTER", "UIParent", "CENTER"}},
-		["parent"] = "UIParent",
-		["strata"] = 1
-    },
-	["display_character_tiny"] = {
-		["addon"] = "LCD4WoW",
-		["enabled"] = true,
-		["driver"] = "character",
 		["layers"] = 1,
 		["background"] = "d9ccf16f",
-		["pixel"] = 2,
-		["row"] = 0,
+		["pixel"] = 3,
+		["row"] = -50,
 		["col"] = 0,
 		["rows"] = 2,
 		["cols"] = 20,
 		["update"] = 0,
-		["timeout"] = 0,
+		["timeout"] = 7000,
 		["transition_speed"] = 50,
+		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
-		["points"] = {{"CENTER", "UIParent", "CENTER"}},
+		["point"] = {"CENTER"},
 		["parent"] = "UIParent",
 		["strata"] = 1
-	},
+    },
 	["display_icon"] = {
 		["addon"] = "LCD4WoW",
 		["enabled"] = false,
@@ -105,7 +86,7 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_icon"},
 		["widgets"] = {},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", size=1},
-		["points"] = {{"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100}},
+		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100},
 		["parent"] = "GameTooltip"
 	},
 	["display_health"] = {
@@ -118,7 +99,7 @@ LCD4WoW.config = {
 		["cols"] = 12,
 		["layouts"] = {"layout_health"},
 		["widgets"] = {},
-		["points"] = {{"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130}},
+		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
 		["parent"] = "GameTooltip",
 		["strata"] = #stratas,
 	},
@@ -132,14 +113,14 @@ LCD4WoW.config = {
 		["cols"] = 12,
 		["layouts"] = {"layout_mana"},
 		["widgets"] = {},
-		["points"] = {{"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130}},
+		["point"] = {"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130},
 		["parent"] = "GameTooltip",
 		["strata"] = #stratas
 	},
 	["widget_resources_timer"] = {
         type = "timer",
 		update = 1000,
-		repeating = true,
+		repeating = false,
 		expression = [[
 if ResourceServer then self.timer:Stop(); return end
 Update()
