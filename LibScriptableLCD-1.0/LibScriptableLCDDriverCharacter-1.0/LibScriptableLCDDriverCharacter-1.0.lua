@@ -163,12 +163,11 @@ function DriverCharacter:New(visitor, environment, name, config, errorLevel)
 	obj.buffer = LibBuffer:New(MAJOR .. " " .. name .. " buffer", obj.lcd.DCOLS * obj.lcd.XRES * obj.lcd.DROWS * obj.lcd.YRES, 0, errorLevel)
 	
 	obj.timer = LibTimer:New(MAJOR .. " " .. name, 100, true, obj.Update, obj, errorLevel)
-	obj.timer.timer = 0xdead
 	obj:Clear()
 	
 	PluginResources.Update()
 	local mem2, mempercent2, memdiff2, totalmem2, totalmemdiff2 = PluginResources.GetMemUsage(config[name].addon)
-	local cpu2, cpupercent2, cpudiff2, totalcpU2, totalcpudiff2 = PluginResources.GetCPUUsage(config[name].addon)
+	local cpu2, cpupercent2, cpudiff2, totalcpu2, totalcpudiff2 = PluginResources.GetCPUUsage(config[name].addon)
 	
 	obj.error:Print(format("%s load stats: Memory at start: %s, Memory at finish: %s, Difference: %s", name, PluginString.memshort(mem1), PluginString.memshort(mem2), PluginString.memshort(memdiff2)), 1)
 	obj.error:Print(format("%s load stats: CPU at start: %s, CPU at finish: %s, Difference: %s", name, PluginString.timeshort(cpu1), PluginString.timeshort(cpu2), PluginString.timeshort(cpudiff2)), 1)
