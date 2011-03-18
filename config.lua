@@ -38,7 +38,7 @@ local foo = 100
 LCD4WoW.config = {
     ["display_startip"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = false,
+		["enabled"] = true,
 		["driver"] = "qtip",
 		["layers"] = 2,
 		["background"] = "d9ccf16f",
@@ -52,11 +52,11 @@ LCD4WoW.config = {
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
-		["point"] = {"CENTER", "UIParent", "CENTER", 0, 200}
+		["point"] = {"CENTER", "UIParent", "TOP", 0, -100}
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = true,
+		["enabled"] = false,
 		["driver"] = "character",
 		["layers"] = 1,
 		["background"] = "d9ccf16f",
@@ -70,7 +70,7 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
-		["point"] = {"CENTER"},
+		["point"] = {"CENTER", "UIParent", "CENTER"},
 		["parent"] = "UIParent",
 		["strata"] = 1
     },

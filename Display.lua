@@ -2,7 +2,7 @@ local mod = LCD4WoW:NewModule("LCD4WoW")
 mod.name = "LCD Display"
 mod.toggled = true
 mod.defaultOff = true
-local Evaluator = LibStub("StarLibEvaluator-1.0")
+local Evaluator = LibStub("LibScriptableUtilsEvaluator-1.0")
 local LibCore = LibStub("LibScriptableLCDCore-1.0")
 local LibLCDText = LibStub("LibScriptableLCDText-1.0")
 local LibDriverQTip = LibStub("LibScriptableLCDDriverQTip-1.0")
@@ -131,7 +131,7 @@ function mod:RebuildOpts()
 		name = "Add Display",
 		type = "input",
 		set = function(info, v)
-			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UiParent", "BOTTOMLEFT", 0, -50}, parent="UIParent", strata=1}
+			self.db.profile.config["display_" .. v] = {name = v, layouts = {}, widgets = {}, point = {"TOPLEFT", "UIParent", "BOTTOMLEFT", 0, -50}, parent="UIParent", strata=1}
 			LCD4WoW:RebuildOpts()
 		end,
 		order = 1
