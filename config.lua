@@ -52,11 +52,11 @@ LCD4WoW.config = {
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_lcd4wow", "layout_histogram_cpu", "layout_histogram_mem"},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", bold="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMoBd.ttf", size=12},
-		["point"] = {"CENTER", "UIParent", "TOP", 0, -100}
+		["points"] = {{"CENTER", "UIParent", "TOP", 0, -100}}
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = false,
+		["enabled"] = true,
 		["driver"] = "character",
 		["layers"] = 1,
 		["background"] = "d9ccf16f",
@@ -70,7 +70,7 @@ LCD4WoW.config = {
 		["transition_speed"] = 50,
 		["widgets"] = {"widget_key_up", "widget_key_down", "widget_resources_timer"},
 		["layouts"] = {"layout_tiny"},
-		["point"] = {"CENTER", "UIParent", "CENTER"},
+		["points"] = {{"CENTER", "UIParent", "CENTER"}},
 		["parent"] = "UIParent",
 		["strata"] = 1
     },
@@ -86,8 +86,8 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_icon"},
 		["widgets"] = {},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", size=1},
-		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -100},
-		["parent"] = "GameTooltip"
+		["points"] = {{"CENTER"}},
+		["parent"] = "UIParent"
 	},
 	["display_health"] = {
 		["addon"] = "LCD4WoW",
@@ -99,8 +99,8 @@ LCD4WoW.config = {
 		["cols"] = 12,
 		["layouts"] = {"layout_health"},
 		["widgets"] = {},
-		["point"] = {"TOPLEFT", "GameTooltip", "BOTTOMLEFT", 0, -130},
-		["parent"] = "GameTooltip",
+		["points"] = {{"CENTER", "UIParent", "CENTER", 0, -100}},
+		["parent"] = "UIParent",
 		["strata"] = #stratas,
 	},
 	["display_mana"] = {
@@ -113,7 +113,7 @@ LCD4WoW.config = {
 		["cols"] = 12,
 		["layouts"] = {"layout_mana"},
 		["widgets"] = {},
-		["point"] = {"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130},
+		["points"] = {{"TOPRIGHT", "GameTooltip", "BOTTOMRIGHT", 0, -130}},
 		["parent"] = "GameTooltip",
 		["strata"] = #stratas
 	},
@@ -122,7 +122,6 @@ LCD4WoW.config = {
 		update = 1000,
 		repeating = false,
 		expression = [[
-if ResourceServer then self.timer:Stop(); return end
 Update()
 ]]
 	},
@@ -154,7 +153,7 @@ Update()
 			[1] = {
 				[1] = "widget_name"
 			},
-			[2] = {
+			--[[[2] = {
 				[1] = "widget_icon_blob",
 				[2] = "widget_icon_ekg",
 				[3] = "widget_icon_timer",
@@ -175,7 +174,7 @@ Update()
 				[18] = "widget_icon_wave",				
 				[19] = "widget_icon_blob",
 				[20] = "widget_icon_ekg",
-			}
+			}]]
 		}
 	},
 	["layout_blank"] = {
