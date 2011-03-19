@@ -76,14 +76,14 @@ do
 		pool[frame] = true
 	end
 end
--- @name StarDriverCharacter:New
--- @usage StarDriverCharacter:New(visitor, rows, cols, yres, xres, layers)
--- @param visitor App
+--- Create a new DriverCharacter object
+-- @usage :New(visitor, environment, name, config, errorLevel)
+-- @param visitor Core object
 -- @param environment Execution environment
--- @param name A name for this LCD
+-- @param name A name for this LCD.
 -- @param config The configuration
 -- @param errorLevel Error verbosity
--- @return A new StarDriverCharacter object
+-- @return A new DriverCharacter object
 
 function DriverCharacter:New(visitor, environment, name, config, errorLevel)
 	
@@ -145,6 +145,7 @@ function DriverCharacter:New(visitor, environment, name, config, errorLevel)
 	--frame:SetPoint("TOPLEFT", config[name].row, config[name].col or 0)
 	frame:SetAlpha(1)
 	frame:Hide()
+	frame:Show()
 	
 	obj.textures = {}
 	
@@ -157,6 +158,7 @@ function DriverCharacter:New(visitor, environment, name, config, errorLevel)
 		texture:SetTexture(random(2) - 1, random(2) - 1, random(2) - 1)
 		texture:SetWidth(obj.pixel)
 		texture:SetHeight(obj.pixel)
+		texture:Show()
 		obj.textures[i] = texture
 	end
 
@@ -203,8 +205,9 @@ function DriverCharacter:Show()
 	self.error:Print("DriverCharacter:Show", 2)
 	self.frame:Show()
 	self.core:Start()
+	self.frame:ClearAllPoints()
 	for i, point in pairs(self.points) do
-		self:Move(unpack(point))
+		self.frame:SetPoint(unpack(point))
 	end
 	self.timer:Start()
 end
@@ -225,20 +228,17 @@ function DriverCharacter:Clear()
 	self.lcd:TextBlit(0, 0, self.lcd.DCOLS, self.lcd.DROWS)
 end
 
--- Move the tooltip
--- @name StarDriverCharacter:Move
--- @usage StarDriverCharacter(anchor, x, y)
--- @param anchor Frame anchor, i.e: CENTER.
--- @param x X position
--- @param y Y position
+--- Move the tooltip
+-- @usage DriverCharacter:Move(arg1, arg2, arg3, arg4, arg5)
+-- @param arg1 (et al) Same as SetPoint
 -- @return Nothing
 function DriverCharacter:Move(arg1, arg2, arg3, arg4, arg5)
-	self.frame:ClearAllPoints()
 	self.frame:SetPoint(arg1, arg2, arg3, arg4, arg5)
 end
 
 function DriverCharacter:Blit(obj, r, c, buffer, len, bold)
 	for i = c, c + len - 1 do
+		StarTip:Print(buffer[i - c])
 		obj:SetCell((obj.lcd.LROWS - r - 1), i, (buffer[i - c] or ' '), bold and bold[i])
 	end
 end
@@ -262,6 +262,8 @@ function DriverCharacter:SetCell(row, col, char, bold)
 	else
 		chr = LibFont.Font_6x8[strbyte(char) + 1];
 	end
+	
+	StarTip:Print(row, col, char)
 	
 	for y = 0 , self.lcd.YRES - 1 do
 		local mask = bit.lshift(1, self.lcd.XRES)
