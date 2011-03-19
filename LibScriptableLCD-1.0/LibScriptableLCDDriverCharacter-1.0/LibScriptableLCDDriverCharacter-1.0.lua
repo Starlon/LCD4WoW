@@ -238,7 +238,6 @@ end
 
 function DriverCharacter:Blit(obj, r, c, buffer, len, bold)
 	for i = c, c + len - 1 do
-		StarTip:Print(buffer[i - c])
 		obj:SetCell((obj.lcd.LROWS - r - 1), i, (buffer[i - c] or ' '), bold and bold[i])
 	end
 end
@@ -262,9 +261,7 @@ function DriverCharacter:SetCell(row, col, char, bold)
 	else
 		chr = LibFont.Font_6x8[strbyte(char) + 1];
 	end
-	
-	StarTip:Print(row, col, char)
-	
+		
 	for y = 0 , self.lcd.YRES - 1 do
 		local mask = bit.lshift(1, self.lcd.XRES)
 		for x = 0, self.lcd.XRES - 1 do
