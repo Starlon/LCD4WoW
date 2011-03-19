@@ -56,7 +56,7 @@ LCD4WoW.config = {
     },
     ["display_character"] = {
 		["addon"] = "LCD4WoW",
-		["enabled"] = true,
+		["enabled"] = false,
 		["driver"] = "character",
 		["layers"] = 1,
 		["background"] = "d9ccf16f",
@@ -86,7 +86,7 @@ LCD4WoW.config = {
 		["layouts"] = {"layout_icon"},
 		["widgets"] = {},
 		["font"] = {normal="Interface\\AddOns\\LCD4WoW\\Fonts\\ttf-bitstream-vera-1.10\\VeraMo.ttf", size=1},
-		["points"] = {{"CENTER"}},
+		["points"] = {{"CENTER", "UIParent", "CENTER", 400, 0}},
 		["parent"] = "UIParent"
 	},
 	["display_health"] = {
@@ -153,7 +153,7 @@ Update()
 			[1] = {
 				[1] = "widget_name"
 			},
-			--[[[2] = {
+			[2] = {
 				[1] = "widget_icon_blob",
 				[2] = "widget_icon_ekg",
 				[3] = "widget_icon_timer",
@@ -174,7 +174,7 @@ Update()
 				[18] = "widget_icon_wave",				
 				[19] = "widget_icon_blob",
 				[20] = "widget_icon_ekg",
-			}]]
+			}
 		}
 	},
 	["layout_blank"] = {

@@ -374,7 +374,7 @@ function mod:RebuildOpts()
 			for kk, vv in pairs(driverOptions) do
 				options.displays.args[k:gsub(" ", "_")].args[kk] = vv
 			end
-			if v.widgets then
+			if v.widgets and false then -- FIXME: ...args.widgets is nil?
 				for i, widget in ipairs(v.widgets) do
 					options.displays.args[k:gsub(" ", "_")].args.widgets.args[widget] = {
 						name = widget,
