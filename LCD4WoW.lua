@@ -1,6 +1,5 @@
-LCD4WoW = StarTip or LibStub("AceAddon-3.0"):NewAddon("LCD4WoW: 1.1.15b", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0") 
+LCD4WoW = LibStub("AceAddon-3.0"):NewAddon("LCD4WoW: 1.1.15b", "AceConsole-3.0", "AceHook-3.0", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0") 
 LCD4WoW.version = GetAddOnMetadata("LCD4WoW", "X-LCD4WoW-Version") or ""
-if StarTip then return end
 local LibDBIcon = LibStub("LibDBIcon-1.0")
 local LSM = _G.LibStub("LibSharedMedia-3.0")
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
@@ -32,7 +31,6 @@ function LCD4WoW:OnInitialize()
 	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("LCD4WoW", options)
 	self:RegisterChatCommand("lcd4wow", "OpenConfig")
-	self:RegisterChatCommand("lcd4linux4wow", "OpenConfig")
 	AceConfigDialog:AddToBlizOptions("LCD4WoW")
 	LibDBIcon:Register("LCD4WoWLDB", LDB, self.db.profile.minimap)
 	
