@@ -8,6 +8,9 @@ local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
 local Evaluator = LibStub("LibScriptableUtilsEvaluator-1.0", true)
 assert(Evaluator, MAJOR .. " requires LibScriptableUtilsEvaluator-1.0")
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local pool = setmetatable({}, {__mode = "k"})
 
@@ -120,16 +123,16 @@ function WidgetKey:GetOptions(db, callback, data)
 		local defaults = WidgetKey.defaults
 		local options = {
 			enabled = {
-				name = "Enabled",
-				desc = "Whether this timer is enabled or not",
+				name = L["Enabled"],
+				desc = L["Whether this timer is enabled or not"],
 				type = "toggle",
 				get = function() return db.enabled end,
 				set = function(info, v) db.enabled = v; db["enabledDirty"] = true end,
 				order = 1
 			},
 			expression = {
-				name = "Expression",
-				desc = "Enter this widget's expression",
+				name = L["Expression"],
+				desc = L["Enter this widget's expression"],
 				type = "input",
 				width = "full",
 				multiline = true,

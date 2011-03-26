@@ -12,6 +12,9 @@ local LibError = LibStub("LibScriptableUtilsError-1.0", true)
 assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
 local Utils = LibStub("LibScriptablePluginUtils-1.0")
 assert(Utils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local pool = setmetatable({}, {__mode = "k"})
 
@@ -162,8 +165,8 @@ function LibWidget:GetOptions(db, callback, data)
 		type = "group",
 		args = {
 			add = {
-				name = "Add Point",
-				desc = "Add a new point",
+				name = L["Add Point"],
+				desc = L["Add a new point"],
 				type = "input",
 				set = function(info, v)
 					tinsert(db.points, {"Center", "GameTooltip", "Center", 0, 0})
@@ -174,8 +177,8 @@ function LibWidget:GetOptions(db, callback, data)
 				order = 1
 			},
 			frameName = {
-				name = "Frame Name",
-				desc = "This is the frame's global name. Follow all rules for naming in Lua.",
+				name = L["Frame Name"],
+				desc = L["This is the frame's global name. Follow all rules for naming in Lua."],
 				type = "input",
 				get = function() return db.name end,
 				set = function(info, val) 
@@ -188,7 +191,7 @@ function LibWidget:GetOptions(db, callback, data)
 				order = 2
 			},
 			parent = {
-				name = "Frame Parent",
+				name = L["Frame Parent"],
 				type = "input",
 				get = function() return db.parent or "GameTooltip" end,
 				set = function(info, val) 
@@ -201,7 +204,7 @@ function LibWidget:GetOptions(db, callback, data)
 				order = 5
 			},
 			strata = {
-				name = "Frame Strata",
+				name = L["Frame Strata"],
 				type = "select",
 				values = strataLocaleList,
 				get = function()
@@ -217,7 +220,7 @@ function LibWidget:GetOptions(db, callback, data)
 				order = 6
 			},
 			level = {
-				name = "Frame Level",
+				name = L["Frame Level"],
 				type = "input",
 				pattern = "%d",
 				get = function()
@@ -233,7 +236,7 @@ function LibWidget:GetOptions(db, callback, data)
 				order = 7
 			},
 			alwaysShown = {
-				name = "Always Shown",
+				name = L["Always Shown"],
 				type = "toggle",
 				desc = "Toggle whether to always show the widget or not",
 				get = function() return db.alwaysShown end,
@@ -339,7 +342,7 @@ function LibWidget:GetOptions(db, callback, data)
 				type = "group",
 				args = {
 					point = {
-						name = "Text anchor",
+						name = L["Text anchor"],
 						type = "select",
 						values = anchors,
 						get = function() return anchorsDict[point[1] or 1] end,
@@ -353,7 +356,7 @@ function LibWidget:GetOptions(db, callback, data)
 						order = 1
 					},
 					relativeFrame = {
-						name = "Relative Frame",
+						name = L["Relative Frame"],
 						type = "input",
 						get = function() return point[2] end,
 						set = function(info, v) 
@@ -366,7 +369,7 @@ function LibWidget:GetOptions(db, callback, data)
 						order = 2
 					},
 					relativePoint = {
-						name = "Relative Point",
+						name = L["Relative Point"],
 						type = "select",
 						values = anchors,
 						get = function() return anchorsDict[point[3] or 1] end,
@@ -380,7 +383,7 @@ function LibWidget:GetOptions(db, callback, data)
 						order = 3
 					},
 					xOfs = {
-						name = "X Offset",
+						name = L["X Offset"],
 						type = "input",
 						pattern = "%d",
 						get = function() return tostring(point[4] or 0) end,
@@ -394,7 +397,7 @@ function LibWidget:GetOptions(db, callback, data)
 						order = 4
 					},
 					yOfs = {
-						name = "Y Offset",
+						name = L["Y Offset"],
 						type = "input",
 						pattern = "%d",
 						get = function() return tostring(point[5] or 0) end,
@@ -408,7 +411,7 @@ function LibWidget:GetOptions(db, callback, data)
 						order = 5					
 					},
 					delete = {
-						name = "Delete",
+						name = L["Delete"],
 						type = "execute",
 						func = function()
 							tremove(db.points, i)

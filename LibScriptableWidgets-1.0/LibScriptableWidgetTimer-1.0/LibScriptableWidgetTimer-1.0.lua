@@ -10,6 +10,9 @@ local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
 local Evaluator = LibStub("LibScriptableUtilsEvaluator-1.0", true)
 assert(Evaluator, MAJOR .. " requires LibScriptableUtilsEvaluator-1.0")
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local pool = setmetatable({}, {__mode = "k"})
 
@@ -110,8 +113,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 		local defaults = WidgetTimer.defaults
 		local options = {
 			enabled = {
-				name = "Enabled",
-				desc = "Whether this timer is enabled or not",
+				name = L["Enabled"],
+				desc = L["Whether this timer is enabled or not"],
 				type = "toggle",
 				get = function() return db.enabled end,
 				set = function(info, v) 
@@ -124,8 +127,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 				order = 2
 			},
 			update = {
-				name = "Update Rate",
-				desc = "Enter the timer's refresh rate",
+				name = L["Update Rate"],
+				desc = L["Enter the timer's refresh rate"],
 				type = "input",
 				pattern = "%d",
 				get = function()
@@ -141,8 +144,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 				order = 3
 			},
 			repeating = {
-				name = "Repeating",
-				desc = "Toggle whether to repeat this timer",
+				name = L["Repeating"],
+				desc = L["Toggle whether to repeat this timer"],
 				type = "toggle",
 				get = function()
 					return db.repeating or defaults.repeating
@@ -157,8 +160,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 				order = 4
 			},
 			expression = {
-				name = "Expression",
-				desc = "Enter this widget's expression",
+				name = L["Expression"],
+				desc = L["Enter this widget's expression"],
 				type = "input",
 				width = "full",
 				multiline = true,

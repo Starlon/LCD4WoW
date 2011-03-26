@@ -8,9 +8,9 @@ local TalentQuery = LibStub("LibTalentQuery-1.0", true)
 assert(TalentQuery, MAJOR .. " requires LibTalentQuery-1.0")
 local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
-local L = LibStub("LibScriptableUtilsLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local _G = _G
 local GameTooltip = _G.GameTooltip
@@ -78,22 +78,9 @@ local indexOf = function(t, val, talengGroup)
 	end
 end
 
-local talentTrees = {
-	[L["Druid"]] = {L["Balance"], L["Feral Combat"], L["Restoration"]},
-	[L["Hunter"]] = {L["Beast Mastery"], L["Marksmanship"], L["Survival"]},
-	[L["Mage"]] = {L["Arcane"], L["Fire"], L["Frost"]},
-	[L["Paladin"]] = {L["Holy"], L["Protection"], L["Retribution"]},
-	[L["Priest"]] = {L["Discipline"], L["Holy"], L["Shadow"]},
-	[L["Rogue"]] = {L["Assassination"], L["Combat"], L["Subtlety"]},
-	[L["Shaman"]] = {L["Elemental"], L["Enhancement"], L["Restoration"]},
-	[L["Warlock"]] = {L["Affliction"], L["Demonology"], L["Destruction"]},
-	[L["Warrior"]] = {L["Arms"], L["Fury"], L["Protection"]},
-	[L["Death Knight"]] = {L["Blood"], L["Frost"], L["Unholy"]}
-}
-
 local roleTypes = {
 	melee = L["Melee"],
-	caster = L["Caster"],
+	ranged = L["Ranged"],
 	healer = L["Healer"],
 	tank = L["Tank"]
 }

@@ -12,9 +12,9 @@ local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
 local LibEvaluator = LibStub("LibScriptableUtilsEvaluator-1.0", true)
 assert(LibEvaluator, MAJOR .. " requires LibScriptableUtilsEvaluator-1.0")
-local L = LibStub("LibScriptableUtilsLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local pool = setmetatable({}, {__mode = "k"})
 

@@ -12,9 +12,9 @@ local Evaluator = LibStub("LibScriptableUtilsEvaluator-1.0", true)
 assert(Evaluator, MAJOR .. " requires LibScriptableUtilsEvaluator-1.0")
 local PluginUtils = LibStub("LibScriptablePluginUtils-1.0", true)
 assert(PluginUtils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
-local L = LibStub("LibScriptableUtilsLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 if not WidgetColor.__index then WidgetColor.__index = WidgetColor end
 
@@ -176,8 +176,8 @@ function WidgetColor:GetOptions(db, callback, data)
 	local defaults = WidgetColor.defaults
 	local options = {
 		enabled = {
-			name = "Enabled",
-			desc = "Whether this timer is enabled or not",
+			name = L["Enabled"],
+			desc = L["Whether this timer is enabled or not"],
 			type = "toggle",
 			get = function() return db.enabled end,
 			set = function(info, v)
@@ -188,8 +188,8 @@ function WidgetColor:GetOptions(db, callback, data)
 			order = 5
 		},
 		update = {
-			name = "Update Rate",
-			desc = "Enter the timer's refresh rate",
+			name = L["Update Rate"],
+			desc = L["Enter the timer's refresh rate"],
 			type = "input",
 			pattern = "%d",
 			get = function()
@@ -203,8 +203,8 @@ function WidgetColor:GetOptions(db, callback, data)
 			order = 6
 		},
 		repeating = {
-			name = "Repeating Timer",
-			desc = "Whether the timer associated with this widget repeats or not",
+			name = L["Repeating Timer"],
+			desc = L["Whether the timer associated with this widget repeats or not"],
 			type = "toggle",
 			get = function()
 				return db.repeating
@@ -219,8 +219,8 @@ function WidgetColor:GetOptions(db, callback, data)
 			order = 7
 		},
 		expression = {
-			name = "Expression",
-			desc = "This widget's Lua script",
+			name = L["Expression"],
+			desc = L["This widget's Lua script"],
 			type = "input",
 			multiline = true,
 			width = "full",

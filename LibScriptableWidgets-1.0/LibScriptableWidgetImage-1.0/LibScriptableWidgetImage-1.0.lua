@@ -17,10 +17,9 @@ assert(LibBuffer, MAJOR .. " requires LibScriptableUtilsBuffer-1.0")
 local PluginColor = LibStub("LibScriptablePluginColor-1.0", true)
 assert(PluginColor, MAJOR .. " requires LibScriptablePluginColor-1.0")
 PluginColor = PluginColor:New({})
-
-local L = LibStub("LibScriptableUtilsLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local pool = setmetatable({}, {__mode = "k"})
 
@@ -404,16 +403,16 @@ function WidgetImage:GetOptions(db, callback, data)
 	local defaults = WidgetImage.defaults
 	local options = {
 		enabled = {
-			name = "Enabled",
-			desc = "Whether this icon is enabled or not",
+			name = L["Enabled"],
+			desc = L["Whether this icon is enabled or not"],
 			type = "toggle",
 			get = function() return db.enabled end,
 			set = function(info, v) db.enabled = v; db["enabledDirty"] = true end,
 			order = 1
 		},
 		update = {
-			name = "Update",
-			desc = "This widget's refresh rate",
+			name = L["Update"],
+			desc = L["This widget's refresh rate"],
 			type = "input",
 			pattern = "%d",
 			get = function() return db.update or defaults.update end,
@@ -427,8 +426,8 @@ function WidgetImage:GetOptions(db, callback, data)
 			order = 2
 		},
 		width = {
-			name = "Width",
-			desc = "This widget's width",
+			name = L["Width"],
+			desc = L["This widget's width"],
 			type = "input",
 			pattern = "%d",
 			get = function() return db.width or defaults.width end,
@@ -443,8 +442,8 @@ function WidgetImage:GetOptions(db, callback, data)
 		
 		},
 		height = {
-			name = "Height",
-			desc = "This widget's height",
+			name = L["Height"],
+			desc = L["This widget's height"],
 			type = "input",
 			pattern = "%d",
 			get = function() return db.height or defaults.height end,
@@ -459,8 +458,8 @@ function WidgetImage:GetOptions(db, callback, data)
 		
 		},
 		pixel = {
-			name = "Pixel Size",
-			desc = "This widget's pixel size",
+			name = L["Pixel Size"],
+			desc = L["This widget's pixel size"],
 			type = "input",
 			pattern = "%d",
 			get = function() return db.pixel or defaults.pixel end,
@@ -475,8 +474,8 @@ function WidgetImage:GetOptions(db, callback, data)
 		
 		},
 		foreground = {
-			name = "Foreground",
-			desc = "This widget's foreground color",
+			name = L["Foreground"],
+			desc = L["This widget's foreground color"],
 			type = "color",
 			get = function() return PluginColor.Color2RGBA(db.foreground or defaults.foreground) end,
 			set = function(info, r, g, b)
@@ -489,8 +488,8 @@ function WidgetImage:GetOptions(db, callback, data)
 			order = 6
 		},
 		background = {
-			name = "Foreground",
-			desc = "This widget's background color",
+			name = L["Foreground"],
+			desc = L["This widget's background color"],
 			type = "color",
 			get = function() return PluginColor.Color2RGBA(db.background or defaults.background) end,
 			set = function(info, r, g, b)
@@ -503,8 +502,8 @@ function WidgetImage:GetOptions(db, callback, data)
 			order = 7		
 		},
 		prescript = {
-			name = "Prescript",
-			desc = "This widget's prescript",
+			name = L["Prescript"],
+			desc = L["This widget's prescript"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -520,8 +519,8 @@ function WidgetImage:GetOptions(db, callback, data)
 		
 		},
 		script = {
-			name = "Script",
-			desc = "This widget's script",
+			name = L["Script"],
+			desc = L["This widget's script"],
 			type = "input",
 			multiline = true,
 			width = "full",

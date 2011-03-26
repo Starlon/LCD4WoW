@@ -22,9 +22,9 @@ local LibBuffer = LibStub("LibScriptableUtilsBuffer-1.0", true)
 assert(LibBuffer, MAJOR .. " requires LibScriptableUtilsBuffer-1.0")
 local LibError = LibStub("LibScriptableUtilsError-1.0")
 assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
-local L = LibStub("LibScriptableUtilsLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local environment = {}
 
@@ -285,7 +285,7 @@ function LibAVSSuperScope:GetOptions(db, callback, data)
 		},
 		drawLayer = {
 			name = L["Draw Layer"],
-			desc = L[""],
+			desc = L["Draw Layer"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.pixel or defaults.pixel) end,
@@ -345,6 +345,7 @@ function LibAVSSuperScope:GetOptions(db, callback, data)
 		},
 		init = {
 			name = L["Init Script"],
+			desc = L["Called once to initialize the script environment."],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -360,6 +361,7 @@ function LibAVSSuperScope:GetOptions(db, callback, data)
 		},
 		beat = {
 			name = L["Beat Script"],
+			desc = L["Called when hitting a critical strike."],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -375,6 +377,7 @@ function LibAVSSuperScope:GetOptions(db, callback, data)
 		},
 		frame = {
 			name = L["Frame Script"],
+			desc = L["Called at each animation frame."],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -390,6 +393,7 @@ function LibAVSSuperScope:GetOptions(db, callback, data)
 		},
 		point = {
 			name = L["Point Script"],
+			desc = L["Called for each point."],
 			type = "input",
 			multiline = true,
 			width = "full",

@@ -15,6 +15,10 @@ local LibWidget = LibStub("LibScriptableWidget-1.0", true)
 assert(LibWidget, MAJOR .. " requires LibScriptableWidget-1.0")
 local Utils = LibStub("LibScriptablePluginUtils-1.0", true)
 assert(Utils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
+
 local error = LibError:New(MAJOR .. ".static")
 
 local pool = setmetatable({}, {__mode = "k"})
@@ -33,7 +37,7 @@ SCHARS = {
 	
 WidgetHistogram.DIR_EAST, WidgetHistogram.DIR_WEST = 1, 2
 
-WidgetHistogram.directionList = {"East", "West"}
+WidgetHistogram.directionList = {L["East"], L["West"]}
 	
 WidgetHistogram.defaults = {
 	direction = WidgetHistogram.DIR_EAST, update = 500, width = 6, height = 50, char = "#", background = {0, 0, 0, 0}
@@ -306,8 +310,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 	local defaults = WidgetHistogram.defaults
 	local options = {
 		enabled = {
-			name = "Enabled",
-			desc = "Whether the histogram's enabled or not",
+			name = L["Enabled"],
+			desc = L["Whether the histogram's enabled or not"],
 			type = "toggle",
 			get = function() return db.enabled end,
 			set = function(info, v) 
@@ -320,8 +324,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 1
 		},
 		length = {
-			name = "Histogram length",
-			desc = "Enter the histogram's length",
+			name = L["Histogram length"],
+			desc = L["Enter the histogram's length"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.length or defaults.length) end,
@@ -335,8 +339,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 2
 		},
 		height = {
-			name = "Histogram height",
-			desc = "Enter the histogram's height",
+			name = L["Histogram height"],
+			desc = L["Enter the histogram's height"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.height or defaults.height) end,
@@ -350,8 +354,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 3
 		},
 		update = {
-			name = "Histogram update rate",
-			desc = "Enter the histogram's refresh rate",
+			name = L["Histogram update rate"],
+			desc = L["Enter the histogram's refresh rate"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.update or defaults.update) end,
@@ -365,7 +369,7 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 4
 		},
 		direction = {
-			name = "Histogram direction",
+			name = L["Histogram direction"],
 			type = "select",
 			values = WidgetHistogram.directionList,
 			get = function() return db.direction or defaults.direction end,
@@ -379,8 +383,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 5
 		},
 		alwaysShown = {
-			name = "Always Shown",
-			desc = "Whether the frame should be shown always or not",
+			name = L["Always Shown"],
+			desc = L["Whether the frame should be shown always or not"],
 			type = "toggle",
 			get = function() return db.alwaysShown end,
 			set = function(info, val) 
@@ -393,7 +397,7 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 6
 		},		
 		background = {
-			name = "Backdrop Color",
+			name = L["Backdrop Color"],
 			type = "color",
 			hasAlpha = true,
 			get = function() 
@@ -412,8 +416,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 7
 		},
 		expression = {
-			name = "Histogram expression",
-			desc = "Enter the histogram's first expression",
+			name = L["Histogram expression"],
+			desc = L["Enter this histogram's expression."],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -428,8 +432,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 50
 		},
 		min = {
-			name = "Histogram min expression",
-			desc = "Enter the histogram's minimum expression",
+			name = L["Histogram min expression"],
+			desc = L["Enter the histogram's minimum expression"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -445,8 +449,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 		
 		},
 		max = {
-			name = "Histogram max expression",
-			desc = "Enter the histogram's maximum expression",
+			name = L["Histogram max expression"],
+			desc = L["Enter the histogram's maximum expression"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -461,8 +465,8 @@ function WidgetHistogram:GetOptions(db, callback, data)
 			order = 52
 		},
 		color = {
-			name = "Histogram color expression",
-			desc = "Enter the histogarm's color script",
+			name = L["Histogram color expression"],
+			desc = L["Enter the histogarm's color script"],
 			type = "input",
 			multiline = true,
 			width = "full",

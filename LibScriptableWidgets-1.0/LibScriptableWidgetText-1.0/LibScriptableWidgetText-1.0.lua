@@ -19,12 +19,15 @@ local PluginUtils = LibStub("LibScriptablePluginUtils-1.0", true)
 assert(PluginUtils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
 local LibBuffer = LibStub("LibScriptableUtilsBuffer-1.0", true)
 assert(LibBuffer, MAJOR .. " requires LibScriptableUtilsBuffer-1.0")
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local PINGPONGWAIT = 2
 
 WidgetText.ALIGN_LEFT, WidgetText.ALIGN_CENTER, WidgetText.ALIGN_RIGHT, WidgetText.ALIGN_MARQUEE, WidgetText.ALIGN_AUTOMATIC, WidgetText.ALIGN_PINGPONG = 1, 2, 3, 4, 5, 6
-local alignmentList = {"Left", "Center", "Right", "Marquee", "Automatic", "Pingpong"}
-local alignmentDict = {Left = 1, Center = 2, Right = 3, Marquee = 4, Automatic = 5, Pingpong = 6}
+local alignmentList = {L["Left"], L["Center"], L["Right"], L["Marquee"], L["Automatic"], L["Pingpong"]}
+local alignmentDict = {[L["Left"]] = 1, [L["Center"]] = 2, [L["Right"]] = 3, [L["Marquee"]] = 4, [L["Automatic"]] = 5, [L["Pingpong"]] = 6}
 
 WidgetText.alignmentList = alignmentList
 WidgetText.alignmentDict = alignmentDict
@@ -36,7 +39,7 @@ local directionDict = {Right = 1, Left = 2}
 WidgetText.directionList = directionList
 WidgetText.directionDict = directionDict
 
-local map = {value = "Value", prefix = "Prefix", postfix = "Postfix", precision = "Precision", align = "Alignment", update = "Update", speed = "Scroll Speed", direction ="Direction", cols = "Columns"}
+local map = {value = L["Value"], prefix = L["Prefix"], postfix = L["Postfix"], precision = L["Precision"], align = L["Alignment"], update = L["Update"], speed = L["Scroll Speed"], direction = L["Direction"], cols = L["Columns"]}
 
 local widgetType = {text = true, rc = true}
 
@@ -607,8 +610,8 @@ function WidgetText:GetOptions(db, callback, data)
 		local defaults = WidgetText.defaults
 		local options = {
 			enable = {
-				name = "Enable",
-				desc = "Enable text widget",
+				name = L["Enable"],
+				desc = L["Enable text widget"],
 				type = "toggle",
 				get = function() return db.enabled end,
 				set = function(info, v) 
@@ -621,7 +624,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 1
 			},
 			precision = {
-				name = "Precision",
+				name = L["Precision"],
 				type = "input",
 				pattern = "%d",
 				get = function()
@@ -637,7 +640,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 2
 			},
 			align = {
-				name = "Alignment",
+				name = L["Alignment"],
 				type = "select",
 				values = alignmentList,
 				get = function()
@@ -653,7 +656,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 3
 			},
 			update = {
-				name = "Update",
+				name = L["Update"],
 				type = "input",
 				pattern = "%d",
 				get = function()
@@ -669,7 +672,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 4
 			},
 			speed = {
-				name = "Scroll Speed",
+				name = L["Scroll Speed"],
 				type = "input",
 				pattern = "%d",
 				get = function()
@@ -685,7 +688,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 5
 			},
 			direction = {
-				name = "Direction",
+				name = L["Direction"],
 				type = "select",
 				values = directionList,
 				get = function()
@@ -701,7 +704,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 6
 			},
 			cols = {
-				name = "Columns",
+				name = L["Columns"],
 				type = "input",
 				pattern = "%d",
 				get = function()
@@ -717,7 +720,7 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 7
 			},
 			bold = {
-				name = "Bold",
+				name = L["Bold"],
 				type = "toggle",
 				get = function()
 					return db.bold or WidgetText.defaults.bold
@@ -732,8 +735,8 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 9
 			},
 			background = {
-				name = "Background Color",
-				desc = "This will be the widget's backdrop.",
+				name = L["Background Color"],
+				desc = L["This will be the widget's backdrop color."],
 				type = "color",
 				hasAlpha = true,
 				get = function() return unpack(db.background or WidgetText.defaults.background) end,
@@ -751,8 +754,8 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 11
 			},
 			value = {
-				name = "Value",
-				desc = "Enter this widget's Lua script",
+				name = L["Value"],
+				desc = L["Enter this widget's Lua script"],
 				type = "input",
 				width = "full",
 				multiline = true,
@@ -769,8 +772,8 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 11
 			},
 			prefix = {
-				name = "Prefix",
-				desc = "Enter this widget's prefix script",
+				name = L["Prefix"],
+				desc = L["Enter this widget's prefix script"],
 				type = "input",
 				width = "full",
 				multiline = true,
@@ -787,8 +790,8 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 12
 			},
 			postfix = {
-				name = "Postfix",
-				desc = "Enter this widget's postfix script",
+				name = L["Postfix"],
+				desc = L["Enter this widget's postfix script"],
 				type = "input",
 				width = "full",
 				multiline = true,
@@ -805,8 +808,8 @@ function WidgetText:GetOptions(db, callback, data)
 				order = 13
 			},
 			color = {
-				name = "Color",
-				desc = "Enter this widget's color script",
+				name = L["Color"],
+				desc = L["Enter this widget's color script"],
 				type = "input",
 				width = "full",
 				multiline = true,

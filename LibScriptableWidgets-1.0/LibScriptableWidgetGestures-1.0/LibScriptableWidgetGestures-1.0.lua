@@ -14,9 +14,9 @@ local PluginUtils = LibStub("LibScriptablePluginUtils-1.0", true)
 assert(PluginUtils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
 local LibMouseGestures = LibStub("LibMouseGestures-1.0", true)
 assert(LibMouseGestures, MAJOR .. " requires LibMouseGestures-1.0")
-local L = LibStub("LibScriptableUtilsLocale-1.0", true)
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 if not WidgetGestures.__index then WidgetGestures.__index = WidgetGestures end
 

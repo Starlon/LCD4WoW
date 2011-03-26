@@ -14,6 +14,8 @@ assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")
 local LibWidget = LibStub("LibScriptableWidget-1.0", true)
 assert(LibWidget, MAJOR .. " requires LibScriptableWidget-1.0")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("LibScriptable-1.0")
+
 local pool = setmetatable({}, {__mode = "k"})
 
 if not WidgetBar.__index then
@@ -35,9 +37,9 @@ WidgetBar.STYLE_NORMAL, WidgetBar.STYLE_HOLLOW = 1, 2
 WidgetBar.ORIENTATION_HORIZONTAL = 1
 WidgetBar.ORIENTATION_VERTICAL = 2
 
-WidgetBar.directionList = {"West", "East"}
-WidgetBar.styleList = {"Normal", "Hollow"}
-WidgetBar.orientationList = {"Horizontal", "Vertical"}
+WidgetBar.directionList = {L["West"], L["East"]}
+WidgetBar.styleList = {L["Normal"], L["Hollow"]}
+WidgetBar.orientationList = {L["Horizontal"], L["Vertical"]}
 	
 WidgetBar.defaults = {
 	length = 10, height = 1, direction = WidgetBar.DIR_EAST, update = 1000, style = WidgetBar.STYLE_NORMAL, orientation = 1
@@ -295,8 +297,8 @@ function WidgetBar:GetOptions(db, callback, data)
 	local defaults = WidgetBar.defaults
 	local options = {
 		enabled = {
-			name = "Enabled",
-			desc = "Whether the histogram's enabled or not",
+			name = L["Enabled"],
+			desc = L["Whether the histogram's enabled or not"],
 			type = "toggle",
 			get = function() return db.enabled end,
 			set = function(info, v) 
@@ -309,8 +311,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 1
 		},
 		length = {
-			name = "Bar length",
-			desc = "Enter the bar's length",
+			name = L["Bar length"],
+			desc = L["Enter the bar's length"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.length or defaults.length) end,
@@ -324,8 +326,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 2
 		},
 		height = {
-			name = "Bar height",
-			desc = "Enter the bar's height",
+			name = L["Bar height"],
+			desc = L["Enter the bar's height"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.height or defaults.height) end,
@@ -339,8 +341,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 3
 		},
 		update = {
-			name = "Bar update rate",
-			desc = "Enter the bar's refresh rate",
+			name = L["Bar update rate"],
+			desc = L["Enter the bar's refresh rate"],
 			type = "input",
 			pattern = "%d",
 			get = function() return tostring(db.update or defaults.update) end,
@@ -354,7 +356,7 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 4
 		},
 		direction = {
-			name = "Direction",
+			name = L["Direction"],
 			type = "select",
 			values = WidgetBar.directionList,
 			get = function() return db.direction or defaults.direction end,
@@ -368,7 +370,7 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 5
 		},
 		style = {
-			name = "Style",
+			name = L["Style"],
 			type = "select",
 			values = WidgetBar.styleList,
 			get = function() return db.style or defaults.style end,
@@ -382,7 +384,7 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 6
 		},
 		orientation = {
-			name = "Orientation",
+			name = L["Orientation"],
 			type = "select",
 			values = WidgetBar.orientationList,
 			get = function() return db.orientation or defaults.orientation end,
@@ -396,8 +398,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 7
 		},
 		shownAlways = {
-			name = "Shown Always",
-			desc = "Whether the frame should be shown always or not",
+			name = L["Shown Always"],
+			desc = L["Whether the frame should be shown always or not"],
 			type = "toggle",
 			get = function() return db.shownAlways end,
 			set = function(info, val) 
@@ -410,8 +412,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 8
 		},
 		min = {
-			name = "Minimum Expression",
-			desc = "Enter the bar's minimum value expression",
+			name = L["Minimum Expression"],
+			desc = L["Enter the bar's minimum value expression"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -427,8 +429,8 @@ function WidgetBar:GetOptions(db, callback, data)
 		
 		},
 		max = {
-			name = "Maximum Expression",
-			desc = "Enter the bar's maximum value expression",
+			name = L["Maximum Expression"],
+			desc = L["Enter the bar's maximum value expression"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -443,8 +445,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 101
 		},
 		expression = {
-			name = "Bar1 Expression",
-			desc = "Enter Bar1's expression",
+			name = L["Bar #1 Expression"],
+			desc = L["This widget's first bar expression"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -459,8 +461,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 102
 		},
 		color1 = {
-			name = "Bar1 Color Script",
-			desc = "Enter the bar's color script",
+			name = L["Bar #1 Color Script"],
+			desc = L["Enter the bar's color script"],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -475,8 +477,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 103
 		},
 		expression2 = {
-			name = "Bar2 Expression",
-			desc = "Enter Bar2's expression",
+			name = L["Bar #2 Expression"],
+			desc = L["This widget's second bar expression."],
 			type = "input",
 			multiline = true,
 			width = "full",
@@ -491,8 +493,8 @@ function WidgetBar:GetOptions(db, callback, data)
 			order = 104
 		},		
 		color2 = {
-			name = "Bar2 Color Script",
-			desc = "Enter Bar2's color script",
+			name = L["Bar #2 Color Script"],
+			desc = L["Enter the bar's color script"],
 			type = "input",
 			multiline = true,
 			width = "full",

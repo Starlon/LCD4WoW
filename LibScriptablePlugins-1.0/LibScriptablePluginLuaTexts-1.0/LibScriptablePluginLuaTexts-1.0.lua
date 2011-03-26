@@ -12,9 +12,9 @@ local LibHook = LibStub("LibScriptableUtilsHook-1.0", true)
 assert(LibHook, MAJOR .. " requires LibScriptableUtilsHook-1.0")
 local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
-local L = LibStub("LibScriptableUtilsLocale-1.0")
-assert(L, MAJOR .. " requires LibScriptableUtilsLocale-1.0")
-L = L.L
+local Locale = LibStub("AceLocale-3.0", true)
+assert(Locale, MAJOR .. " requires AceLocale-3.0")
+local L = Locale:GetLocale("LibScriptable-1.0")
 
 local _G = _G
 local ScriptEnv = {}
