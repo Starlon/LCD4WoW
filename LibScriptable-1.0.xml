@@ -5,7 +5,7 @@
 <Script file = "Libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
 <Script file = "Libs\LibQTip-1.0\LibQTip-1.0.lua"/>
 <Script file = "Libs\LibTalentQuery-1.0\LibTalentQuery-1.0.lua"/>
-<Script file = "Libs\LibGroupTalents-1.0\LibGroupTalents-1.0.lua--noload"/>
+<!--<Script file = "Libs\LibGroupTalents-1.0\LibGroupTalents-1.0.lua"/>-->
 <Script file = "Libs\AceSerializer-3.0\AceSerializer-3.0.lua"/>
 <Script file = "Libs\LibMouseGestures-1.0\LibMouseGestures-1.0.lua"/>
 <Script file = "Libs\LibUnitControl-1.0\LibUnitControl-1.0.lua"/>
@@ -18,6 +18,16 @@
 <Include file = "Libs\LibFail-2.0\embeds.xml"/>
 <Include file = "Libs\LibFail-2.0\lib.xml"/> 
 <!-- AceLocale is provided by LibFail -->
+
+<Script file = "Localization\enUS.lua"/>
+<Script file = "Localization\zhTW.lua"/>
+<Script file = "Localization\deDE.lua"/>
+<Script file = "Localization\esES.lua"/>
+<Script file = "Localization\esMX.lua"/>
+<Script file = "Localization\frFR.lua"/>
+<Script file = "Localization\koKR.lua"/>
+<Script file = "Localization\ruRU.lua"/>
+<Script file = "Localization\zhCN.lua"/>
 
 <Include file = "LibScriptableUtils-1.0\LibScriptableUtils-1.0.xml"/>
 <Include file = "LibScriptablePlugins-1.0\LibScriptablePlugins-1.0.xml"/>
