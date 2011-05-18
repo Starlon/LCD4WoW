@@ -23,6 +23,8 @@ local UnitName = _G.UnitName
 local EXPIRE_TIME = 5000
 local spec = {}
 local frame = CreateFrame("Frame")
+local featsFrame = CreateFrame("Frame")
+local honorFrame = CreateFrame("Frame")
 local count = 0
 local query = {}
 local spec_cache = setmetatable({}, {__mode = "v"})
@@ -30,6 +32,7 @@ local spec_role = {}
 local inspectUnit
 local THROTTLE_TIME = 500
 local throttleTimer 
+local ScriptEnv = {}
 
 if not PluginTalents.__index then
 	PluginTalents.__index = PluginTalents
@@ -60,13 +63,9 @@ end
 -- @return A new plugin object, aka the environment
 function PluginTalents:New(environment)
 
-	environment.SpecText = self.SpecText
-	environment.GetSpec = self.GetSpec
-	environment.ClearSpec = self.ClearSpec
-	environment.GetRole = self.GetRole
-	environment.SendQuery = self.SendQuery
-	environment.UnitILevel = self.UnitILevel
-	
+    for k, v in pairs(ScriptEnv) do
+		environment[k] = v
+	end	
 	return environment
 end
 
@@ -265,6 +264,7 @@ function PluginTalents.UnitILevel(unit, returnNil)
 
 	return format("%d", spec[guid].ilvl)
 end
+ScriptEnv.UnitILevel = PluginTalents.UnitILevel
 
 function PluginTalents.SpecText(unit, returnNil)
 	if type(unit) ~= "string" then return end
@@ -295,6 +295,7 @@ function PluginTalents.SpecText(unit, returnNil)
 	
 	return ('|T%s:12|t %s (%d/%d/%d)'):format(texture or "", name, one, two, three)
 end
+ScriptEnv.SpecText = PluginTalents.SpecText
 
 function PluginTalents.GetSpec(unit)
 	if type(unit) ~= "string" or not UnitExists(unit) then return end
@@ -302,16 +303,19 @@ function PluginTalents.GetSpec(unit)
 
 	return unpack(spec[guid])
 end
+ScriptEnv.GetSpec = PluginTalents.GetSpec
 
 function PluginTalents.GetSpecData()
 	return spec
 end
+ScriptEnv.GetSPecData = PluginTalents.GetSpecData
 
 function PluginTalents.ClearSpec(unit)
 	if type(unit) ~= "string" or not UnitExists(unit) then return end
 	local guid = UnitGUID(unit)
 	spec[guid] = nil
 end
+ScriptEnv.ClearSpec = PluginTalents.ClearSpec
 
 function PluginTalents.GetRole(unit)
 	local guid = UnitGUID(unit)
@@ -319,6 +323,7 @@ function PluginTalents.GetRole(unit)
 		return roleTypes[spec[guid].role], roleTypes[spec[guid].oldrole or -1]
 	end
 end
+ScriptEnv.GetRole = PluginTalents.GetRole
 
 local function onTooltipSetUnit()
 	
@@ -355,6 +360,125 @@ local function onHide()
 	frame:SetScript("OnUpdate", nil)
 end
 GameTooltip:HookScript("OnHide", onHide)
+
+
+--- ACHIEVEMENTS --
+
+local cache = {}
+-- Achievement Inspection Ready
+function featsFrame:INSPECT_ACHIEVEMENT_READY(event,guid)
+	self:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
+	cache[guid] = GetComparisonAchievementPoints();
+	ClearAchievementComparisonUnit();
+	featsFrame.requestedAchievementData = false
+end
+
+-- Requests Achievement Data
+function RequestAchievementData(unit)
+	if featsFrame.requestedAchievementData then return end
+	featsFrame:RegisterEvent("INSPECT_ACHIEVEMENT_READY");
+	featsFrame:SetScript("OnEvent", featsFrame.INSPECT_ACHIEVEMENT_READY);
+	SetAchievementComparisonUnit(unit);
+	featsFrame.requestedAchievementData = true
+end
+
+PluginTalents.UnitFeats = function(unit)
+    if not UnitIsPlayer(unit) then return end
+	if type(unit) ~= "string" or not UnitExists(unit) then 
+			return -1;
+	end
+	local guid = UnitGUID(unit);
+	if not cache[guid] then
+		RequestAchievementData(unit)
+		return -1
+	end
+	return cache[guid]
+end
+ScriptEnv.UnitFeats = PluginTalents.UnitFeats
+
+--- HONOR ---
+-- Much of this was borrowed from Examiner
+
+-- http://www.arenajunkies.com/showthread.php?t=222736
+-- (-6e-13*1500)^5+(7e-9*1500)^4-(4e-5*1500)^3+(0.0863*1500)^2-98.66*1500+43743
+
+-- Calculate Arena Points -- Updated Formula for 2.2 -- Now always uses 1500 rating if rating is less than that
+-- Specifically borrowed from Examiner
+function PluginTalents.CalculateArenaPoints(teamRating,teamSize)
+	local multiplier = (teamSize == 5 and 1) or (teamSize == 3 and 0.88) or (teamSize == 2 and 0.76)
+	if (teamRating <= 1500) then
+		return multiplier * (0.22 * 1500 + 14);
+	else
+		return multiplier * (1511.26 / (1 + 1639.28 * 2.71828 ^ (-0.00412 * teamRating)));
+	end
+end
+ScriptEnv.CalculateArenaPoints = PluginTalents.CalculateArenaPoints
+
+-- Load Arena Teams Normal
+function LoadArenaTeamsNormal(unit, teams)
+    local isSelf = UnitIsUnit(unit, "player")
+	for i = 1, MAX_ARENA_TEAMS do
+		local at = {}
+		if (isSelf) then
+			at.teamName, at.teamSize, at.teamRating, at.teamPlayed, at.teamWins, at.seasonTeamPlayed, at.seasonTeamWins, at.playerPlayed, at.seasonPlayerPlayed, at.teamRank, at.playerRating, at.backR, at.backG, at.backB, at.emblem, at.emblemR, at.emblemG, at.emblemB, at.border, at.borderR, at.borderG, at.borderB = GetArenaTeam(i);
+			at.teamPlayed, at.teamWins, at.playerPlayed = at.seasonTeamPlayed, at.seasonTeamWins, at.seasonPlayerPlayed;
+		else
+			at.teamName, at.teamSize, at.teamRating, at.teamPlayed, at.teamWins, at.playerPlayed, at.playerRating, at.backR, at.backG, at.backB, at.emblem, at.emblemR, at.emblemG, at.emblemB, at.border, at.borderR, at.borderG, at.borderB = GetInspectArenaTeamData(i);
+		end
+		tinsert(teams, at)
+	end
+end
+
+-- Load Honor Normal
+function LoadHonorNormal(unit, hd)
+    local isSelf = UnitIsUnit(unit, "player")
+	-- Query -- Az: Even if inspecting ourself, use inspect data as GetPVPYesterdayStats() is bugged as of (4.0.1 - 4.0.3a)
+	if not isSelf and HasInspectHonorData() then
+		hd.todayHK, hd.todayHonor, hd.yesterdayHK, hd.yesterdayHonor, hd.lifetimeHK, hd.lifetimeRank = GetInspectHonorData();
+	else
+		hd.todayHK, hd.todayHonor = GetPVPSessionStats();
+		hd.yesterdayHK, hd.yesterdayHonor = GetPVPYesterdayStats();
+		hd.lifetimeHK, hd.lifetimeRank = GetPVPLifetimeStats();
+	end
+	-- Update
+	if (hd.lifetimeRank ~= 0) then
+		hd.texture = "Interface\\PvPRankBadges\\PvPRank"..format("%.2d",hd.lifetimeRank - 4);
+		--self.rankIcon.texture:SetTexCoord(0,1,0,1);
+		hd.text = format("%s (Rank %d)",GetPVPRankInfo(hd.lifetimeRank,ex.unit),(hd.lifetimeRank - 4));
+	end
+end
+
+local cache = {}
+-- INSPECT_HONOR_UPDATE
+function honorFrame:INSPECT_HONOR_UPDATE(event)
+	local unit = inspectUnit or "player"
+	local guid = UnitGUID(unit)
+	local toon = {}
+	local isSelf = UnitIsUnit(unit, "player");
+	LoadHonorNormal(unit, toon)
+	LoadArenaTeamsNormal(unit, toon)
+	cache[guid] = toon
+	self.isInspecting = false
+	self:UnregisterEvent("INSPECT_HONOR_UPDATE");
+end
+
+PluginTalents.UnitPVPStats = function(unit)
+	if not UnitExists(unit) or not UnitIsPlayer(unit) then return end
+	local guid = UnitGUID(guid)
+	if not UnitIsUnit(unit, "player") and not type(cache[guid]) ~= "number" then
+		if( honorFrame.requestedHonorData ) then
+			return;
+		elseif (HasInspectHonorData()) then
+			honorFrame:UnregisterEvent("INSPECT_HONOR_UPDATE");
+		end
+		honorFrame.requestedHonorData = true;
+		honorFrame:RegisterEvent("INSPECT_HONOR_UPDATE");
+		RequestInspectHonorData();
+	end
+	
+	return cache[guid]
+end
+ScriptEnv.UnitPVPStats = PluginTalents.UnitPVPStats
 
 --GroupTalents.RegisterCallback(PluginTalents, "LibGroupTalents_Update", "OnUpdate")
 TalentQuery.RegisterCallback(PluginTalents, "TalentQuery_Ready")
