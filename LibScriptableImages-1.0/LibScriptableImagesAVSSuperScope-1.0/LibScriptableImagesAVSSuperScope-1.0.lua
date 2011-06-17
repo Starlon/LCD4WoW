@@ -1,6 +1,6 @@
---- This file borrows from Winamp's open source plugin known as AVS.
---- Copyright 2005 Nullsoft, Inc.
---- All rights reserved.
+-- This file borrows from Winamp's open source plugin known as AVS.
+-- Copyright 2005 Nullsoft, Inc.
+-- All rights reserved.
 
 local MAJOR = "LibScriptableImagesAVSSuperScope-1.0"
 local MINOR = 18
@@ -49,7 +49,7 @@ local defaults = {
 }
 LibAVSSuperScope.defaults = defaults
 
--- @name LibScriptableAVSSuperScope:New
+--- @name LibScriptableAVSSuperScope:New
 -- @usage LibScriptableAVSSuperScope:New(name, size, defval, errorLevel)
 -- @param name A name for the buffer
 -- @param config This object's parameters
@@ -121,7 +121,7 @@ function LibAVSSuperScope:New(name, config, errorLevel)
 
 end
 
--- @name LibScriptableAVSSuperScope:Del
+--- @name LibScriptableAVSSuperScope:Del
 -- @usage LibScriptableAVSSuperScope:Del([lcd]) or object:Del()
 -- @param lcd An optional lcd object
 -- @return Nothing
