@@ -1,4 +1,4 @@
---A lot of thise comes from ckknight.
+--A lot of this comes from ckknight.
 
 local MAJOR = "LibScriptablePluginUtils-1.0" 
 local MINOR = 18
