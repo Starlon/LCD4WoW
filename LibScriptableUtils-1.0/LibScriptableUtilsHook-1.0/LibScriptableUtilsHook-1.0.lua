@@ -6,7 +6,7 @@ if not LibHook then return end
 
 local hooks = {}
 
--- Create a hook
+--- Create a hook
 -- @param obj The object to hook
 -- @param method The object's method to hook
 -- @param target This is your handler function

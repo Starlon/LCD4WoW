@@ -17,7 +17,7 @@ if not LibScriptableError.__index then
 	LibScriptableError.errorLevel = DEFAULT_LEVEL
 end
 
--- Create a new LibScriptableError object
+--- Create a new LibScriptableError object
 -- @usage :New(name, [handler])
 -- @param name Give your error object a name
 -- @param errorLevel Critical level for this object. This is optional. Default is 2.
@@ -44,7 +44,8 @@ function LibScriptableError:New(name, errorLevel, handler)
 
 	return obj
 end
--- Delete a LibScriptableError object
+
+--- Delete a LibScriptableError object
 -- @usage :Del()
 -- @return Nothing
 function LibScriptableError:Del(err)
@@ -52,7 +53,7 @@ function LibScriptableError:Del(err)
 	pool[err] = true
 end
 
--- Print something
+--- Print something
 -- @usage LibError:Print(text, errorLevel)
 -- @param text The text to print.
 -- @param errorLevel The critical threshhold for this message

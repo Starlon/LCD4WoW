@@ -23,7 +23,7 @@ local TRANSITION_TENTACLE = 5
 local TRANSITION_ALPHABLEND = 6
 
 
--- @name LibScriptableCFG:New
+--- @name LibScriptableCFG:New
 -- @usage LibScriptableCFG:New(duration, repeating, callback, data)
 -- @param visitor A LibScriptableCore object
 -- @param config The configuration table
