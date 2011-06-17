@@ -15,40 +15,6 @@ if not LibEvaluator.__index then
 	LibEvaluator.__index = LibEvaluator
 end
 
---[[
--- Create a new LibScriptableEvaluator
--- @usage :New(environment, errorLevel)
--- @param environment Your script environment.
--- @param errorLevel The errorLevel for this object
--- @return A new LibScriptableEvaluator object
-function LibEvaluator:New(environment, errorLevel) 	
-	local obj = next(pool)
-
-	if obj then
-		pool[obj] = nil
-	else
-		obj = {}
-	end
-
-	setmetatable(obj, self)
-
-	obj.environment = environment
-	obj.errorLevel = errorLevel
-	obj.error = LibError:New(MAJOR, errorLevel)
-	
-	return obj	
-end
-
--- Delete a LibScriptableEvaluator object
--- @usage :Del()
--- @return Nothing
-function LibEvaluator:Del(ev)
-	if not ev then ev = self end
-	ev.error:Del()
-	pool[ev] = true
-end
-]]
-
 do 
 	local function errorhandler(str)
 		error:Print(str)
