@@ -97,7 +97,8 @@ function LibWidget:New(child, visitor, name, config, row, col, layer, typeOf, er
 end
 
 
---- @usage object:Del()
+--- Delete this widget
+-- @usage object:Del()
 -- @return Nothing
 function LibWidget:Del()
 	pool[self] = true
