@@ -3,7 +3,4 @@
   input-files: 
     - "LibScriptableWidgets-1.0/*/*.lua"
     - "LibScriptableUtils-1.0/*/*.lua"
-    - "LibScriptablePlugins-1.0/*/*.lua"
-    - "LibScriptableImages-1.0/*/*.lua"
-    - "LibScriptableLCD-1.0/*/*.lua"
   output-directory: API
