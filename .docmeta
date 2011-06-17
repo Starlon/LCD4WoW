@@ -1,3 +1,5 @@
-type: luadoc
-input-files: "*Widget**/*.lua"
-output-directory: API
+-
+  type: luadoc
+  input-files: 
+    - "LibScriptableWidgets-1.0/*/*.lua"
+  output-directory: API
