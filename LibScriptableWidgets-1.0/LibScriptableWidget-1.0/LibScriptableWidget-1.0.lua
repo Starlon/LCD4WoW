@@ -97,7 +97,7 @@ function LibWidget:New(child, visitor, name, config, row, col, layer, typeOf, er
 end
 
 
--- @usage object:Del()
+--- @usage object:Del()
 -- @return Nothing
 function LibWidget:Del()
 	pool[self] = true
@@ -158,7 +158,7 @@ local strataLocaleList = {
 -- @param db The database table
 -- @param callback Provide this if you want to execute the callback once an option is changed
 -- @param data Some data to pass when executing the callback
--- @return An Ace3 options table -- `name.args = options`.	
+-- @return An Ace3 options table: `name.args = options`.	
 function LibWidget:GetOptions(db, callback, data)
 	local options = {
 		name = "Frame Details",
