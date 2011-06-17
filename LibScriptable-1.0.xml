@@ -5,7 +5,6 @@
 <Script file = "Libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
 <Script file = "Libs\LibQTip-1.0\LibQTip-1.0.lua"/>
 <Script file = "Libs\LibTalentQuery-1.0\LibTalentQuery-1.0.lua"/>
-<!--<Script file = "Libs\LibGroupTalents-1.0\LibGroupTalents-1.0.lua"/>-->
 <Script file = "Libs\AceSerializer-3.0\AceSerializer-3.0.lua"/>
 <Script file = "Libs\LibMouseGestures-1.0\LibMouseGestures-1.0.lua"/>
 <Script file = "Libs\LibUnitControl-1.0\LibUnitControl-1.0.lua"/>
