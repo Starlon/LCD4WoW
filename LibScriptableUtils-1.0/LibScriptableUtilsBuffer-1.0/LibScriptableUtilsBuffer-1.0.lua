@@ -40,6 +40,7 @@ do
 	end
 end
 
+--- Create a new LibScriptableBuffer object
 -- @usage LibBuffer:New(name, size, defval, errorLevel)
 -- @param name A name for the buffer
 -- @param size The buffer's size
@@ -70,7 +71,7 @@ function LibBuffer:New(name, size, defval, errorLevel)
 
 end
 
--- Delete this buffer
+--- Delete this buffer
 -- @usage buffer:Del()
 function LibBuffer:Del(buff)
 	pool[self] = true
@@ -82,7 +83,7 @@ function LibBuffer:Del(buff)
 	del(self.buffer)
 end
 
--- Make a copy of this buffer
+--- Make a copy of this buffer
 -- @usage Clone([name])
 -- @param name An optional name for the buffer, else this buffer's name is used
 -- @return A new LibBuffer populated with this buffer's data
@@ -97,7 +98,7 @@ function LibBuffer:Clone(name)
 	return buf
 end
 
--- Wipe a buffer, 
+--- Wipe a buffer, 
 -- @usage :Wipe()
 -- @return Nothing
 function LibBuffer:Wipe()
@@ -106,7 +107,7 @@ function LibBuffer:Wipe()
 	end
 end
 
--- Fill a buffer with a value
+--- Fill a buffer with a value
 -- @usage :Fill(val)
 -- @param val The value to fill the buffer with
 -- @return Nothing
@@ -116,7 +117,7 @@ function LibBuffer:Fill(val)
 	end
 end
 
--- Resize a buffer
+--- Resize a buffer
 -- @usage :Resize(size)
 -- @param size The buffer's new size
 -- @return Nothing
@@ -144,7 +145,7 @@ function LibBuffer:Resize(size)
 	end
 end
 
--- Replace a buffer position with a new value.
+--- Replace a buffer position with a new value.
 -- @usage :Replace(pos, val)
 -- @param pos The position in the buffer to replace
 -- @param val The new value
@@ -156,7 +157,7 @@ function LibBuffer:Replace(pos, val)
 	self.buffer[pos] = val
 end
 
--- Insert a new value in the buffer at the indicated index
+--- Insert a new value in the buffer at the indicated index
 -- @usage :Insert(i, val)
 -- @param i The position in the buffer
 -- @param val The value to insert
@@ -168,7 +169,7 @@ function LibBuffer:Insert(i, val)
 	sub:Del()
 end
 
--- Clear this buffer
+--- Clear this buffer
 -- @usage :Clear()
 -- @return Nothing
 function LibBuffer:Clear()
@@ -195,7 +196,7 @@ local function del(obj)
 	pool[obj] = true
 end
 
--- Return the buffer as a concatenated string.
+--- Return the buffer as a concatenated string.
 -- @usage :AsString()
 -- @return All cells in the buffer concatenated as a string
 function LibBuffer:AsString()
@@ -228,7 +229,7 @@ function LibBuffer:AsList(list)
 	return list
 end
 
--- Populate each cell in the buffer with characters from the provided string
+--- Populate each cell in the buffer with characters from the provided string
 -- @usage :FromString(str)
 -- @param str The string which to populate the buffer with
 -- @return Nothing
@@ -245,7 +246,7 @@ function LibBuffer:FromString(str)
 	self.size = strlen(str)
 end
 
--- Merge a string into the buffer
+--- Merge a string into the buffer
 -- @usage :MergeString(pos1, str, pos2, length)
 -- @param pos1 The index in this buffer to start merging from
 -- @param str The string to merge
@@ -258,7 +259,7 @@ function LibBuffer:MergeString(pos1, str, pos2, length)
 	end
 end
 
--- Populate this buffer with the elements within the provided table
+--- Populate this buffer with the elements within the provided table
 -- @usage :FromList(list)
 -- @param list The table from which we'll copy into this buffer
 -- @return Nothing
@@ -270,14 +271,14 @@ function LibBuffer:FromList(list)
 	self.size = #list
 end
 
--- Return the size of this buffer
+--- Return the size of this buffer
 -- @usage :Size()
 -- @return The size of this buffer
 function LibBuffer:Size()
 	return self.size or 0
 end
 
--- Extract a subsection from this buffer
+--- Extract a subsection from this buffer
 -- @usage :Sub(num1, num2)
 -- @param num1 The starting position in the buffer from which to copy
 -- @param num2 THe ending position in the buffer from which to copy
@@ -296,7 +297,7 @@ function LibBuffer:Sub(num1, num2, buf)
 	return t
 end
 
--- Copy this buffer into another
+--- Copy this buffer into another
 -- @usage :Copy(other)
 -- @param other The other LibBuffer object to copy into
 -- @return Nothing
@@ -307,7 +308,7 @@ function LibBuffer:Copy(other)
 	end
 end
 
--- Merge one buffer into this one
+--- Merge one buffer into this one
 -- @usage :Merge(from, pos, len)
 -- @param from The buffer from which we'll copy
 -- @param pos The position in the other buffer that we'll start copying from
@@ -322,7 +323,7 @@ function LibBuffer:Merge(from, pos, len)
 	end
 end
 
--- Set a subsection of this buffer to the specified value
+--- Set a subsection of this buffer to the specified value
 -- @usage :Memset(pos, val, length)
 -- @param pos The starting position within this buffer to start assigning the specified value
 -- @param val The value to assign to this buffer's subsection described by this method's other parameters
@@ -334,7 +335,7 @@ function LibBuffer:Memset(pos, val, length)
 	end
 end
 
--- Copy another buffer into this one
+--- Copy another buffer into this one
 -- @usage :Memcopy(pos1, buffer, pos2, length)
 -- @param pos1 The starting position in this buffer to copy
 -- @param buffer The other buffer to copy
@@ -364,7 +365,7 @@ local function copy(tbl)
 	return new
 end
 
--- Randomize the buffer
+--- Randomize the buffer
 -- @usage :Randomize()
 function LibBuffer:Randomize()
 	local c = copy(self.buffer)
@@ -381,7 +382,7 @@ function LibBuffer:Randomize()
 	return self
 end
 
--- Retrieve the moving averages for this buffer of number values
+--- Retrieve the moving averages for this buffer of number values
 -- @usage :MovingAverageExp(alpha, epsilon, buf)
 -- @return A new buffer populated with this buffer's moving averages
 function LibBuffer:MovingAverageExp(alpha, epsilon, buf)
@@ -417,11 +418,18 @@ function LibBuffer:MovingAverageExp(alpha, epsilon, buf)
 	return result
 end
 
--- The various line algorithms were found on the internet at various places. 
--- Some of these were at the website of associate professor Leonard McMillan: 
+--- The various line algorithms were found on the internet at various places. 
+-- Line(), Line2(), Line3(), Line4(), Line5()
+-- Some of these were found at the website of associate professor Leonard McMillan: 
 -- http://www.cs.unc.edu/~mcmillan/comp136/Lecture6/Lines.html
--- Some of these don't work. Line5() is the best and most efficient algorithm.
-
+-- Some of these don't work. Line5() is the most efficient algorithm.
+-- The others should be regarded as deprecated as they will likely be removed.
+-- @param x0 First X position
+-- @param y0 First Y position
+-- @param x1 Second X position
+-- @param y1 Second Y position
+-- @param color The line will be filled with this value
+-- @param pitch The buffer's width.
 function LibBuffer:Line(x0, y0, x1, y1, color, pitch)
 	local dx = x1 - x0;
 	local dy = y1 - y0;
