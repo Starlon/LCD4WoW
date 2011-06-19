@@ -493,6 +493,11 @@ local function Rank(unit)
 end
 ScriptEnv.Rank = Rank
 
+local function RankIndex(unit)
+	return select(3, GetGuildInfo(unit))
+end
+ScriptEnv.RankIndex = RankIndex
+
 local function Realm(unit)
 	return select(2, UnitName(unit))
 end
@@ -1241,10 +1246,31 @@ end
 ScriptEnv.PVPDuration = PVPDuration
 
 local function Texture(texture, size)
-	if type(texture) ~= "string" or type(size) ~= "number" then return '|T:12|t' end
+	if type(texture) ~= "string" then return '|T:12|t' end
+	size = size or 12
 	return format("|T%s:%d|t", texture, size)
 end
 ScriptEnv.Texture = Texture
+
+local function TextureWithCoords(texture, size, size2, xoffset, yoffset, dimx, dimy, coordx1, coordx2, coordy1, coordy2)
+	--|TTexturePath:size1:size2:xoffset:yoffset:dimx:dimy:coordx1:coordx2:coordy1:coordy2|t
+	local fmt = "|T%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s|t"
+	size = 12
+	size2 = 12
+	xoffset = 0
+	yoffset = 0
+	dimx = 12
+	dimy = 12
+	coordx1 = 0
+	coordx2 = 0
+	coordy1 = 0
+	coordy2 = 0
+	
+	local text = format(fmt, texture, tostring(size), tostring(size2), tostring(xoffset), tostring(yoffset), tostring(dimx), tostring(dimy), tostring(coordx1), tostring(coordx2), tostring(coordy1), tostring(coordy2))
+	StarTip:Print(":::: * ", text, texture)
+	return text
+end
+ScriptEnv.TextureWithCoords = TextureWithCoords
 
 -----------------End of ScriptEnv---------------------
 
