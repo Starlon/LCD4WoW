@@ -105,13 +105,13 @@ function getLocation()
 
     local hasFaction = factionText and not UnitPlayerControlled(scanunit) and not UnitIsPlayer(scanunit) and (UnitFactionGroup(scanunit) or factionList[factionText])
 
-	if UnitInParty("player") or UnitInRaid("player") then
+	if UnitInParty(scanunit) or UnitInRaid(scanunit) then
 		if hasGuild and hasFaction then
 			return self.leftLines[5]:GetText()
 		elseif (hasGuild or hasFaction) then
 			if self.leftLines[4]:GetText() == PVP then return nil end
 			return self.leftLines[4]:GetText()
-		elseif not left_3:find(LEVEL_start) then
+		elseif not left_3:find(LEVEL_start) and not left_3 == PVP then
 			return left_3
 		end
 	end
