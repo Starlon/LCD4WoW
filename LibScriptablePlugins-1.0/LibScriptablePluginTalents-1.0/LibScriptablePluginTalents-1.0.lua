@@ -78,12 +78,35 @@ local indexOf = function(t, val, talengGroup)
 	end
 end
 
-local roleTypes = {
-	melee = L["Melee"],
-	ranged = L["Ranged"],
-	healer = L["Healer"],
-	tank = L["Tank"]
+local iconsz = 19 
+local riconsz = iconsz
+local role_tex_file = "Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES.blp"
+local role_t = "\124T"..role_tex_file..":%d:%d:"
+local role_tex = {
+   DAMAGER = role_t.."0:0:64:64:20:39:22:41\124t",
+   HEALER  = role_t.."0:0:64:64:20:39:1:20\124t",
+   TANK    = role_t.."0:0:64:64:0:19:22:41\124t",
+   LEADER  = role_t.."0:0:64:64:0:19:1:20\124t",
+   NONE    = ""
 }
+function getRoleTex(role,size)
+  local str = role_tex[role]
+  if not str or #str == 0 then return "" end
+  if not size then size = 0 end
+  role_tex[size] = role_tex[size] or {}
+  str = role_tex[size][role]
+  if not str then
+     str = string.format(role_tex[role], size, size)
+     role_tex[size][role] = str
+  end
+  return str
+end
+function getRoleTexCoord(role)
+  local str = role_tex[role]
+  if not str or #str == 0 then return nil end
+  local a,b,c,d = string.match(str, ":(%d+):(%d+):(%d+):(%d+)%\124t")
+  return a/64,b/64,c/64,d/64
+end
 
 -- From LibInspectLess
 local function GetInspectItemLinks(unit)
@@ -461,7 +484,7 @@ function LoadHonorNormal(unit, hd)
 	end
 	-- Update
 	if (hd.lifetimeRank ~= 0) then
-		hd.texture = "Interface\\PvPRankBadges\\PvPRank06.blp" --..format("%.2d",hd.lifetimeRank - 4)..".blp";
+		hd.texture = "Interface\\PvPRankBadges\\PvPRank"..format("%.2d",hd.lifetimeRank - 4)..".blp";
 		--self.rankIcon.texture:SetTexCoord(0,1,0,1);
 		hd.text = format("%s (%d)",GetPVPRankInfo(hd.lifetimeRank, unit),(hd.lifetimeRank - 4));
 	end
