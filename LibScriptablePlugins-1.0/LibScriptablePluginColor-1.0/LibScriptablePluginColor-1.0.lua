@@ -66,7 +66,7 @@ local function Color2RGBA(color, thirtyTwoBit)
 		r = bit.band(bit.rshift(l, 16), 0xff) / 255
 		g = bit.band(bit.rshift(l, 8), 0xff) / 255
 		b = bit.band(bit.rshift(l, 0), 0xff) / 255
-		a = 0xff000000 / 255
+		a = 0xff / 255
 	end
 	return r, g, b, a
 end
@@ -80,8 +80,12 @@ ScriptEnv.Color2RGBA = Color2RGBA
 -- @param alpha The color's alpha value. This parameter is optional.
 -- @return A color value, i.e. 0xffffff
 local function RGBA2Color(red, green, blue, alpha)
+	red = bit.band((red or 1) * 255, 0xff)
+	green = bit.band((green or 1) * 255, 0xff)
+	blue = bit.band((blue or 1) * 255, 0xff)
+	alpha = alpha and bit.band(alpha * 255, 0xff)
 	if alpha then
-		return bit.bor(bit.bor(bit.bor(bit.lshift(red, 16), bit.lshift(green, 8)) + bit.lshift(blue, 8)), bit.lshift(alpha, 24))
+		return bit.bor(bit.bor(bit.bor(bit.lshift(red, 16), bit.lshift(green, 8)) + blue), bit.lshift(alpha, 24))
 	else
 		return bit.bor(bit.bor(bit.lshift(red, 16), bit.lshift(green, 8)), blue)
 	end
