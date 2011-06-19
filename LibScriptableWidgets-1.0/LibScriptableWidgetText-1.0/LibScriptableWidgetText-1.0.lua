@@ -104,7 +104,8 @@ WidgetText.defaults = {
 	direction = WidgetText.SCROLL_RIGHT,
 	update = 0,
 	cols = 40,
-	background = {0, 0, 0, 0}
+	background = {0, 0, 0, 0},
+	limited = false
 }
 
 --- Create a new LibScriptableWidgetText object
@@ -193,6 +194,7 @@ function WidgetText:Init(config)
 	obj.speed = config.speed or self.defaults.speed -- marquee scrolling speed
 	obj.direction = config.direction or self.defaults.direction -- marquee direction
 	obj.cols = config.cols or self.defaults.cols -- number of colums in marquee
+	obj.limited = config.limited or self.defaults.limited -- Whether to use strict length or not. Meaning that your string won't be cut short if its length is more than self.cols. Note that self.cols will be modified to fit the string should this field be false and strlen returns > cols.
 	obj.bold = config.bold
 	obj.offset = 0 -- increment by pixel
 	obj.string = "" -- formatted value
@@ -584,6 +586,9 @@ function textUpdate(self)
         /* we simply call this scroll callback directly */
 		]]
         if (self.align ~= self.ALIGN_MARQUEE and self.align ~= self.ALIGN_AUTOMATIC and self.align ~= self.ALIGN_PINGPONG) then
+			if(strlen(self.string) > self.cols and not self.limited) then
+				self.cols = strlen(self.string)
+			end
             textScroll(self)
 			return false
         end
