@@ -80,14 +80,22 @@ ScriptEnv.Color2RGBA = Color2RGBA
 -- @param alpha The color's alpha value. This parameter is optional.
 -- @return A color value, i.e. 0xffffff
 local function RGBA2Color(red, green, blue, alpha)
-	red = bit.band((red or 1) * 255, 0xff)
-	green = bit.band((green or 1) * 255, 0xff)
-	blue = bit.band((blue or 1) * 255, 0xff)
-	alpha = alpha and bit.band(alpha * 255, 0xff)
+	red = red * 255 -- bit.band((red or 1) * 255, 0xff)
+	green = green * 255 --bit.band((green or 1) * 255, 0xff)
+	blue = blue * 255 -- bit.band((blue or 1) * 255, 0xff)
+	alpha = alpha and alpha * 255 --bit.band(alpha * 255, 0xff)
 	if alpha then
-		return bit.bor(bit.bor(bit.bor(bit.lshift(red, 16), bit.lshift(green, 8)) + blue), bit.lshift(alpha, 24))
+		local r = bit.lshift(red, 16)
+		local g = bit.lshift(green, 8)
+		local b = blue
+		local a = bit.lshift(alpha, 24)
+		return bit.bor(r, bit.bor(g, bit.bor(b, a)))	
 	else
-		return bit.bor(bit.bor(bit.lshift(red, 16), bit.lshift(green, 8)), blue)
+		local r = bit.lshift(red, 16)
+		local g = bit.lshift(green, 8)
+		local b = blue
+		local a = 0xff000000
+		return bit.bor(r, bit.bor(g, bit.bor(b, a)))
 	end
 end
 ScriptEnv.RGBA2Color = RGBA2Color
@@ -100,7 +108,9 @@ ScriptEnv.RGBA2Color = RGBA2Color
 local function ColorBrightest(col1, col2)
 	local r1, g1, b1 = Color2RGBA(col1)
 	local r2, g2, b2 = Color2RGBA(col2)
-	if r1 + g1 + b1 > r2 + g2 + b2 then
+	local v1 = select(3, ScriptEnv.RGB2HSV(r1, g1, b1))
+	local v2 = select(3, ScriptEnv.RGB2HSV(r2, g2, b2))
+	if v1 > v2 then
 		return col1
 	else
 		return col2
@@ -115,7 +125,7 @@ ScriptEnv.ColorBrightest = ColorBrightest
 -- @param blue The color's blue value
 -- @return A value in the range of 0-255 representing the color's grayscale format
 local function RGB2Gray(red, green, blue)
-	return (77 * red + 150 * green + 28 * blue) / 255;
+	return (77 * red * 255 + 150 * green * 255 + 28 * blue * 255) / 255;
 end
 ScriptEnv.RGB2Gray = RGB2Gray
 
@@ -251,7 +261,7 @@ ScriptEnv.BgColor = BgColor
 -- @return Red, green, and blue -- note that the values are multiplied by 255 for an 8 bit format
 local function ThreatStatusColor(status)
 	local r, g, b = GetThreatStatusColor(status)
-	return r * 255, g * 255, b * 255
+	return r, g, b
 end
 ScriptEnv.ThreatStatusColor = ThreatStatusColor
 
