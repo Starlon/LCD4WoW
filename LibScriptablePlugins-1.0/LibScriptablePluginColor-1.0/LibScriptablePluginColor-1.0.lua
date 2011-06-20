@@ -130,6 +130,110 @@ local function RGB2Black(red, green, blue)
 end
 ScriptEnv.RGB2Black = RGB2Black
 
+--- Return RGB values from HSV colorspace values.
+-- @usage RGBFromHSV(h, s, v)
+-- @param h Hue value, ranging from 0 to 360
+-- @param s Satration value, ranging from 0 to 1
+-- @param v Value value, ranging from 0 to 1
+-- @return Red, green, and blue values from the HSV values provided.
+function RGB2HSV (h, s, v)
+	local i
+	local f, w, q, t
+	local r, g, b = 0, 0, 0
+
+	if (s == 0.0) then
+		s = 0.000001;
+	end
+
+	if (h == 360.0) then
+		h = 0.0;
+	end
+
+	h = h / 60.0;
+	i = floor(h);
+	f = h - i;
+	w = v * (1.0 - s);
+	q = v * (1.0 - (s * f));
+	t = v * (1.0 - (s * (1.0 - f)));
+
+	if i == 0 then
+		r = v; g = t; b = w;
+	elseif i == 1 then
+		r = q; g = v; b = w;
+	elseif i == 2 then
+		r = w; g = v; b = t;
+	elseif i == 3 then
+		r = w; g = q; b = v;
+	elseif i == 4 then
+		r = t; g = w; b = v;
+	elseif i == 5 then
+		r = v; g = w; b = q
+	end
+
+	return r, g, b
+end
+ScriptEnv.HSV2RGB = HSV2RGB
+
+--- Creates HSV colorspace values from RGB values
+-- @usage RGB2HSV(r, g, b)
+-- @param r Red value
+-- @param g Green value
+-- @param b Blue value
+-- @return Hue, Saturation, and Value values from RGB values
+function RGB2HSV(r, g, b)
+        local max, min, delta
+	local h, s, v
+
+	max = r;
+	if (g > max) then
+		max = g;
+	end
+
+	if (b > max) then
+		max = b;
+	end
+
+	min = r;
+	if (g < min) then
+		min = g;
+	end
+
+	if (b < min) then
+		min = b;
+	end
+
+	v = max;
+
+	if (max ~= 0.0) then
+		s = (max - min) / max;
+	else
+		s = 0.0;
+	end
+
+	if (s == 0.0) then
+		h = 0.0;
+	else
+		delta = max - min;
+
+		if (r == max) then
+			h = (g - b) / delta;
+		elseif (g == max) then
+			h = 2.0 + (b - r) / delta;
+		elseif (b == max) then
+			h = 4.0 + (r - g) / delta;
+		end
+
+		h = h * 60.0;
+
+		if (h < 0.0) then
+			h = h + 360;
+		end
+	end
+
+	return h, s, v
+end
+ScriptEnv.RGB2HSV = RGB2HSV
+
 -- Convert an RGB expression into a suitable color for a background behind the RGB value. This is part of LuaTexts.
 -- @usage BgColor(r, g, b)
 -- @param r The color's red value
