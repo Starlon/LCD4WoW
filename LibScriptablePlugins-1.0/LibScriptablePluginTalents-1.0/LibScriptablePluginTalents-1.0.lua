@@ -27,9 +27,10 @@ local featsFrame = CreateFrame("Frame")
 local honorFrame = CreateFrame("Frame")
 local count = 0
 local query = {}
-local spec_cache = setmetatable({}, {__mode = "v"})
+local spec_cache = {}
 local spec_role = {}
 local PVP_cache = {}
+local FEATS_cache = {}
 local inspectUnit
 local THROTTLE_TIME = 500
 local throttleTimer 
@@ -401,7 +402,6 @@ GameTooltip:HookScript("OnHide", onHide)
 
 --- ACHIEVEMENTS --
 
-local FEATS_cache = {}
 -- Achievement Inspection Ready
 function featsFrame:INSPECT_ACHIEVEMENT_READY(event,guid)
 	self:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
