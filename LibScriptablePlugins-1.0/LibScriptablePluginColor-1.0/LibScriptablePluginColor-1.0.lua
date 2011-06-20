@@ -50,7 +50,7 @@ local function Color2RGBA(color, thirtyTwoBit)
 	local r, g, b, a = 0, 0, 0, 0
 		
 	if (color == nil) then
-		return -1;
+		return r, g, b, a;
 	end
 
 	local l = color
@@ -91,6 +91,22 @@ local function RGBA2Color(red, green, blue, alpha)
 	end
 end
 ScriptEnv.RGBA2Color = RGBA2Color
+
+--- Determine and return the brightest of 2 32bit colors. The alpha channel is ignored.
+-- @usage ColorBrighest(color1, color2)
+-- @param col1 The first color to compare.
+-- @param col2 The second color to compare.
+-- @return The brighest of the two colors is returned.
+local function ColorBrightest(col1, col2)
+	local r1, g1, b1 = Color2RGBA(col1)
+	local r2, g2, b2 = Color2RGBA(col2)
+	if r1 + g1 + b1 > r2 + g2 + b2 then
+		return col1
+	else
+		return col2
+	end
+end
+ScriptEnv.ColorBrightest = ColorBrightest
 
 -- Convert an RGB color into its greyscale value
 -- @usage RGB2Gray(red, green, blue)

@@ -274,7 +274,7 @@ end
 
 function PluginTalents.SendQuery(unit)
 	local guid = UnitGUID(unit)
-	if not UnitIsPlayer(unit) or not (CheckInteractDistance(unit, 1) and not spec[guid]) then return end
+	if not UnitIsPlayer(unit) or not (CheckInteractDistance(unit, 1)) or TalentQuery.lastInspectPending > 1 then return end
 
 	if UnitIsUnit(unit, "player") then
 		PluginTalents:TalentQuery_Ready(_, UnitName(unit), nil, "player")
@@ -526,6 +526,8 @@ PluginTalents.UnitPVPStats = function(unit)
 		LoadHonorNormal(unit, toon)
 		LoadArenaTeamsNormal(unit, toon)
 		PVP_cache[guid] = toon
+	elseif not PVP_cache[guid] then
+		PluginTalents.SendQuery(unit)
 	end
 	
 	return PVP_cache[guid]
