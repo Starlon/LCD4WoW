@@ -80,10 +80,10 @@ ScriptEnv.Color2RGBA = Color2RGBA
 -- @param alpha The color's alpha value. This parameter is optional.
 -- @return A color value, i.e. 0xffffff
 local function RGBA2Color(red, green, blue, alpha)
-	red = red * 255 -- bit.band((red or 1) * 255, 0xff)
-	green = green * 255 --bit.band((green or 1) * 255, 0xff)
-	blue = blue * 255 -- bit.band((blue or 1) * 255, 0xff)
-	alpha = alpha and alpha * 255 --bit.band(alpha * 255, 0xff)
+	red = bit.band((red or 1) * 255, 0xff)
+	green = bit.band((green or 1) * 255, 0xff)
+	blue = bit.band((blue or 1) * 255, 0xff)
+	alpha = alpha and bit.band(alpha * 255, 0xff)
 	if alpha then
 		local r = bit.lshift(red, 16)
 		local g = bit.lshift(green, 8)
