@@ -12,6 +12,8 @@ local LibHook = LibStub("LibScriptableUtilsHook-1.0", true)
 assert(LibHook, MAJOR .. " requires LibScriptableUtilsHook-1.0")
 local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
+local PluginTalents = LibStub("LibScriptablePluginTalents-1.0")
+assert(PluginTalents, MAJOR .. " requires LibScriptablePluginTalents-1.0")
 local Locale = LibStub("AceLocale-3.0", true)
 assert(Locale, MAJOR .. " requires AceLocale-3.0")
 local L = Locale:GetLocale("LibScriptable-1.0")
@@ -1244,6 +1246,32 @@ local function PVPDuration(unit)
 	end
 end
 ScriptEnv.PVPDuration = PVPDuration
+
+local count = 0
+local function PVPRank(unit)
+	local pvp = PluginTalents.UnitPVPStats(unit);
+	local txt;
+	if pvp then
+	  local fctn = ScriptEnv.Faction(unit)
+	  if fctn == L["Alliance"] then
+		fctn = L["Horde"]
+	  elseif fctn == L["Horde"] then
+		fctn = L["Alliance"]
+	  end
+	  local rankIcon = ScriptEnv.Texture(pvp.texture, 12)
+	  local factIcon = ScriptEnv.Texture("Interface\\PvPRankBadges\\PvPRank"..fctn..".blp", 12)
+	  txt = format("%s %s %d HKs", rankIcon, pvp.text or factIcon..L["nOOb (-1)"], pvp.lifetimeHK)
+	else
+      local elips = ""
+      for i = 0, count % 3 do
+		elips = elips .. "."
+	  end
+	  count = count + 1
+	  txt = L["Fetching"] .. elips
+	end
+	return txt
+end
+ScriptEnv.PVPRank = PVPRank
 
 local function Texture(texture, size)
 	if type(texture) ~= "string" then return '|T:12|t' end
