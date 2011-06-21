@@ -14,6 +14,8 @@ local LibTimer = LibStub("LibScriptableUtilsTimer-1.0", true)
 assert(LibTimer, MAJOR .. " requires LibScriptableUtilsTimer-1.0")
 local PluginTalents = LibStub("LibScriptablePluginTalents-1.0")
 assert(PluginTalents, MAJOR .. " requires LibScriptablePluginTalents-1.0")
+local PluginColor = LibStub("LibScriptablePluginColor-1.0")
+assert(PluginColor, MAJOR .. " requires LibScriptablePluginColor-1.0")
 local Locale = LibStub("AceLocale-3.0", true)
 assert(Locale, MAJOR .. " requires AceLocale-3.0")
 local L = Locale:GetLocale("LibScriptable-1.0")
@@ -1273,6 +1275,50 @@ local function PVPRank(unit)
 end
 ScriptEnv.PVPRank = PVPRank
 
+local function ArenaTeam(unit, num)
+	local pvp = PluginTalents.UnitPVPStats(unit);
+	if not pvp then return "" end
+	local team = pvp.teams[num]
+	if not team then return "" end
+	local text = ""
+	if team and type(team.teamSize) == "number" and team.teamSize > 0 then
+		local points = ScriptEnv.CalculateArenaPoints(team.teamRating, team.teamSize)
+		local perc = team.teamRating / 3000
+		local emblem = ScriptEnv.Texture("Interface\\PVPFrame\\Icons\\PVP-Banner-Emblem-"..team.emblem, 12)
+		local embcol = PluginColor.RGBA2Color(team.emblemR, team.emblemG, team.emblemB)
+		local bkgcol = PluginColor.RGBA2Color(team.backR, team.backG, team.backB)
+		local brightest = PluginColor.ColorBrightest(embcol, bkgcol)
+		local r, g, b = PluginColor.Color2RGBA(brightest)
+		local tag = PluginColor.Colorize("2v2", r, g, b)
+		local wins, played = team.teamWins, team.teamPlayed
+		local losses = played - wins
+		local winlost = ""
+		if wins >= losses then
+			winlost = PluginColor.Colorize(format("%d/%d", wins, losses), 0, 1, 1)
+		else
+			winlost = PluginColor.Colorize(format("%d/%d", wins, losses), 1, 0, 0)
+		end    
+		text = format("%s %s %s %s (%.1f pts) %s", tag, emblem, team.teamName or "Name?", PluginColor.Colorize(team.teamRating, perc, 0.5, 1), points, winlost)
+	end
+	return text
+end
+ScriptEnv.ArenaTeam = ArenaTeam
+
+-- http://www.arenajunkies.com/showthread.php?t=222736
+-- (-6e-13*1500)^5+(7e-9*1500)^4-(4e-5*1500)^3+(0.0863*1500)^2-98.66*1500+43743
+
+-- Calculate Arena Points -- Updated Formula for 2.2 -- Now always uses 1500 rating if rating is less than that
+-- Specifically borrowed from Examiner
+function CalculateArenaPoints(teamRating,teamSize)
+	local multiplier = (teamSize == 5 and 1) or (teamSize == 3 and 0.88) or (teamSize == 2 and 0.76)
+	if (teamRating <= 1500) then
+		return multiplier * (0.22 * 1500 + 14);
+	else
+		return multiplier * (1511.26 / (1 + 1639.28 * 2.71828 ^ (-0.00412 * teamRating)));
+	end
+end
+ScriptEnv.CalculateArenaPoints = CalculateArenaPoints
+
 local function Texture(texture, size)
 	if type(texture) ~= "string" then return '|T:12|t' end
 	size = size or 12
@@ -1282,20 +1328,8 @@ ScriptEnv.Texture = Texture
 
 local function TextureWithCoords(texture, size, size2, xoffset, yoffset, dimx, dimy, coordx1, coordx2, coordy1, coordy2)
 	--|TTexturePath:size1:size2:xoffset:yoffset:dimx:dimy:coordx1:coordx2:coordy1:coordy2|t
-	local fmt = "|T%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s|t"
-	size = 12
-	size2 = 12
-	xoffset = 0
-	yoffset = 0
-	dimx = 12
-	dimy = 12
-	coordx1 = 0
-	coordx2 = 0
-	coordy1 = 0
-	coordy2 = 0
-	
+	local fmt = "|T%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s|t"	
 	local text = format(fmt, texture, tostring(size), tostring(size2), tostring(xoffset), tostring(yoffset), tostring(dimx), tostring(dimy), tostring(coordx1), tostring(coordx2), tostring(coordy1), tostring(coordy2))
-	StarTip:Print(":::: * ", text, texture)
 	return text
 end
 ScriptEnv.TextureWithCoords = TextureWithCoords

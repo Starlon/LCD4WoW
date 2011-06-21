@@ -436,21 +436,6 @@ ScriptEnv.UnitFeats = PluginTalents.UnitFeats
 --- HONOR ---
 -- Much of this was borrowed from Examiner
 
--- http://www.arenajunkies.com/showthread.php?t=222736
--- (-6e-13*1500)^5+(7e-9*1500)^4-(4e-5*1500)^3+(0.0863*1500)^2-98.66*1500+43743
-
--- Calculate Arena Points -- Updated Formula for 2.2 -- Now always uses 1500 rating if rating is less than that
--- Specifically borrowed from Examiner
-function PluginTalents.CalculateArenaPoints(teamRating,teamSize)
-	local multiplier = (teamSize == 5 and 1) or (teamSize == 3 and 0.88) or (teamSize == 2 and 0.76)
-	if (teamRating <= 1500) then
-		return multiplier * (0.22 * 1500 + 14);
-	else
-		return multiplier * (1511.26 / (1 + 1639.28 * 2.71828 ^ (-0.00412 * teamRating)));
-	end
-end
-ScriptEnv.CalculateArenaPoints = PluginTalents.CalculateArenaPoints
-
 -- Load Arena Teams Normal
 function LoadArenaTeamsNormal(unit, player)
     local isSelf = UnitIsUnit(unit, "player")

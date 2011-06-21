@@ -538,3 +538,6 @@ local function DifficultyColor(unit)
 end
 ScriptEnv.DifficultyColor = DifficultyColor
 
+for k, v in pairs(ScriptEnv) do
+	PluginColor[k] = v
+end

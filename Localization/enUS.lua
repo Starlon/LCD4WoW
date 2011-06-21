@@ -360,6 +360,8 @@ L["Flight"] = true
 
 L["Feigned Death"] = true
 
+L["Fetching"] = true
+
 -- PluginTalents
 
 L["Melee"] = true
