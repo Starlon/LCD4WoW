@@ -144,20 +144,18 @@ function LibTimer:Del()
 	del(timer.timer)
 end
 
---- Start a timer
+--- Start a timer.
 -- @usage object:Start([duration], [data])
--- @param duration The duration in milliseconds. This is optional.
--- @param data Replace the timer's data that will be sent through the callback with this value
+-- @param duration The duration in milliseconds. This is optional. The timer's initialized duration will be replaced by this value.
+-- @param data Replace the timer's data that will be sent through the callback with this value.
 -- @param func Replace the timer's callback function
--- @return True if the timer was started
 function LibTimer:Start(duration, data, func)
+	
 	if type(duration) == "number" then
 		self.duration = duration / 1000
 	end
-	
-	if self.duration == 0 then
-		return
-	end
+		
+	if self.duration == 0 then return end
 	
 	self.startTime = GetTime()
 		
@@ -180,6 +178,15 @@ function LibTimer:Start(duration, data, func)
 	
 	ag:Play()
 
+end
+
+-- Set the timer's refresh rate. This also stops the timer.
+-- @usage :Set(100)
+-- @param duration The duration in milliseconds. If no duration is passed, then refresh rate is set to zero.
+-- @return NOthing
+function LibTimer:Set(duration)
+	self.duration = (duration or 0) / 1000
+	self:Stop()
 end
 
 -- Does LibScriptable need this? Mind's fuzzy atm. lol Leaving here in case it dawns on me.
