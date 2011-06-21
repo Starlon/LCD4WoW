@@ -19,6 +19,8 @@ local PluginUtils = LibStub("LibScriptablePluginUtils-1.0", true)
 assert(PluginUtils, MAJOR .. " requires LibScriptablePluginUtils-1.0")
 local LibBuffer = LibStub("LibScriptableUtilsBuffer-1.0", true)
 assert(LibBuffer, MAJOR .. " requires LibScriptableUtilsBuffer-1.0")
+local LibEvaluator = LibStub("LibScriptableUtilsEvaluator-1.0")
+assert(LibEvaluator, MAJOR .. " requires LibScriptableUtilsEvaluator-1.0")
 local Locale = LibStub("AceLocale-3.0", true)
 assert(Locale, MAJOR .. " requires AceLocale-3.0")
 local L = Locale:GetLocale("LibScriptable-1.0")
@@ -118,8 +120,9 @@ WidgetText.defaults = {
 -- @param errorLevel The self.errorLevel for this object
 -- @param callback Your draw function. The widget is passed as first parameter and data is passed as 2nd.
 -- @param timer An optional timer object. This should have a :Start() and :Stop()
+-- @param timer An optional timer object for text scrolling. This should have a :Start() and :Stop()
 -- @return A new LibScriptableWidgetText object
-function WidgetText:New(visitor, name, config, row, col, layer, errorLevel, callback, timer)
+function WidgetText:New(visitor, name, config, row, col, layer, errorLevel, callback, timer, textTimer)
 	assert(name, "WidgetText requires a name.")
 	assert(config, "Please provide the marquee with a config")
 	assert(config.value, name .. ": Please provide the marquee with a script value")
@@ -147,6 +150,10 @@ function WidgetText:New(visitor, name, config, row, col, layer, errorLevel, call
 
 	if not timer then
 		self.localTimer = true
+	end
+	
+	if not textTimer then
+		self.localTextTimer = true
 	end
 
 	obj:Init(config)
@@ -216,13 +223,9 @@ function WidgetText:Init(config)
 
 	assert(type(obj.update) == "number", "You must provide a text widget with a refresh rate: update")
 
-	if config.update and config.update > 0 then
-		obj.timer = obj.timer or LibTimer:New("WidgetText.timer " .. obj.widget.name, obj.update or WidgetText.defaults.update, obj.repeating or WidgetText.defaults.repeating, textUpdate, obj, obj.errorLevel)
-	end
+	obj.timer = obj.timer or LibTimer:New("WidgetText.timer " .. obj.widget.name, obj.update or WidgetText.defaults.update, obj.repeating or WidgetText.defaults.repeating, textUpdate, obj, obj.errorLevel)
+	obj.textTimer = obj.textTimer or LibTimer:New("WidgetText.textTimer " .. obj.widget.name, obj.speed or WidgetText.defaults.speed, true, textScroll, obj, obj.errorLevel)
 	
-	if (obj.speed > 0) then
-		obj.textTimer = config.textTimer or LibTimer:New("WidgetText.textTimer " .. obj.widget.name, obj.speed, obj.repeating, textScroll, obj, obj.errorLevel)
-	end
 end
 
 --- Delete a LibScriptableWidgetText object
@@ -243,10 +246,10 @@ function WidgetText:Del()
 	if marq.postfix then
 		marq.postfix:Del()
 	end
-	if marq.timer and marq.localTimer then
+	if marq.localTimer then
 		marq.timer:Del()
 	end
-	if marq.textTimer and marq.localTimer then
+	if marq.localTextTimer then
 		marq.textTimer:Del()
 	end
 	if marq.error then
@@ -284,13 +287,12 @@ WidgetText.IntersectUpdate = LibWidget.IntersectUpdate
 -- @return Nothing
 function WidgetText:Start()
 	if self.active then return end
-	self.error:Print("WidgetText:Start")
-	self.oldBuffer = nil
+	self.oldBuffer = false
 	self:Update()
-	if self.timer then
+	if self.update > 0 then
 		self.timer:Start()
 	end
-	if self.textTimer then
+	if self.speed > 0 then
 		self.textTimer:Start()
 	end
 	self.active = true
@@ -300,7 +302,6 @@ end
 -- @usage :Stop()
 -- @return Nothing
 function WidgetText:Stop()
-	self.error:Print("WidgetText:Stop")
 	if self.timer then
 		self.timer:Stop()
 	end
@@ -537,40 +538,8 @@ function textUpdate(self)
     if (self.precision == 0xBABE) then
         str = self.value:P2S();
     else
-		--[[
-        local number = self.value:P2N();
-        local width = self.cols - strlen(self.prefix:P2S()) - strlen(self.postfix:P2S());
-        local precision = self.precision;
-        --/* print zero bytes so we can specify NULL as target  */
-        --/* and get the length of the resulting str */
-		local text = ("%.*f"):format(precision, number)
-		local size = strlen(text)
-        --/* number does not fit into field width: try to reduce precision */
-        if (width < 0) then
-            width = 0;
-		end
-        if (size > width and precision > 0) then
-            local delta = size - width;
-            if (delta > precision) then
-                delta = precision;
-			end
-            precision = precision - delta;
-            size = size - delta;
-            --/* zero precision: omit decimal point, too */
-            if (precision == 0) then
-                size = size - 1
-			end
-        end
-        ---/* number still doesn't fit: display '*****'  */
-        if (size > width) then
-            str.resize(width);
-            for i = 0, width do
-                str[i] = '*';
-			end
-        else
-            str = text
-        end
-		]]
+		local fmt = format("return format(\"%%.%df\", %s)", self.precision, self.value:P2S())
+		str = LibEvaluator.ExecuteCode(self.visitor.environment, "precision", fmt)
     end
 
     if str == "" or str ~= self.string then
