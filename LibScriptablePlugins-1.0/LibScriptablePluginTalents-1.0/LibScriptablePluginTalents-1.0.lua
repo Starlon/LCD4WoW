@@ -520,6 +520,14 @@ end
 ScriptEnv.UnitPVPStats = PluginTalents.UnitPVPStats
 honorFrame:SetScript("OnEvent", honorFrame.INSPECT_HONOR_UPDATE)
 
+function WipeInspect()
+	wipe(spec_cache)
+	wipe(spec_role)
+	wipe(PVP_cache)
+	wipe(FEATS_cache)
+end
+ScriptEnv.WipeInspect = WipeInspect
+
 --GroupTalents.RegisterCallback(PluginTalents, "LibGroupTalents_Update", "OnUpdate")
 TalentQuery.RegisterCallback(PluginTalents, "TalentQuery_Ready")
 TalentQuery.RegisterCallback(PluginTalents, "LibGroupTalents_RoleChange", "OnRoleChange")

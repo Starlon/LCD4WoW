@@ -1,4 +1,4 @@
-## Interface: 40100
+## Interface: 40200
 ## Title: Lib: LibScriptable-1.0
 ## Notes: Various libraries based on LCD4Linux, offering users lower-level UI customizations.
 ## Author: Starlon
