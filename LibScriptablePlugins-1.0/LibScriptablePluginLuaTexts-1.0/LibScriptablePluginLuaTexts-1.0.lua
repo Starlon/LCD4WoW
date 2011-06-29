@@ -1262,7 +1262,7 @@ local function PVPRank(unit)
 	  end
 	  local rankIcon = ScriptEnv.Texture(pvp.texture, 12)
 	  local factIcon = ScriptEnv.Texture("Interface\\PvPRankBadges\\PvPRank"..fctn..".blp", 12)
-	  txt = format("%s %s %d HKs", rankIcon, pvp.text or factIcon..L["nOOb (-1)"], pvp.lifetimeHK)
+	  txt = format("%s %s %d HKs", rankIcon, pvp.text or factIcon..L["No Rank (-1)"], pvp.lifetimeHK)
 	else
       local elips = ""
       for i = 0, count % 3 do

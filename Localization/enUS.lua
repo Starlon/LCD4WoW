@@ -361,6 +361,7 @@ L["Flight"] = true
 L["Feigned Death"] = true
 
 L["Fetching"] = true
+L["No Rank (-1)"] = true
 
 -- PluginTalents
 
