@@ -14,9 +14,13 @@
 <Include file = "Libs\AceComm-3.0\AceComm-3.0.xml"/>
 <Include file = "Libs\LibLinq-1.0\lib.xml"/>
 <Include file = "Libs\LibBossIDs-1.0\lib.xml"/>
-<Include file = "Libs\LibFail-2.0\embeds.xml"/>
+
+<Include file = "Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
+<Include file = "Libs\LibLocalizedEJBosses-1.0\lib.xml" />
+<Include file = "Libs\LibTalentQuery-1.0\lib.xml" />
+<Include file = "Libs\LibGroupTalents-1.0\lib.xml" />
 <Include file = "Libs\LibFail-2.0\lib.xml"/> 
-<!-- AceLocale is provided by LibFail -->
+
 
 <Script file = "Localization\enUS.lua"/>
 <Script file = "Localization\zhTW.lua"/>
