@@ -1289,7 +1289,7 @@ local function ArenaTeam(unit, num)
 		local bkgcol = PluginColor.RGBA2Color(team.backR, team.backG, team.backB)
 		local brightest = PluginColor.ColorBrightest(embcol, bkgcol)
 		local r, g, b = PluginColor.Color2RGBA(brightest)
-		local tag = PluginColor.Colorize("2v2", r, g, b)
+		local tag = PluginColor.Colorize(format("%dv%d", num, num), r, g, b)
 		local wins, played = team.teamWins, team.teamPlayed
 		local losses = played - wins
 		local winlost = ""
