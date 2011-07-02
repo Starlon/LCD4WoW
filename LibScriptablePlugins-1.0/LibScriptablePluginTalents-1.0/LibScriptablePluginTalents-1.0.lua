@@ -530,6 +530,7 @@ honorFrame:SetScript("OnEvent", honorFrame.INSPECT_HONOR_UPDATE)
 
 function WipeInspect()
 	wipe(spec_cache)
+	wipe(spec)
 	wipe(spec_role)
 	wipe(PVP_cache)
 	wipe(FEATS_cache)

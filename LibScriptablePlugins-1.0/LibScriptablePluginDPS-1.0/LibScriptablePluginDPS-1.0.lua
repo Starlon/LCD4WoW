@@ -104,20 +104,18 @@ local events = {
 	DAMAGE_SHIELD = true,
 	DAMAGE_SPLIT = true,
 }
+function PluginDPS:COMBAT_LOG_EVENT_UNFILTERED(timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName,
+		destFlags, destRaidFlags, spellID, spellName, spellSchool, damage, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing)
 
-function PluginDPS:COMBAT_LOG_EVENT_UNFILTERED(_, eventType, id, _, _, _, _, _, spellID, _, _, damage)
-	if not events[eventType] then return end
-	if eventType == "SWING_DAMAGE" then
-		damage = spellID
+	if not events[eventType] or not sourceGUID then return end
+
+	if not data[sourceGUID] then
+		data[sourceGUID] = {}
+		data[sourceGUID].startTime = GetTime()
 	end
 
-	if not data[id] then
-		data[id] = {}
-		data[id].startTime = GetTime()
-	end
-
-	data[id].damage = (data[id].damage or 0) + damage
-	data[id].lastUpdate = GetTime()
+	data[sourceGUID].damage = (data[sourceGUID].damage or 0) + (damage or 0) - (overkill or 0)
+	data[sourceGUID].lastUpdate = GetTime()
 end
 
 function update()

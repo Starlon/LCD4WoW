@@ -134,7 +134,8 @@ local events = {
 }
 
 local lastTime = GetTime()
-function PluginNoise:COMBAT_LOG_EVENT_UNFILTERED(_, eventType, id, _, _, _, _, _, spellID, _, _, damage, _, _, critical)
+function PluginNoise:COMBAT_LOG_EVENT_UNFILTERED(timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName,
+		destFlags, destRaidFlags, spellID, spellName, spellSchool, damage, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing)
 	local elapsed = GetTime() - lastTime
 	if elapsed < .05 then return end
 	lastTime = GetTime()
@@ -148,14 +149,14 @@ function PluginNoise:COMBAT_LOG_EVENT_UNFILTERED(_, eventType, id, _, _, _, _, _
 	local unit = "local"
 	
 	for k, v in pairs(SINGLETON_CLASSIFICATIONS) do
-		if UnitGUID(v) == id then
+		if UnitGUID(v) == sourceGUID then
 			unit = v
 		end
 	end
 	
 	for k, v in pairs(UNIT_RAID_GROUPS) do
 		for i = 1, 40 do
-			if UnitGUID(v..i) == id then
+			if UnitGUID(v..i) == sourceGUID then
 				unit = v..i
 			end
 		end
@@ -163,7 +164,7 @@ function PluginNoise:COMBAT_LOG_EVENT_UNFILTERED(_, eventType, id, _, _, _, _, _
 	
 	for k, v in pairs(UNIT_PARTY_GROUPS) do
 		for i = 1, 5 do
-			if UnitGUID(v..i) == id then
+			if UnitGUID(v..i) == sourceGUID then
 				unit = v..i
 			end
 		end
