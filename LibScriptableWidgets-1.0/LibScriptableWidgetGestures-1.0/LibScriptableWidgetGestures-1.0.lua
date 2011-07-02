@@ -45,6 +45,8 @@ local defaults = {
 	cancelButton    = nil,
 	showTrail 		= false,
 	errorsAllowed = 2,
+	maxGestures = 5,
+	bounds = 50,
 	type = "line",
 	pattern = "right"
 }
@@ -120,6 +122,7 @@ function WidgetGestures:New(visitor, name, config, errorLevel, callback, timer)
 	obj.expression = config.expression
 	obj.repeating = config.repeating or WidgetGestures.defaults.repeating
 	obj.update = config.update or WidgetGestures.defaults.update
+	obj.bounds = config.bounds or WidgetGestures.defaults.bounds
 	obj.disabled = config.disabled
 	obj.gestures = config.gestures
 	obj.callback = callback
@@ -182,8 +185,10 @@ end
 
 function stopFunc(rec)
 
-	local g = rec:GetGist();
 	local self = rec.widgetdata
+	local g = rec:GetGist();
+	local x, y, w, h = rec:GetBounds(true)
+	if w < self.bounds then return end
 	if not self.active then return end
 			
 	local current = 1
@@ -362,7 +367,7 @@ function WidgetGestures:GetOptions(db, callback, data)
 			type = "input",
 			pattern = "%d",
 			get = function()
-				return db.maxGestures or defaults.maxGestures
+				return tostring(db.maxGestures or defaults.maxGestures)
 			end,
 			set = function(info, v)
 				db.maxGestures = tonumber(v)
@@ -395,16 +400,33 @@ function WidgetGestures:GetOptions(db, callback, data)
 			type = "input",
 			pattern = "%d",
 			get = function()
-				return db.errorsAllowed or defaults.errorsAllowed
+				return tostring(db.errorsAllowed or defaults.errorsAllowed)
 			end,
 			set = function(info, v)
-				db.errorsAllowed = v
+				db.errorsAllowed = tonumber(v)
 				db.errorsAllowedDirty = true
 				if type(callback) == "function" then
 					callback(data)
 				end
 			end,
 			order = 16
+		},
+		bounds = {
+			name = L["Bounds Proportion"],
+			desc = L["Indicate the square area's width and height. This will prevent gestures smaller in width and height from triggering this widget."],
+			type = "input",
+			pattern = "%d",
+			get = function()
+				return tostring(db.bounds or defaults.bounds)
+			end,
+			set = function(info, v)
+				db.bounds = tonumber(v)
+				db.boundsDirty = true
+				if type(callback) == "function" then
+					callback(data)
+				end
+			end,
+			order = 17
 		},
 		expression = {
 			name = L["Expression"],
