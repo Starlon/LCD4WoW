@@ -37,7 +37,7 @@ WidgetGestures.types = types
 local defaults = {
 	type = 1,
 	direction = 1,
-	update = 3000,
+	update = 500,
 	repeating = true,
 	drawLayer = "UIParent",
 	startButton		= "Freehand",
@@ -45,8 +45,6 @@ local defaults = {
 	cancelButton    = nil,
 	showTrail 		= false,
 	errorsAllowed = 2,
-	maxGestures = 5,
-	bounds = 50,
 	type = "line",
 	pattern = "right"
 }
@@ -79,13 +77,14 @@ local function del(obj)
 	tinsert(pool, obj)
 end
 
-local cache = setmetatable({}, {__mode = "v"})
+local cache = {}
 local function newRec(drawLayer)
-	return table.remove(cache) or LibMouseGestures:New(drawLayer);
+	local rec = table.remove(cache)
+	return LibMouseGestures:New(drawLayer, rec);
 end
 
 local function delRec(rec)
-	--tinsert(cache, rec)
+	tinsert(cache, rec)
 end
 
 local pool = setmetatable({}, {__mode = "k"})
@@ -122,7 +121,6 @@ function WidgetGestures:New(visitor, name, config, errorLevel, callback, timer)
 	obj.expression = config.expression
 	obj.repeating = config.repeating or WidgetGestures.defaults.repeating
 	obj.update = config.update or WidgetGestures.defaults.update
-	obj.bounds = config.bounds or WidgetGestures.defaults.bounds
 	obj.disabled = config.disabled
 	obj.gestures = config.gestures
 	obj.callback = callback
@@ -149,6 +147,7 @@ function WidgetGestures:New(visitor, name, config, errorLevel, callback, timer)
 	)
 	obj.capture = capture
 	obj.drawLayer = _G[config.drawLayer or defaults.drawLayer]
+	obj.gist = {}
 	
 	return obj	
 end
@@ -186,10 +185,7 @@ end
 function stopFunc(rec)
 
 	local self = rec.widgetdata
-	local g = rec:GetGist();
-	local x, y, w, h = rec:GetBounds(true)
-	if w < self.bounds then return end
-	if not self.active then return end
+	local g = rec:GetGist(self.gist);
 			
 	local current = 1
 	local errors = 0
@@ -216,16 +212,12 @@ function stopFunc(rec)
 		
 	end
 			
-	self.waiting = false
-	
-	self:Update()
-	delRec(rec)
+	self:Start()
 end
 
 function cancelFunc(rec)
 	local self = rec.widgetdata
-	self.waiting = false
-	self:Update()
+	self:Start()
 end
 
 
@@ -233,14 +225,16 @@ end
 -- @usage :Update()
 -- @return Nothing
 function WidgetGestures:Update()
-	if self.waiting or #self.gestures == 0 or not self.active then return end
+	if #self.gestures == 0 or not self.active then return end
 
+	if self.rec then delRec(self.rec) end
 	local rec = newRec(self.drawLayer)
 	rec.widgetdata = self
+	self.rec = rec
 	
 	rec:StartCapture(self.capture)
 	
-	self.waiting = true
+	self:Stop()
 end
 
 --- Get an Ace3 option table. Plug this into a group type's args.
@@ -367,7 +361,7 @@ function WidgetGestures:GetOptions(db, callback, data)
 			type = "input",
 			pattern = "%d",
 			get = function()
-				return tostring(db.maxGestures or defaults.maxGestures)
+				return db.maxGestures or defaults.maxGestures
 			end,
 			set = function(info, v)
 				db.maxGestures = tonumber(v)
@@ -400,33 +394,16 @@ function WidgetGestures:GetOptions(db, callback, data)
 			type = "input",
 			pattern = "%d",
 			get = function()
-				return tostring(db.errorsAllowed or defaults.errorsAllowed)
+				return db.errorsAllowed or defaults.errorsAllowed
 			end,
 			set = function(info, v)
-				db.errorsAllowed = tonumber(v)
+				db.errorsAllowed = v
 				db.errorsAllowedDirty = true
 				if type(callback) == "function" then
 					callback(data)
 				end
 			end,
 			order = 16
-		},
-		bounds = {
-			name = L["Bounds Proportion"],
-			desc = L["Indicate the square area's width and height. This will prevent gestures smaller in width and height from triggering this widget."],
-			type = "input",
-			pattern = "%d",
-			get = function()
-				return tostring(db.bounds or defaults.bounds)
-			end,
-			set = function(info, v)
-				db.bounds = tonumber(v)
-				db.boundsDirty = true
-				if type(callback) == "function" then
-					callback(data)
-				end
-			end,
-			order = 17
 		},
 		expression = {
 			name = L["Expression"],
