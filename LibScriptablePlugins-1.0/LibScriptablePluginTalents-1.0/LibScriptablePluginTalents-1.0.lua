@@ -248,12 +248,9 @@ function PluginTalents:TalentQuery_Ready(e, name, realm, unitid)
 	
 	-- We do PVP stuff
 	if not UnitIsUnit(unitid, "player") and not PVP_cache[guid] then
-		if( honorFrame.requestedHonorData ) then
-			return;
-		elseif (HasInspectHonorData()) then
+		if (HasInspectHonorData()) then
 			honorFrame:UnregisterEvent("INSPECT_HONOR_UPDATE");
 		end
-		honorFrame.requestedHonorData = true;
 		honorFrame:RegisterEvent("INSPECT_HONOR_UPDATE");
 		RequestInspectHonorData();
 	end
@@ -267,10 +264,12 @@ function PluginTalents:OnRoleChange(event, guid, unit, newrole, oldrole)
 	spec_role[guid].oldrole = oldrole
 end
 
+--[[
 local function okToInspect(unit)
 	local guid = UnitGUID(unit)
 	return 
 end
+]]
 
 function PluginTalents.SendQuery(unit)
 	local guid = UnitGUID(unit)
@@ -486,7 +485,6 @@ function LoadHonorNormal(unit, hd)
 end
 
 function quit(self)
-	self.requestedHonorData = false
 	self:UnregisterEvent("INSPECT_HONOR_UPDATE")
 end
 
@@ -496,17 +494,17 @@ function honorFrame:INSPECT_HONOR_UPDATE(event)
 	if not HasInspectHonorData() or not inspectUnit then return end
 	local unit = inspectUnit
 	if not unit then 
-		return quit(self)
+		return self:UnregisterEvent("INSPECT_HONOR_UPDATE")
 	end
 	local guid = UnitGUID(unit)
 	if not guid then
-		return quit(self)
+		return self:UnregisterEvent("INSPECT_HONOR_UPDATE")
 	end
 	local toon = {}
 	LoadHonorNormal(unit, toon)
 	LoadArenaTeamsNormal(unit, toon)
 	PVP_cache[guid] = toon
-	quit(self)
+	self:UnregisterEvent("INSPECT_HONOR_UPDATE")
 end
 
 PluginTalents.UnitPVPStats = function(unit)
