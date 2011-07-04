@@ -512,8 +512,8 @@ function textScroll(self)
 
 	if self.buffer ~= self.oldBuffer then
 		self:Draw()
-		self.oldBuffer = self.buffer
 	end
+	self.oldBuffer = self.buffer
 
 	dst:Del()
 	src:Del()
@@ -547,8 +547,7 @@ function textUpdate(self)
         self.string = str;
     end
 
-    --/* something has changed and should be updated */
-    if (self._update > 0) then
+    if self._update > 0 then
 		--[[
         /* if there's a marquee scroller active, it has its own */
         /* update callback timer, so we do nothing here; otherwise */
@@ -558,11 +557,11 @@ function textUpdate(self)
 			if(strlen(self.string) > self.cols and not self.limited) then
 				self.cols = strlen(self.string)
 			end
-            textScroll(self)
+            		textScroll(self)
 			return false
         end
-
     end
+
 
 	return true
 end
@@ -666,10 +665,10 @@ function WidgetText:GetOptions(db, callback, data)
 				type = "select",
 				values = directionList,
 				get = function()
-					return tostring(db.direction or WidgetText.defaults.direction)
+					return db.direction or WidgetText.defaults.direction
 				end,
 				set = function(info, v)
-					db.direction = tonumber(v)
+					db.direction = v
 					db["directionDirty"] = true
 					if type(callback) == "function" then
 						callback(data)
