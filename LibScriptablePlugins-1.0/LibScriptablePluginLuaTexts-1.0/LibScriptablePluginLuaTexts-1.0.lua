@@ -1252,6 +1252,7 @@ ScriptEnv.PVPDuration = PVPDuration
 local count = 0
 local function PVPRank(unit)
 	local pvp = PluginTalents.UnitPVPStats(unit);
+	if not CheckInteractDistance(unit, 1) and not pvp then return L["Out of Range"] end
 	local txt;
 	if pvp then
 	  local fctn = ScriptEnv.Faction(unit)

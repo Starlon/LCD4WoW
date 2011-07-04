@@ -21,7 +21,7 @@ local UnitExists = _G.UnitExists
 local UnitIsPlayer = _G.UnitIsPlayer
 local UnitName = _G.UnitName
 local EXPIRE_TIME = 5000
-local spec = {}
+local spec = setmetatable({}, {__mode="v"})
 local frame = CreateFrame("Frame")
 local featsFrame = CreateFrame("Frame")
 local honorFrame = CreateFrame("Frame")
@@ -29,7 +29,7 @@ local count = 0
 local query = {}
 local spec_cache = {}
 local spec_role = {}
-local PVP_cache = {}
+local PVP_cache = setmetatable({}, {__mode="v"})
 local FEATS_cache = {}
 local inspectUnit
 local THROTTLE_TIME = 500
@@ -273,7 +273,7 @@ end
 
 function PluginTalents.SendQuery(unit)
 	local guid = UnitGUID(unit)
-	if not UnitIsPlayer(unit) or not (CheckInteractDistance(unit, 1)) or TalentQuery.lastInspectPending > 0 then return end
+	if not UnitIsPlayer(unit) or not (CheckInteractDistance(unit, 1)) then return end
 
 	if UnitIsUnit(unit, "player") then
 		PluginTalents:TalentQuery_Ready(_, UnitName(unit), nil, "player")
