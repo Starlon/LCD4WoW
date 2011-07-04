@@ -152,8 +152,13 @@ local strataNameList = {
 }
 
 local strataLocaleList = {
-	"Tooltip", "Fullscreen Dialog", "Fullscreen", "Dialog", "High", "Medium", "Low", "Background"
+	L["Tooltip"], L["Fullscreen Dialog"], L["Fullscreen"], L["Dialog"], L["High"], L["Medium"], L["Low"], L["Background"]
 }
+LibWidget.anchors = anchors
+LibWidget.anchorsDict = anchorsDict
+LibWidget.strataNameList = strataNameList
+LibWidget.strataLocaleList = strataLocaleList
+
 	
 --- Get an Ace3 option table. Plug this into a group type's args.
 -- @param db The database table

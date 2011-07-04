@@ -17,6 +17,14 @@ L["Relative Point"] = true
 L["X Offset"] = true
 L["Y Offset"] = true
 L["Delete"] = true
+L["Tooltip"] = true
+L["Fullscreen Dialog"] = true
+L["Fullscreen"] = true
+L["Dialog"] = true
+L["High"] = true
+L["Medium"] = true
+L["Low"] = true
+L["Background"] = true
 
 -- WidgetTimer
 L["Enabled"] = true
