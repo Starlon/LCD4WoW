@@ -1,7 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-
 <Script file = "Libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
 <Script file = "Libs\LibQTip-1.0\LibQTip-1.0.lua"/>
 <Script file = "Libs\LibTalentQuery-1.0\LibTalentQuery-1.0.lua"/>
@@ -32,10 +31,13 @@
 <Script file = "Localization\ruRU.lua"/>
 <Script file = "Localization\zhCN.lua"/>
 
+<!--@debug@-->
+
 <Include file = "LibScriptableUtils-1.0\LibScriptableUtils-1.0.xml"/>
 <Include file = "LibScriptablePlugins-1.0\LibScriptablePlugins-1.0.xml"/>
 <Include file = "LibScriptableWidgets-1.0\LibScriptableWidgets-1.0.xml"/>
 <Include file = "LibScriptableLCD-1.0\LibScriptableLCD-1.0.xml"/>
 <Include file = "LibScriptableImages-1.0\LibScriptableImages-1.0.xml"/>
 
+<!--@end-debug@-->
 </Ui>
