@@ -7,4 +7,4 @@
 ## Version: 1.0
 ## X-Category: Library
 
-LibScriptableWidget-1.0.lua
+LibScriptableWidgetBar-1.0.lua
