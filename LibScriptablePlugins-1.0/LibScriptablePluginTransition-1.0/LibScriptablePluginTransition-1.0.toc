@@ -1,19 +1,11 @@
+## Interface: 40200
+## Title: Lib: LibScriptableLCDText-1.0
+## Notes: Various libraries based on LCD4Linux, offering users lower-level UI customizations.
+## Author: Starlon
+## OptionalDeps: LibStub, CallbackHandler-1.0
+## Deps: LibScriptableUtilsError-1.0.lua,LibScriptableUtilsTimer-1.0.lua,LibScriptableUtilsBuffer-1.0.lua,LibScriptablePluginUtils-1.0.lua,
 
-local MAJOR = "LibScriptablePluginTransition-1.0"
-local MINOR = 18
-assert(LibStub, MAJOR.." requires LibStub")
-local PluginTransition = LibStub:NewLibrary(MAJOR, MINOR)
-if not PluginTransition then return end
-local LibTransition = LibStub("LibTransition-1.0")
-assert(LibTransition, MAJOR .. " requires LibTransition-1.0")
+## Version: 1.0
+## X-Category: Library
 
---- Populate an environment with this plugin's fields
--- @usage :New(environment) 
--- @param environment This will be the environment when setfenv is called.
--- @return A new plugin object, aka the environment
-function PluginTransition:New(environment)
-
-	environment.LibTransition = LibTransition
-	
-	return environment
-end
+LibScriptableLCDText-1.0.lua

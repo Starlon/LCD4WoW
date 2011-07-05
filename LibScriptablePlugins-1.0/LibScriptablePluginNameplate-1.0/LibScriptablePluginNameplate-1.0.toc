@@ -1,18 +1,11 @@
-local MAJOR = "LibScriptablePluginNameplate-1.0"
-local MINOR = 18
-assert(LibStub, MAJOR.." requires LibStub")
-local PluginNameplate = LibStub:NewLibrary(MAJOR, MINOR)
-if not PluginNameplate then return end
-local LibNameplate = LibStub("LibNameplate-1.0")
-assert(LibNameplate, MAJOR .. " requires LibNameplate-1.0")
+## Interface: 40200
+## Title: Lib: LibScriptableLCDText-1.0
+## Notes: Various libraries based on LCD4Linux, offering users lower-level UI customizations.
+## Author: Starlon
+## OptionalDeps: LibStub, CallbackHandler-1.0
+## Deps: LibScriptableUtilsError-1.0.lua,LibScriptableUtilsTimer-1.0.lua,LibScriptableUtilsBuffer-1.0.lua,LibScriptablePluginUtils-1.0.lua,
 
---- Populate an environment with this plugin's fields
--- @usage :New(environment) 
--- @param environment This will be the environment when setfenv is called.
--- @return A new plugin object, aka the environment
-function PluginNameplate:New(environment)
+## Version: 1.0
+## X-Category: Library
 
-	environment.LibNameplate = LibNameplate
-	
-	return environment
-end
+LibScriptableLCDText-1.0.lua
