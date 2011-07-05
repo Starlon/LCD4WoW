@@ -1,5 +1,5 @@
 ## Interface: 40200
-## Title: Lib: LibScriptableLCDText-1.0
+## Title: Lib: LibScriptablePluginBlend-1.0
 ## Notes: Various libraries based on LCD4Linux, offering users lower-level UI customizations.
 ## Author: Starlon
 ## OptionalDeps: LibStub, CallbackHandler-1.0
@@ -8,4 +8,4 @@
 ## Version: 1.0
 ## X-Category: Library
 
-LibScriptableLCDText-1.0.lua
+LibScriptablePluginBlend-1.0.lua
