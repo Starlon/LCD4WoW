@@ -58,7 +58,7 @@ function LibProperty:New(widget, visitor, name, expression, defval, errorLevel)
 	else
 		obj.visitor.environment.self = widget
 		obj.visitor.environment.unit = "player"
-		obj.res1, obj.res2, obj.res3, obj.res4 = Evaluator.ExecuteCode(obj.visitor.environment, name, expression, false, defval)
+		obj.res1, obj.res2, obj.res3, obj.res4 = Evaluator.ExecuteCode(visitor.environment, name, expression, false, defval)
 		if obj.res1 == nil then
 			obj.error:Print(("Property invalid: expression = \"%s\""):format(expression))
 			obj.is_valid = false
@@ -73,6 +73,7 @@ end
 function LibProperty:Del()
 	pool[self] = true
 	self.error:Del()
+	wipe(self)
 end
 
 --- Evaluate a property's code
@@ -85,7 +86,6 @@ function LibProperty:Eval()
 	
 	local old = self.ret1
 
-	self.environment.unit = self.widget.config.unit
 	self.environment.self = self.widget
 	self.ret1, self.ret2, self.ret3, self.ret4 = Evaluator.ExecuteCode(self.environment, self.name, self.expression, false, self.defval)
 	

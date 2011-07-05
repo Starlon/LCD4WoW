@@ -92,8 +92,8 @@ function WidgetBar:New(visitor, name, config, row, col, layer, errorLevel, callb
     obj.expr_min = LibProperty:New(obj, visitor, name .. " min", config.min, nil, config.unit, errorLevel)
     obj.expr_max = LibProperty:New(obj, visitor, name .. " max", config.max, nil, config.unit, errorLevel)
 
-	obj.color1 = LibProperty:New(obj, visitor, name .. " color", config.color1, "", config.unit, errorLevel)
-	obj.color2 = LibProperty:New(obj, visitor, name .. " color", config.color2 or config.color1, "", config.unit, errorLevel)
+	obj.color1 = LibProperty:New(obj, visitor, name .. " color1", config.color1, "", config.unit, errorLevel)
+	obj.color2 = LibProperty:New(obj, visitor, name .. " color2", config.color2 or config.color1, "", config.unit, errorLevel)
 	
 	obj.color_valid = {}
 	
@@ -144,6 +144,7 @@ function WidgetBar:Del()
 	self.widget:Del()
 	self.error:Del()
 	self:Stop()
+	wipe(self)
 end
 
 --- Resize the widget. Note that this simply repositions this widget on your surface.
