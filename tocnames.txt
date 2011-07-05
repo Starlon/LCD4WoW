@@ -1,3 +1,4 @@
+test
 LibScriptableImagesAVSSuperScope-1.0.toc
 LibScriptableImagesPNM-1.0.toc
 
