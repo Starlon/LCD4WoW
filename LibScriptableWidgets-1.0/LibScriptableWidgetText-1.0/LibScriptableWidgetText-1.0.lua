@@ -539,7 +539,7 @@ function textUpdate(self)
         str = self.value:P2S();
     else
 		local fmt = format("return format(\"%%.%df\", %s)", self.precision, self.value:P2S())
-		str = LibEvaluator.ExecuteCode(self.visitor.environment, "precision", fmt)
+		--str = LibEvaluator.ExecuteCode(self.visitor.environment, "precision", fmt)
     end
 
     if str == "" or str ~= self.string then

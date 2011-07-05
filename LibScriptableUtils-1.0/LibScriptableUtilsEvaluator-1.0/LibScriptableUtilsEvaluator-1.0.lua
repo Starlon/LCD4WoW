@@ -6,8 +6,7 @@ local LibEvaluator = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibEvaluator then return end
 local LibError = LibStub("LibScriptableUtilsError-1.0")
 assert(LibError, "LibEvaluator requires LibScriptableUtilsError-1.0")
-local olderror = error
-local error = LibError:New("Evaluator")
+error = LibError:New("Evaluator")
 
 local pool = setmetatable({}, {__mode = "k"})
 	
@@ -21,8 +20,6 @@ do
 	end
 	
 	local cache = {} --setmetatable({},{__mode='v'})	
-	
-	local unit 
 	
 	--- Execute some code
 	-- @usage LibEvaluator.ExecuteCode(self, tag, code, dontSandbox, defval, forRunnable, test)
@@ -66,19 +63,17 @@ do
 			first = true
 		end
 
+print("--------------", self.unit)
+		if type(self.unit) ~= "string" then 
+			self.unit = "mouseover" 
+		end
 		if forRunnable and test then
 			return runnable() and runnable
 		elseif forRunnable then
 			return runnable
 		end
-				
-		if type(self.unit) ~= "string" then 
-			self.unit = "mouseover" 
-		end
 		
 		local ret1, ret2, ret3, ret4 = runnable()
-		
-		self.unit = nil
 								
 		if not ret1 then ret1 = defval end
 

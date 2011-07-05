@@ -151,6 +151,7 @@ end
 -- @param func Replace the timer's callback function
 function LibTimer:Start(duration, data, func)
 	
+do return end
 	if type(duration) == "number" then
 		self.duration = duration / 1000
 	end
