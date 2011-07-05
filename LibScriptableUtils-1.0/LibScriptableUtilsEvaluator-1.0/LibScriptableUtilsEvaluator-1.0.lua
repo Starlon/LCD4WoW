@@ -6,7 +6,7 @@ local LibEvaluator = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibEvaluator then return end
 local LibError = LibStub("LibScriptableUtilsError-1.0")
 assert(LibError, "LibEvaluator requires LibScriptableUtilsError-1.0")
-error = LibError:New("Evaluator")
+local error = LibError:New("Evaluator")
 
 local pool = setmetatable({}, {__mode = "k"})
 	
