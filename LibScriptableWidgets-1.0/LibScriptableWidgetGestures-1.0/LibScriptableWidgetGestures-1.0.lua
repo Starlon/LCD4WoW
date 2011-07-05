@@ -44,7 +44,7 @@ local defaults = {
 	stopButton		= "LeftButtonUp",
 	cancelButton    = nil,
 	showTrail 		= false,
-	errorsAllowed = 2,
+	errorsAllowed = 1,
 	type = "line",
 	pattern = "right"
 }

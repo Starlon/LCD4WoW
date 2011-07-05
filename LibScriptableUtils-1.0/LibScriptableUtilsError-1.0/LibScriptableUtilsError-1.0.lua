@@ -84,6 +84,6 @@ function LibScriptableError:Print(text, errorLevel)
 	end
 
 	if self.errorLevel >= errorLevel then
-		ChatFrame1:AddMessage(("(%s)"):format(date()) .. color .. (self.name or " ") .. "|r:: " .. text)
+		ChatFrame1:AddMessage(("(%s)"):format(date("%X")) .. color .. (self.name or " ") .. "|r:: " .. text)
 	end
 end
