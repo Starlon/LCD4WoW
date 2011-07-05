@@ -1,11 +1,36 @@
-## Interface: 40200
-## Title: Lib: LibScriptableLCDText-1.0
-## Notes: Various libraries based on LCD4Linux, offering users lower-level UI customizations.
-## Author: Starlon
-## OptionalDeps: LibStub, CallbackHandler-1.0
-## Deps: 
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
 
-## Version: 1.0
-## X-Category: Library
+<!-- Plugins 1.25mb -->
+<Script file = "LibScriptablePluginUtils-1.0\LibScriptablePluginUtils-1.0.lua"/>
+<Script file = "LibScriptablePluginRangeCheck-1.0\LibScriptablePluginRangeCheck-1.0.lua"/>
+<Script file = "LibScriptablePluginBit-1.0\LibScriptablePluginBit-1.0.lua"/>
+<Script file = "LibScriptablePluginLua-1.0\LibScriptablePluginLua-1.0.lua"/>
+<Script file = "LibScriptablePluginMath-1.0\LibScriptablePluginMath-1.0.lua"/>
+<Script file = "LibScriptablePluginString-1.0\LibScriptablePluginString-1.0.lua"/>
+<Script file = "LibScriptablePluginTable-1.0\LibScriptablePluginTable-1.0.lua"/>
+<Script file = "LibScriptablePluginUnit-1.0\LibScriptablePluginUnit-1.0.lua"/>
+<Script file = "LibScriptablePluginResourceTools-1.0\LibScriptablePluginResourceTools-1.0.lua"/>
+<Script file = "LibScriptablePluginCharacterStats-1.0\LibScriptablePluginCharacterStats-1.0.lua"/>
+<Script file = "LibScriptablePluginUnitTooltipScan-1.0\LibScriptablePluginUnitTooltipScan-1.0.lua"/>
+<Script file = "LibScriptablePluginLocation-1.0\LibScriptablePluginLocation-1.0.lua"/>
+<Script file = "LibScriptablePluginDBM-1.0\LibScriptablePluginDBM-1.0.lua"/>
+<Script file = "LibScriptablePluginLinq-1.0\LibScriptablePluginLinq-1.0.lua"/>
+<Script file = "LibScriptablePluginGuild-1.0\LibScriptablePluginGuild-1.0.lua"/>
+<Script file = "LibScriptablePluginSpell-1.0\LibScriptablePluginSpell-1.0.lua"/>
+<Script file = "LibScriptablePluginComm-1.0\LibScriptablePluginComm-1.0.lua"/>
+<Script file = "LibScriptablePluginColor-1.0\LibScriptablePluginColor-1.0.lua"/>
+<Script file = "LibScriptablePluginSerializer-1.0\LibScriptablePluginSerializer-1.0.lua"/>
+<Script file = "LibScriptablePluginTalents-1.0\LibScriptablePluginTalents-1.0.lua"/>
+<Script file = "LibScriptablePluginLuaTexts-1.0\LibScriptablePluginLuaTexts-1.0.lua"/>
+<Script file = "LibScriptablePluginUnitControl-1.0\LibScriptablePluginUnitControl-1.0.lua"/>
+<Script file = "LibScriptablePluginFail-1.0\LibScriptablePluginFail-1.0.lua"/>
+<Script file = "LibScriptablePluginBlend-1.0\LibScriptablePluginBlend-1.0.lua"/>
+<Script file = "LibScriptablePluginNameplate-1.0\LibScriptablePluginNameplate-1.0.lua"/>
+<Script file = "LibScriptablePluginTransition-1.0\LibScriptablePluginTransition-1.0.lua"/>
+<script file = "LibScriptablePluginDPS-1.0\LibScriptablePluginDPS-1.0.lua"/>
+<Script file = "LibScriptablePluginNoise-1.0\LibScriptablePluginNoise-1.0.lua"/>
+<Script file = "LibScriptablePluginSkada-1.0\LibScriptablePluginSkada-1.0.lua"/>
+<Script file = "LibScriptablePluginRecount-1.0\LibScriptablePluginRecount-1.0.lua"/>
 
-LibScriptableLCDText-1.0.lua
+</Ui>
