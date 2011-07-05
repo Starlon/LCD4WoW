@@ -55,7 +55,7 @@ function WidgetTimer:New(visitor, name, config, errorLevel, timer)
 	obj.expression = config.expression
 	obj.repeating = config.repeating
 	obj.update = config.update or WidgetTimer.defaults.update
-	obj.disabled = config.disabled
+	obj.enabled = config.enabled
 		
 	obj.error = LibError:New(MAJOR .. ": " .. name, errorLevel)
 	
@@ -80,10 +80,10 @@ end
 -- @usage :Start()
 -- @return Nothing
 function WidgetTimer:Start()
-	self.error:Print("WidgetTimer:Start - " .. self.name, 2)
-	if self.update > 0 and not self.disabled and not self.active then
+	if self.enabled and not self.active then
 		self.timer:Start()
 		self.active = true
+		self:Update()
 	end
 end
 
@@ -91,7 +91,6 @@ end
 -- @usage :Stop()
 -- @return Nothing
 function WidgetTimer:Stop()
-	self.error:Print("WidgetTimer:Stop - " .. self.name, 2)
 	self.timer:Stop()
 	self.active = false
 end
@@ -100,10 +99,9 @@ end
 -- @usage :Update()
 -- @return Nothing
 function WidgetTimer:Update()
-	self.error:Print("WidgetTimer:Update - " .. self.name)
+	if not self.active then return end
 	self.visitor.environment.self = self
 	Evaluator.ExecuteCode(self.visitor.environment, self.name, self.expression)
-	self.visitor.environment.self = nil
 end
 
 --- Retrieve an Ace3 options table for the given widget
@@ -119,9 +117,9 @@ function WidgetTimer:GetOptions(db, callback, data)
 				get = function() return db.enabled end,
 				set = function(info, v) 
 					db.enabled = v
-					if visitor.RestartTimers then
-						visitor:RestartTimers()
-					end					
+					if type(callback) == "function" then
+						callback(data)
+					end
 					db["enabledDirty"] = true
 				end,
 				order = 2
@@ -136,8 +134,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 				end,
 				set = function(info, v)
 					db.update = tonumber(v)
-					if visitor.RestartTimers then
-						visitor:RestartTimers()
+					if type(callback) == "function" then
+						callback(data)
 					end
 					db["updateDirty"] = true
 				end,
@@ -152,8 +150,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 				end,
 				set = function(info, v)
 					db.repeating = v
-					if visitor.RestartTimers then
-						visitor:RestartTimers()
+					if type(callback) == "function" then
+						callback(data)
 					end
 					db["repeatingDirty"] = true
 				end,
@@ -170,8 +168,8 @@ function WidgetTimer:GetOptions(db, callback, data)
 				end,
 				set = function(info, v)
 					db.expression = v
-					if visitor.RestartTimers then
-						visitor:RestartTimers()
+					if type(callback) == "function" then
+						callback(data)
 					end
 					db["expressionDirty"] = true
 				end,
