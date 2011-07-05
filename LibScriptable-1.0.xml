@@ -31,14 +31,10 @@
 <Script file = "Localization\ruRU.lua"/>
 <Script file = "Localization\zhCN.lua"/>
 
-<!--@debug@-->
-
 <Include file = "LibScriptableUtils-1.0\LibScriptableUtils-1.0.xml"/>
 <Include file = "LibScriptablePlugins-1.0\LibScriptablePlugins-1.0.xml"/>
 <Include file = "LibScriptableWidgets-1.0\LibScriptableWidgets-1.0.xml"/>
 <Include file = "LibScriptableLCD-1.0\LibScriptableLCD-1.0.xml"/>
 <Include file = "LibScriptableImages-1.0\LibScriptableImages-1.0.xml"/>
-
-<!--@end-debug@-->
 
 </Ui>
