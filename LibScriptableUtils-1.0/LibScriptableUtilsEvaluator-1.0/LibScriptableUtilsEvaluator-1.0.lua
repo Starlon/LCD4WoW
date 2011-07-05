@@ -63,7 +63,6 @@ do
 			first = true
 		end
 
-print("--------------", self.unit)
 		if type(self.unit) ~= "string" then 
 			self.unit = "mouseover" 
 		end
