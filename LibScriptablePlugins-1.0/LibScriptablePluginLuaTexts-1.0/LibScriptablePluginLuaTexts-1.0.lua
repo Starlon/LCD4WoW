@@ -23,6 +23,8 @@ local L = Locale:GetLocale("LibScriptable-1.0")
 local _G = _G
 local ScriptEnv = {}
 
+ScriptEnv.Colorize = PluginColor.Colorize
+
 local timerframe = CreateFrame("Frame")
 PluginLuaTexts.timerframe = timerframe
 timerframe:Hide()
@@ -1628,3 +1630,7 @@ local updateTimer = LibTimer:New(MAJOR .. " updateTimer", 100, true, function()
 	end
 end)
 updateTimer:Start()
+
+for k, v in pairs(ScriptEnv) do
+	PluginLuaTexts[k] = v
+end

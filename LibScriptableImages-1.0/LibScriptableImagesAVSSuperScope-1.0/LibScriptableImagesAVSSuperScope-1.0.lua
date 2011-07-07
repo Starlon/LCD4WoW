@@ -49,7 +49,7 @@ local defaults = {
 }
 LibAVSSuperScope.defaults = defaults
 
---- @name LibScriptableAVSSuperScope:New
+--- Create a new superscope.
 -- @usage LibScriptableAVSSuperScope:New(name, size, defval, errorLevel)
 -- @param name A name for the buffer
 -- @param config This object's parameters
@@ -121,7 +121,7 @@ function LibAVSSuperScope:New(name, config, errorLevel)
 
 end
 
---- @name LibScriptableAVSSuperScope:Del
+--- Delete a superscope object
 -- @usage LibScriptableAVSSuperScope:Del([lcd]) or object:Del()
 -- @param lcd An optional lcd object
 -- @return Nothing
@@ -134,7 +134,13 @@ function LibAVSSuperScope:Del()
 	self.buffer:Del()
 end
 
--- (visdata[2][2][576], int isBeat, int *framebuffer, int *fbout, int w, int h
+--- Render a superscope
+-- @param visdata Some data. Should be in the range between 1 to -1
+-- @param isBeat Whether it's a "beat" - AKA critical strike?
+-- @param framebuffer The draw surface data.
+-- @param fbout The out buffer.
+-- @param w The width of the superscope
+-- @param h The height of the superscope
 function LibAVSSuperScope:Render(visdata, isBeat, framebuffer, fbout, w, h)
 	local size = 5
 
@@ -225,6 +231,11 @@ function LibAVSSuperScope:Render(visdata, isBeat, framebuffer, fbout, w, h)
     return 0;
 end
 
+--- Retreieve an Ace3 options table.
+-- @param db An options table. 
+-- @param callback This is optional. This function will be called when a field is set.
+-- @param data Some data to pass back through the callback.
+-- @return An options table. Plugin this into an 'args' of a group section in your options table.
 function LibAVSSuperScope:GetOptions(db, callback, data)
 	local options = {
 		enabled = {
