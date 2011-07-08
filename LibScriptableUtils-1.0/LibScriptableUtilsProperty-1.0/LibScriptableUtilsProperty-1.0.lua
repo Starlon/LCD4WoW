@@ -120,7 +120,7 @@ function LibProperty:P2S()
 	
 	
 	if type(self.ret1) == "number" then
-		return self.ret1 and tostring(self.ret1), self.ret2 and tostring(self.ret2), self.ret3 and tostring(self.ret3), self.ret4 and tostring(self.ret4)
+		return tostring(self.ret1) and tostring(self.ret1), self.ret2 and tostring(self.ret2), self.ret3 and tostring(self.ret3), self.ret4 and tostring(self.ret4)
 	elseif type(self.ret1) == "string" then
 		return self.ret1, self.ret2, self.ret3, self.ret4
 	end
