@@ -1,10 +1,8 @@
-## Interface: 40000
+## Interface: 40200
 ## Version: 1.0
 ## Title: LibFlash
 ## Author: Starlon
 ## Notes: Replacement for WoW's flash/fade functions.
-## OptionalDeps: Ace3, LibSharedMedia-1.0, BetterBlizzOptions, LibFlash
-## SavedVariables: AuraAlarmDB
 
 LibStub.lua
 
