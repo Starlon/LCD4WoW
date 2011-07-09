@@ -510,7 +510,7 @@ function textScroll(self)
 		self.buffer = rtrim(dst:AsString())
 	end
 
-	if self.buffer ~= self.oldBuffer then
+	if self.buffer ~= self.oldBuffer or self.config.updateAnyways then
 		self:Draw()
 	end
 	self.oldBuffer = self.buffer
