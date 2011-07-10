@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginRecount-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 local PluginRecount = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginRecount then return end

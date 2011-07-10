@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableWidgetText-1.0"
-local MINOR = 18
+local MINOR = 19
 
 assert(LibStub, MAJOR.." requires LibStub")
 local WidgetText = LibStub:NewLibrary(MAJOR, MINOR)
@@ -287,7 +287,7 @@ WidgetText.IntersectUpdate = LibWidget.IntersectUpdate
 -- @return Nothing
 function WidgetText:Start()
 	if self.active then return end
-	self.oldBuffer = false
+	self.oldBuffer = nil
 	self:Update()
 	if self.update > 0 then
 		self.timer:Start()

@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableUtilsHook-1.0"
-local MINOR = 18
+local MINOR = 19
 
 local LibHook = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibHook then return end

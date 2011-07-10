@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginNoise-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 local PluginNoise = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginNoise then return end

@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableWidgetColor-1.0"
-local MINOR = 18
+local MINOR = 19
 
 assert(LibStub, MAJOR.." requires LibStub")
 local WidgetColor = LibStub:NewLibrary(MAJOR, MINOR)

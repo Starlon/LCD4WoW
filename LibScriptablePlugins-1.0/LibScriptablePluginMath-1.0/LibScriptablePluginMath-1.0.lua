@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginMath-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 local PluginMath = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginMath then return end

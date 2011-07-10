@@ -3,7 +3,7 @@
 --- All rights reserved.
 
 local MAJOR = "LibScriptablePluginBlend-1.0"
-local MINOR = 18
+local MINOR = 19
 assert(LibStub, MAJOR.." requires LibStub")
 local LibPluginBlend = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibPluginBlend then return end

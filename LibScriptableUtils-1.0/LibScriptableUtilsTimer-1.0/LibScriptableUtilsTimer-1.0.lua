@@ -2,7 +2,7 @@
 -- All rights reserved.
 
 local MAJOR = "LibScriptableUtilsTimer-1.0" 
-local MINOR = 18
+local MINOR = 19
 assert(LibStub, MAJOR.." requires LibStub") 
 local LibTimer = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibTimer then return end

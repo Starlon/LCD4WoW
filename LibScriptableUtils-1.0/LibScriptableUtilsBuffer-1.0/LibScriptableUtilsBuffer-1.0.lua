@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableUtilsBuffer-1.0"
-local MINOR = 18
+local MINOR = 19
 assert(LibStub, MAJOR.." requires LibStub")
 local LibBuffer = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibBuffer then return end

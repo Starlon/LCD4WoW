@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableWidgetBar-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 assert(LibStub, MAJOR.." requires LibStub") 
 local WidgetBar = LibStub:NewLibrary(MAJOR, MINOR)

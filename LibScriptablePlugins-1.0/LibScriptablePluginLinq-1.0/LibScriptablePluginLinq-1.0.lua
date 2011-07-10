@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginLinq-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 local PluginLinq = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginLinq then return end

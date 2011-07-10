@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginLocation-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 local PluginLocation = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginLocation then return end

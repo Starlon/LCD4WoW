@@ -1,6 +1,6 @@
 
 local MAJOR = "LibScriptablePluginUnitControl-1.0"
-local MINOR = 18
+local MINOR = 19
 assert(LibStub, MAJOR.." requires LibStub")
 local PluginUnitControl = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginUnitControl then return end

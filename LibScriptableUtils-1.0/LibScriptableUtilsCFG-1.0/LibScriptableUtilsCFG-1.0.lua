@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableUtilsCFG-1.0" 
-local MINOR = 18
+local MINOR = 19
 assert(LibStub, MAJOR.." requires LibStub") 
 LibError = LibStub("LibScriptableUtilsError-1.0")
 assert(LibError, MAJOR .. " requires LibScriptableUtilsError-1.0")

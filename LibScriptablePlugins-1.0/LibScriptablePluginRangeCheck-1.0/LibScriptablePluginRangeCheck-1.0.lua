@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptablePluginRangeCheck-1.0" 
-local MINOR = 18
+local MINOR = 19
 
 local PluginRangeFinder = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginRangeFinder then return end

@@ -1,6 +1,6 @@
 -- Huge appreciation goes out to ckknight for 99% of the following.
 local MAJOR = "LibScriptablePluginLuaTexts-1.0"
-local MINOR = 18
+local MINOR = 19
 
 local PluginLuaTexts = LibStub:NewLibrary(MAJOR, MINOR)
 if not PluginLuaTexts then return end

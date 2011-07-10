@@ -1,5 +1,5 @@
 local MAJOR = "LibScriptableImagesPNM-1.0"
-local MINOR = 18
+local MINOR = 19
 
 local PNM = LibStub:NewLibrary(MAJOR, MINOR)
 if not PNM then return end
