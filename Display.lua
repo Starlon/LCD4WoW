@@ -513,7 +513,7 @@ end
 function mod:OnInitialize()
 	self.db = LCD4WoW.db:RegisterNamespace(self:GetName(), defaults)
 	self.environment = {_G=_G}
-	LCD4WoW:RegisterComm("LCD4WoWDisplayTransfer", self.OnCommReceived)
+	LCD4WoW:RegisterComm("LCD4WoW", self.OnCommReceived)
 end
 
 function mod:OnEnable()
