@@ -46,7 +46,8 @@ local defaults = {
 	showTrail 		= false,
 	errorsAllowed = 1,
 	type = "line",
-	pattern = "right"
+	pattern = "right",
+	maxLength = 1000
 }
 WidgetGestures.defaults = defaults
 
@@ -123,6 +124,7 @@ function WidgetGestures:New(visitor, name, config, errorLevel, callback, timer)
 	obj.update = config.update or WidgetGestures.defaults.update
 	obj.disabled = config.disabled
 	obj.gestures = config.gestures
+	obj.maxLength = config.maxLength or WidgetGestures.defaults.maxLength
 	obj.callback = callback
 	obj.error = LibError:New(MAJOR .. ": " .. name, errorLevel)
 		
@@ -202,13 +204,22 @@ function stopFunc(rec)
 		end
 	end
 	if current - 1 == #self.gestures and errors < (self.config.errorsAllowed or defaults.errorsAllowed) then
-		self.visitor.environment.self = self
-		Evaluator.ExecuteCode(self.visitor.environment, self.name, self.expression)
-		self.visitor.environment.self = nil		
-		if type(self.callback) == "function" then
-			self:callback()
+		local x1, y1, w, h = rec:GetBounds() 
+		local x2, y2 =  x1 + w, y1 + h
+		local slope = h / w
+		x2 = x2 * slope
+		y2 = y2 * slope
+		local length = math.sqrt( math.pow(y2-y1, 2) + math.pow(x2-x1, 2) )
+		if length > self.maxLength then
+			self.visitor.environment.self = self
+			Evaluator.ExecuteCode(self.visitor.environment, self.name, self.expression)
+			if type(self.callback) == "function" then
+				self:callback()
+			end
+			if not self.config.silent then
+				self.error:Print("Execute", 2)
+			end
 		end
-		self.error:Print("Execute", 2)
 		
 	end
 			
@@ -388,6 +399,23 @@ function WidgetGestures:GetOptions(db, callback, data)
 			end,
 			order = 15
 		},
+		maxLength = {
+			name = L["Max Length"],
+			desc = L["Max length."],
+			type = "input",
+			pattern = "%d",
+			get = function()
+				return maxLength or defaults.maxLength
+			end,
+			set = function(info, v)
+				db.maxLength = v
+				db.maxLengthDirty = true
+				if type(callback) == "function" then
+					callback(data)
+				end
+			end,
+			order = 16
+		},
 		errorsAllowed = {
 			name = L["Error Threshhold"],
 			desc = L["The gesture will automatically fail if you make more than this many errors"],
@@ -403,7 +431,7 @@ function WidgetGestures:GetOptions(db, callback, data)
 					callback(data)
 				end
 			end,
-			order = 16
+			order = 17
 		},
 		expression = {
 			name = L["Expression"],
