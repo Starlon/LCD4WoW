@@ -47,7 +47,7 @@ local defaults = {
 	errorsAllowed = 1,
 	type = "line",
 	pattern = "right",
-	minLength = 1000
+	minLength = 800
 }
 WidgetGestures.defaults = defaults
 
