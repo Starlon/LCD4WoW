@@ -551,6 +551,7 @@ function mod:StopDisplays()
 end
 
 function mod.OnCommReceived(prefix, message, distribution, sender)
+do return end
 	local self = mod
 	local flag, data = LCD4WoW:Deserialize(message)
 	if not flag then LCD4WoW:Print(data, type(message), message); return end
