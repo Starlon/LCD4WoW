@@ -93,6 +93,7 @@ L["Clockwise"] = true
 L["Counter-clockwise"] = true
 L["Line"] = true
 L["Circle"] = true
+L["Minimum Length"] = true
 
 L["Enabled"] = true
 L["Whether this timer is enabled or not"] = true

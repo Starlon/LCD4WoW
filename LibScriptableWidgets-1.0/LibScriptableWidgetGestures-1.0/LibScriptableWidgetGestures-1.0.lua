@@ -47,7 +47,7 @@ local defaults = {
 	errorsAllowed = 1,
 	type = "line",
 	pattern = "right",
-	maxLength = 1000
+	minLength = 1000
 }
 WidgetGestures.defaults = defaults
 
@@ -124,7 +124,7 @@ function WidgetGestures:New(visitor, name, config, errorLevel, callback, timer)
 	obj.update = config.update or WidgetGestures.defaults.update
 	obj.disabled = config.disabled
 	obj.gestures = config.gestures
-	obj.maxLength = config.maxLength or WidgetGestures.defaults.maxLength
+	obj.minLength = config.minLength or WidgetGestures.defaults.minLength
 	obj.callback = callback
 	obj.error = LibError:New(MAJOR .. ": " .. name, errorLevel)
 		
@@ -210,7 +210,7 @@ function stopFunc(rec)
 		x2 = x2 * slope
 		y2 = y2 * slope
 		local length = math.sqrt( math.pow(y2-y1, 2) + math.pow(x2-x1, 2) )
-		if length > self.maxLength then
+		if length > self.minLength then
 			self.visitor.environment.self = self
 			Evaluator.ExecuteCode(self.visitor.environment, self.name, self.expression)
 			if type(self.callback) == "function" then
@@ -399,17 +399,17 @@ function WidgetGestures:GetOptions(db, callback, data)
 			end,
 			order = 15
 		},
-		maxLength = {
-			name = L["Max Length"],
-			desc = L["Max length."],
+		minLength = {
+			name = L["Minimum Length"],
+			desc = L["Minimum Length"],
 			type = "input",
 			pattern = "%d",
 			get = function()
-				return maxLength or defaults.maxLength
+				return minLength or defaults.minLength
 			end,
 			set = function(info, v)
-				db.maxLength = v
-				db.maxLengthDirty = true
+				db.minLength = v
+				db.minLengthDirty = true
 				if type(callback) == "function" then
 					callback(data)
 				end
