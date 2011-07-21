@@ -118,7 +118,7 @@ local function ColorBrightest(col1, col2)
 end
 ScriptEnv.ColorBrightest = ColorBrightest
 
--- Convert an RGB color into its greyscale value
+--- Convert an RGB color into its greyscale value
 -- @usage RGB2Gray(red, green, blue)
 -- @param red The color's red value
 -- @param green The color's green value
@@ -129,7 +129,7 @@ local function RGB2Gray(red, green, blue)
 end
 ScriptEnv.RGB2Gray = RGB2Gray
 
--- Convert an RGB color into its black-white value
+--- Convert an RGB color into its black-white value
 -- @usage RGB2Black(red, green, blue)
 -- @param red The color's red value
 -- @param green The color's green value
@@ -244,7 +244,7 @@ function RGB2HSV(r, g, b)
 end
 ScriptEnv.RGB2HSV = RGB2HSV
 
--- Convert an RGB expression into a suitable color for a background behind the RGB value. This is part of LuaTexts.
+--- Convert an RGB expression into a suitable color for a background behind the RGB value. This is part of LuaTexts.
 -- @usage BgColor(r, g, b)
 -- @param r The color's red value
 -- @param g The color's green value
@@ -255,7 +255,7 @@ local function BgColor(r, g, b)
 end
 ScriptEnv.BgColor = BgColor
 
--- Retrieve the game's default threat status color
+--- Retrieve the game's default threat status color
 -- @usage ThreatStatusColor(status)
 -- @param status The indicated threat status
 -- @return Red, green, and blue -- note that the values are multiplied by 255 for an 8 bit format
@@ -265,7 +265,7 @@ local function ThreatStatusColor(status)
 end
 ScriptEnv.ThreatStatusColor = ThreatStatusColor
 
--- This comes from oUF. Trivial, but I like to give credit where credit is due. 
+--- This comes from oUF. Trivial, but I like to give credit where credit is due. 
 -- @usage Gradient(perc)
 -- @param perc A value between 0 and 1 -- The position within the gradient
 -- @return Red, green, and blue
@@ -278,7 +278,7 @@ local function Gradient(perc)
 end
 ScriptEnv.Gradient = Gradient
 
--- Retrieve a table representing the colors along a gradient red through blue
+--- Retrieve a table representing the colors along a gradient red through blue
 -- @usage RedThroughBlue()
 -- @return A table of RGB values
 function PluginColor:RedThroughBlue()
@@ -330,7 +330,7 @@ function PluginColor:RedThroughBlue()
 end
 ScriptEnv.RedThroughBlue = RedThroughBlue
 
--- Retrieve a string suitable to insert a texture within a fonstring
+--- Retrieve a string suitable to insert a texture within a fonstring
 -- @usage Colorize(str, r, g, b)
 -- @param str The string to color
 -- @param r The color's red value
@@ -346,7 +346,7 @@ local function Colorize(str, r, g, b)
 end
 ScriptEnv.Colorize = Colorize
 
--- Wraps UnitSelectionColor
+--- Wraps UnitSelectionColor
 -- @usage AggroColor(unit)
 -- @param The unit in question
 -- @return Red, green, and blue
@@ -356,7 +356,7 @@ local function AggroColor(unit)
 end
 ScriptEnv.AggroColor = AggroColor
 
--- Wraps GetThreatStatus Color
+--- Wraps GetThreatStatus Color
 -- @usage ThreatStatusColor(status)
 -- @param status
 -- @return Red, green, and blue
@@ -366,7 +366,7 @@ local function ThreatStatusColor(status)
 end
 ScriptEnv.ThreatStatusColor = ThreatStatusColor
 
--- Return a suitable color along a gradient indicating health percentage
+--- Return a suitable color along a gradient indicating health percentage
 -- @usage HPColor(cur, max)
 -- @param cur The percent of health
 -- @param max The maximum percent of health
@@ -430,7 +430,7 @@ local function PowerColor(power_type, unit)
 end
 ScriptEnv.PowerColor = PowerColor
 
--- Accessor for FACTION_BAR_COLORS, which is suitable for color reputation values
+--- Accessor for FACTION_BAR_COLORS, which is suitable for color reputation values
 -- @usage ReputationColor(reaction)
 -- @param reaction Indicated reaction
 -- @return red, green, and blue
@@ -447,7 +447,7 @@ local HOSTILE_REACTION = 2
 local NEUTRAL_REACTION = 4
 local FRIENDLY_REACTION = 5
 
--- Retrieve a color representing a unit's hostility toward's you
+--- Retrieve a color representing a unit's hostility toward's you
 -- @usage HostileColor(unit)
 -- @param unit The unit in question
 -- @return red, green, and blue
@@ -506,7 +506,7 @@ ScriptEnv.HostileColor = HostileColor
 
 local RAID_CLASS_COLORS = _G.RAID_CLASS_COLORS
 
--- Retrieve a color suitable to color a unit's class value
+--- Retrieve a color suitable to color a unit's class value
 -- @usage ClassColor(unit)
 -- @param unit The unit in question
 -- @return red, green, and blue
@@ -523,7 +523,7 @@ local function ClassColor(unit)
 end
 ScriptEnv.ClassColor = ClassColor
 
--- Retrieve a color suitable to color a unit's difficulty level
+--- Retrieve a color suitable to color a unit's difficulty level
 -- @usage DifficultyColor(unit)
 -- @param unit The unit in question
 -- @return red, green, and blue
