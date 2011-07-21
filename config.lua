@@ -1,4 +1,3 @@
-
 local TRANSITION_RIGHT = 0
 local TRANSITION_LEFT = 1
 local TRANSITION_BOTH = 2
