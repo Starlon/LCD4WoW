@@ -204,13 +204,8 @@ function stopFunc(rec)
 		end
 	end
 	if current - 1 == #self.gestures and errors < (self.config.errorsAllowed or defaults.errorsAllowed) then
-		local x1, y1, w, h = rec:GetBounds() 
-		local length = math.sqrt( math.pow(w, 2) + math.pow(h, 2) )
-		local mx1, my1, mw, mh = rec:GetMovementBounds() 
-		local length = math.sqrt( math.pow(w-mx1, 2) + math.pow(h-my1, 2) )
-print("::::", length)
-print("#1", x1, y1, h, w)
-print("#2", mx1, my1, mw, mh)
+		local mx1, my1, mx2, my2 = rec:GetMovementBounds() 
+		local length = math.sqrt( math.pow(mx2-mx1, 2) + math.pow(my2-my1, 2) )
 		if length > self.minLength then
 			self.visitor.environment.self = self
 			Evaluator.ExecuteCode(self.visitor.environment, self.name, self.expression)
