@@ -21,6 +21,8 @@ local LibBuffer = LibStub("LibScriptableUtilsBuffer-1.0", true)
 assert(LibBuffer, MAJOR .. " requires LibScriptableUtilsBuffer-1.0")
 local LibEvaluator = LibStub("LibScriptableUtilsEvaluator-1.0")
 assert(LibEvaluator, MAJOR .. " requires LibScriptableUtilsEvaluator-1.0")
+local LibDogTag = LibStub("LibDogTag-3.0", true)
+assert(LibDogTag, MAJOR .. " requires LibDogTag-3.0", true)
 local Locale = LibStub("AceLocale-3.0", true)
 assert(Locale, MAJOR .. " requires AceLocale-3.0")
 local L = Locale:GetLocale("LibScriptable-1.0")
@@ -93,6 +95,25 @@ local function copy(src)
         end
     end
     return dst
+end
+
+local kvargsPool = setmetatable({}, {__mode = "k"})
+local function newKVargs(unit)
+	local tbl = next(kvargsPool)
+
+	if tbl then
+		kvargsPool[tbl] = nil
+	else
+		tbl = {}
+	end
+
+	tbl.unit = unit
+
+	return tbl
+end
+
+local function delKVargs(tbl)
+	kvargsPool[tbl] = true
 end
 
 WidgetText.defaults = {
@@ -181,7 +202,7 @@ function WidgetText:Init(config)
 
 	obj.visitor = visitor
 	obj.errorLevel = errorLevel or 3
-	
+
 	if obj.value then obj.value:Del() end
 	obj.value = LibProperty:New(self, visitor, name .. " string", config.value, "", errorLevel) -- text of marquee
 	
@@ -208,6 +229,7 @@ function WidgetText:Init(config)
 	obj.dontRtrim = config.dontRtrim
 	obj.background = config.background or copy(self.defaults.background)
 	obj.frame = config.frame
+	obj.dogtag = config.dogtag
 	
 	if obj.direction == self.SCROLL_LEFT then
 		obj.scroll = obj.cols -- marquee starting point
@@ -508,6 +530,12 @@ function textScroll(self)
 		self.buffer = dst:AsString()
 	else
 		self.buffer = rtrim(dst:AsString())
+	end
+
+	if self.dogtag then
+		local kvargs = newKVargs(self.visitor.environment.unit or "mouseover")
+		self.buffer = LibDogTag:Evaluate(self.buffer, "Unit", kvargs)
+		delKVargs(kvargs)
 	end
 
 	if self.buffer ~= self.oldBuffer or self.config.updateAnyways then
