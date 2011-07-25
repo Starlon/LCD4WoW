@@ -1,0 +1,33 @@
+## Interface: 40200
+## Title: Lib: LibScriptable-1.0
+## Notes: Various libraries based on LCD4Linux, offering users lower-level UI customizations.
+## Author: Starlon
+## OptionalDeps: Ace3, LibLinq-1.0, LibTalentQuery-1.0, LibGroupTalents-1.0, LibQTip-1.0, LibRangeCheck-2.0, LibBossIDs-1.0, LibQTip-1.0, LibUnitControl-1.0, LibNameplate-1.0, LibTransition-1.0, LibAlts-1.0, LibLinq-1.0, LibFail-2.0, LibBossIDs-1.0, LibLinq-1.0, LibMouseGestures-1.0, LibNameplate-1.0, LibDogTag-3.0, LibDogTag-Unit-3.0
+## Version: 1.0
+## X-Category: Library
+
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+
+Libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
+Libs\LibQTip-1.0\LibQTip-1.0.lua
+Libs\LibTalentQuery-1.0\LibTalentQuery-1.0.lua
+Libs\AceSerializer-3.0\AceSerializer-3.0.lua
+Libs\LibMouseGestures-1.0\LibMouseGestures-1.0.lua
+Libs\LibUnitControl-1.0\LibUnitControl-1.0.lua
+Libs\LibNameplate-1.0\LibNameplate-1.0.lua
+Libs\LibTransition-1.0\LibTransition-1.0.lua
+Libs\LibAlts-1.0\LibAlts-1.0.lua
+Libs\AceComm-3.0\AceComm-3.0.xml
+Libs\LibLinq-1.0\lib.xml
+Libs\LibBossIDs-1.0\lib.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\LibLocalizedEJBosses-1.0\lib.xml
+Libs\LibTalentQuery-1.0\lib.xml
+Libs\LibGroupTalents-1.0\lib.xml
+Libs\LibFail-2.0\lib.xml
+Libs\LibDogTag-3.0\lib.xml
+Libs\LibDogTag-Unit-3.0\lib.xml
+
+LibScriptable-1.0.xml
